@@ -7,6 +7,7 @@ import 'package:portmone_bloc/model/currency_info.dart';
 import 'package:portmone_bloc/model/currency_range_info.dart';
 import 'package:portmone_bloc/model/date_transactions.dart';
 import 'package:portmone_bloc/model/expense_draft.dart';
+import 'package:portmone_bloc/model/income_draft.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/model/operation_type.dart';
 
@@ -87,6 +88,12 @@ class RefreshJournalAction extends PortmoneAction {}
 class SaveExpenseAction extends PortmoneAction {
   final ExpenseDraft draft;
   SaveExpenseAction(this.draft);
+}
+
+
+class SaveIncomeAction extends PortmoneAction {
+  final IncomeDraft draft;
+  SaveIncomeAction(this.draft);
 }
 
 

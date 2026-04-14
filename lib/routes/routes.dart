@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:portmone_bloc/model/expense.dart';
+import 'package:portmone_bloc/model/income.dart';
 import 'package:portmone_bloc/ui/editor/expense/expense_editor.dart';
+import 'package:portmone_bloc/ui/editor/income/income_editor.dart';
 import 'package:portmone_bloc/ui/home/home_screen.dart';
 import 'package:portmone_bloc/ui/settings/dictionary/accounts/accounts_screen.dart';
 import 'package:portmone_bloc/utils/common_extensions.dart';
@@ -27,6 +29,13 @@ final appRouter = GoRouter(
       path: '/expense/editor', 
       builder: (_, state) => ExpenseEditor(
         expense: state.extra?.takeIfInstance<Expense>(),
+      )
+    ),
+    GoRoute(
+      name: 'incomeEditor',
+      path: '/income/editor', 
+      builder: (_, state) => IncomeEditor(
+        income: state.extra?.takeIfInstance<Income>(),
       )
     ),
   ],

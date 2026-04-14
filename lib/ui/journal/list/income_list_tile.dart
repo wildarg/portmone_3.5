@@ -5,8 +5,9 @@ import 'package:portmone_bloc/utils/money_extensions.dart';
 
 class IncomeListTile extends StatelessWidget {
   final Income income;
+  final VoidCallback? onTap;
   
-  const IncomeListTile({super.key, required this.income});
+  const IncomeListTile({super.key, required this.income, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class IncomeListTile extends StatelessWidget {
           )
         ],
       ),   
-      onTap: () {},
+      onTap: onTap,
     );
   }
 }

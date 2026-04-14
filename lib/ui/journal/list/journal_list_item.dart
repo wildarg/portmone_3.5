@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:portmone_bloc/model/date_transactions.dart';
 import 'package:portmone_bloc/model/expense.dart';
 import 'package:portmone_bloc/model/income.dart';
+import 'package:portmone_bloc/model/transaction.dart';
 import 'package:portmone_bloc/model/transfer.dart';
 import 'package:portmone_bloc/routes/routes.dart';
 import 'package:portmone_bloc/ui/journal/list/expense_list_tile.dart';
@@ -34,20 +35,20 @@ class JournalListItem extends StatelessWidget {
         )
       ] + data.transactions.map<Widget>((operation) =>
         switch (operation) {
-          Expense() => ExpenseListTile(expense: operation, onTap: () => _openExpenseEditor(context, operation)),
+          Expense() => ExpenseListTile(expense: operation, onTap: () => _openTransactionEditor(context, operation, '/expense/editor')),
           Transfer() => TransferListTile(transfer: operation),
-          Income() => IncomeListTile(income: operation),
+          Income() => IncomeListTile(income: operation, onTap: () => _openTransactionEditor(context, operation, '/income/editor')),
           _ => Container()
         }
       ).toList(),
     );
   }
 
-  void _openExpenseEditor(BuildContext context, Expense expense) async {
-    dynamic result = await context.push('/expense/editor', extra: expense);
+  void _openTransactionEditor(BuildContext context, Transaction transaction, String route) async {
+    dynamic result = await context.push(route, extra: transaction);
     while (result is CreateNewTransaction) {
       if (context.mounted) {
-        result = await context.push('/expense/editor', extra: null);
+        result = await context.push(route);
       }
     }
   }

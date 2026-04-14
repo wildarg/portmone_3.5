@@ -4,6 +4,7 @@ import 'package:portmone_bloc/data/repo/accounts_repo.dart';
 import 'package:portmone_bloc/data/repo/currencies_repo.dart';
 import 'package:portmone_bloc/data/repo/expense_types_repo.dart';
 import 'package:portmone_bloc/data/repo/expenses_repo.dart';
+import 'package:portmone_bloc/data/repo/incomes_repo.dart';
 import 'package:portmone_bloc/data/repo/income_types_repo.dart';
 import 'package:portmone_bloc/data/repo/journal_repo.dart';
 import 'package:portmone_bloc/data/repo/main_filter_repo.dart';
@@ -14,6 +15,7 @@ import 'package:portmone_bloc/store/middleware/accounts_middleware.dart';
 import 'package:portmone_bloc/store/middleware/currencies_middleware.dart';
 import 'package:portmone_bloc/store/middleware/db_middleware.dart';
 import 'package:portmone_bloc/store/middleware/expenses_middleware.dart';
+import 'package:portmone_bloc/store/middleware/incomes_middleware.dart';
 import 'package:portmone_bloc/store/middleware/journal_middleware.dart';
 import 'package:portmone_bloc/store/middleware/main_filter_middleware.dart';
 import 'package:portmone_bloc/store/middleware/report_middleware.dart';
@@ -45,6 +47,7 @@ class PortmoneApp extends StatelessWidget {
         Provider<JournalRepo>(create: (context) => JournalRepo(db: context.read<PortmoneDB>())),
         Provider<TagsRepo>(create: (context) => TagsRepo(db: context.read<PortmoneDB>())),
         Provider<ExpensesRepo>(create: (context) => ExpensesRepo(db: context.read<PortmoneDB>())),
+        Provider<IncomesRepo>(create: (context) => IncomesRepo(db: context.read<PortmoneDB>())),
         Provider<PortmoneStore>(create:(context) => PortmoneStore([
           dbMiddleware(context.read<PortmoneDB>()),
           mainFilterMiddleware(context.read<MainFilterRepo>()),
@@ -58,6 +61,13 @@ class PortmoneApp extends StatelessWidget {
           expensesMiddleware(
             context.read<ExpensesRepo>(),
             context.read<ExpenseTypesRepo>(), 
+            context.read<AccountsRepo>(), 
+            context.read<CurrenciesRepo>(), 
+            context.read<TagsRepo>()
+          ),
+          incomesMiddleware(
+            context.read<IncomesRepo>(),
+            context.read<IncomeTypesRepo>(), 
             context.read<AccountsRepo>(), 
             context.read<CurrenciesRepo>(), 
             context.read<TagsRepo>()
