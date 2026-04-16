@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/store/portmone_actions.dart';
 import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:portmone_bloc/store/store_listener.dart';
+import 'package:portmone_bloc/ui/core/expandable_fab.dart';
+import 'package:portmone_bloc/ui/core/slidable_fab.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/ui/home/app_bar_content.dart';
 import 'package:portmone_bloc/ui/home/banner/filter_banner.dart';
@@ -29,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   late final AnimationController _controller;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _fadeAnimation;
+  late final FabController _fabController;
 
   static final _appDestinations = [
     (page: (BuildContext ctx) => Container(), icon: UiIcons.dashboard, selectedIcon: UiIcons.dashboardFill, label: 'Dashboard'),
@@ -53,12 +58,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     _fadeAnimation =
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+
+    _fabController = FabController();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
     _controller.dispose();
+    _fabController.dispose();
     super.dispose();
   }
 
@@ -84,6 +92,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     setState(() {
       _pageInd = index;
     });
+    index == 1
+      ? _fabController.show() 
+      : _fabController.hide();    
     _pageController.jumpToPage(index);
   }
 
@@ -118,6 +129,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) => _appDestinations[index].page(context),
       ),
+      floatingActionButton: SlidableFab(controller: _fabController),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [

@@ -36,7 +36,7 @@ class JournalListItem extends StatelessWidget {
       ] + data.transactions.map<Widget>((operation) =>
         switch (operation) {
           Expense() => ExpenseListTile(expense: operation, onTap: () => _openTransactionEditor(context, operation, '/expense/editor')),
-          Transfer() => TransferListTile(transfer: operation),
+          Transfer() => TransferListTile(transfer: operation, onTap: () => _openTransactionEditor(context, operation, '/transfer/editor')),
           Income() => IncomeListTile(income: operation, onTap: () => _openTransactionEditor(context, operation, '/income/editor')),
           _ => Container()
         }

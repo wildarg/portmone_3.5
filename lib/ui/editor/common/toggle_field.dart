@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/ui/core/ui_switcher.dart';
+import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class PendingToggleField extends StatefulWidget {
 
@@ -42,8 +43,9 @@ class _PendingToggleFieldState extends State<PendingToggleField> {
   @override
   Widget build(BuildContext context) {
     return UiSwitcher(
+      activeColor: context.colorScheme.error,
       label: widget.title,
-      leading: UiIcon(UiIcons.pending),
+      leading: UiIcon(UiIcons.pending, color: _value? context.colorScheme.error : context.colorScheme.onSurfaceVariant),
       value: _value,
       onChanged: (value) {
         setState(() => _value = value);
