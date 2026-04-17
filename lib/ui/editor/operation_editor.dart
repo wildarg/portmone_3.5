@@ -10,6 +10,7 @@ class OperationEditor extends StatelessWidget {
   final List<Widget> Function(BuildContext context) fieldListBuilder;
   final String? Function()? validator;
   final VoidCallback? onSave;
+  final bool Function()? canPopUp;
 
   const OperationEditor({
     super.key, 
@@ -17,6 +18,7 @@ class OperationEditor extends StatelessWidget {
     required this.fieldListBuilder,
     this.onSave,
     this.validator,
+    this.canPopUp,
   });
 
   void _showMenu(BuildContext context) async {
@@ -76,10 +78,8 @@ class OperationEditor extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult:(didPop, result) {
         if (didPop) return;
-        final debugLabel = FocusManager.instance.primaryFocus?.debugLabel;
-        if (debugLabel?.startsWith('autocomplete') == true) {
-          FocusManager.instance.primaryFocus?.unfocus();
-        } else {
+        final canPop = canPopUp?.call() ?? true;
+        if (canPop) {
           Navigator.of(context).pop();
         }
       },

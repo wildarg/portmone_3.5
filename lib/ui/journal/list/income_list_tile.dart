@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/income.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
+import 'package:portmone_bloc/ui/journal/list/transaction_notes.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/money_extensions.dart';
 
@@ -28,7 +29,7 @@ class IncomeListTile extends StatelessWidget {
         child: UiIcon(UiIcons.wallet2, color: avatarTextColor),
       ),
       title: Text(income.type.name, style: theme.textTheme.bodyMedium?.copyWith(color: titleColor)),
-      subtitle: income.notes.isNotEmpty ? Text(income.notes, style: theme.textTheme.bodySmall) : null,
+      subtitle: income.notes.isNotEmpty ? TransactionNotes(income.notes) : null,
       trailing: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/transfer.dart';
+import 'package:portmone_bloc/ui/journal/list/transaction_notes.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/money_extensions.dart';
 
@@ -99,7 +100,7 @@ class TransferListTile extends StatelessWidget {
           ),
         ],
       ),
-      subtitle: transfer.notes.isNotEmpty ? Text(transfer.notes) : null,
+      subtitle: transfer.notes.isNotEmpty ? TransactionNotes(transfer.notes) : null,
       onTap: onTap,
     );
   }

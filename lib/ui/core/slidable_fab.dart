@@ -23,8 +23,9 @@ class FabController extends ChangeNotifier {
 class SlidableFab extends StatefulWidget {
 
   final FabController controller;
+  final VoidCallback? onClick;
 
-  const SlidableFab({super.key, required this.controller});
+  const SlidableFab({super.key, required this.controller, this.onClick});
 
   @override
   State<StatefulWidget> createState() {
@@ -80,6 +81,7 @@ class _SlidableFabState extends State<SlidableFab> with SingleTickerProviderStat
     return ExpandableFab(
         initialOpen: false,
         distance: 150,
+        onClick: widget.onClick,
         buttons: [          
           ActionButtonData(
             onPressed: () => context.push('/transfer/editor'),

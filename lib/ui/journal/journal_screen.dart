@@ -4,7 +4,10 @@ import 'package:portmone_bloc/ui/journal/search/journal_search_field.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class JournalScreen extends StatelessWidget {
-  const JournalScreen({super.key});
+
+  final FocusNode searchFocusNode;
+
+  const JournalScreen({super.key, required this.searchFocusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +20,10 @@ class JournalScreen extends StatelessWidget {
           backgroundColor: context.colorScheme.surfaceContainer,
           title: Padding(
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: JournalSearchField(),
+            child: JournalSearchField(focusNode: searchFocusNode),
           ),
         ),
-        JournalItemList()
+        JournalItemList(searchFocusNode: searchFocusNode)
       ],
     );
   }

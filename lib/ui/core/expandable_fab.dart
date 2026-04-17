@@ -11,11 +11,13 @@ class ExpandableFab extends StatefulWidget {
     this.initialOpen,
     required this.distance,
     required this.buttons,
+    this.onClick,
   });
 
   final bool? initialOpen;
   final double distance;
   final List<ActionButtonData> buttons;
+  final VoidCallback? onClick;
 
   @override
   State<ExpandableFab> createState() => _ExpandableFabState();
@@ -50,6 +52,7 @@ class _ExpandableFabState extends State<ExpandableFab>
   }
 
   void _toggle() {
+    widget.onClick?.call();
     setState(() {
       _open = !_open;
       if (_open) {
@@ -82,23 +85,6 @@ class _ExpandableFabState extends State<ExpandableFab>
         ),
       ],
     );
-    // return Container(
-    //   color: Colors.yellow,
-    //   width: widget.distance*1.5*(_open? 1 : 0),
-    //   height: widget.distance*1.5*(_open? 1 : 0),
-    //   padding: const EdgeInsets.all(16),
-    //   child: SizedBox.expand(
-    //     child: Stack(
-    //       alignment: Alignment.bottomRight,
-    //       clipBehavior: Clip.none,
-    //       children: [
-    //         _buildTapToCloseFab(),
-    //         ..._buildExpandingActionButtons(),
-    //         _buildTapToOpenFab(),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   Widget _buildTapToCloseFab() {

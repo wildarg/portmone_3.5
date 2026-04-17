@@ -9,12 +9,16 @@ class TransactionAccountField extends StatelessWidget {
   final String title;
   final TextEditingController? accountController;
   final TextEditingController? currencyController;
+  final FocusNode? accountFocusNode;
+  final FocusNode? currencyFocusNode;
 
   const TransactionAccountField({
     super.key, 
     required this.title, 
     this.accountController, 
     this.currencyController,
+    this.accountFocusNode,
+    this.currencyFocusNode,
   });
 
   @override
@@ -36,6 +40,7 @@ class TransactionAccountField extends StatelessWidget {
               onSelected: (account) { 
                 if (currencyController != null) currencyController!.text = account?.currency.name ?? ''; 
               },
+              focusNode: accountFocusNode,
             ),
           ),
         ),
@@ -47,6 +52,7 @@ class TransactionAccountField extends StatelessWidget {
               displayStringForText: (value) => value.name,
               suggestions: state,
               controller: currencyController,
+              focusNode: currencyFocusNode,
             ),
           ),
         ),

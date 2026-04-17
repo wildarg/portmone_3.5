@@ -26,10 +26,34 @@ class TransferController {
         toAccountController = TextEditingController(text: transfer?.toAccount.name ?? ''),
         toCurrencyController = TextEditingController(text: transfer?.toAccount.currency.name ?? ''),
         toAmountController = MoneyFormatTextEditingController(cents: transfer?.toAmount.amountInCents),
-        notesController = TextEditingController(text: transfer?.notes ?? '');
+        notesController = TextEditingController(text: transfer?.notes ?? '')
+    {
+      fromAmountController.addListener(_onFromAmountChanged);
+      toAmountController.addListener(_onToAmountChanged);
+    }
 
   DateTime? get date => _draft.date;
   bool get isPending => _draft.isPending ?? false;
+
+  bool get _areCurrenciesSame => fromCurrencyController.text == toCurrencyController.text;
+
+  bool _isAutoChange = false;
+
+  void _onFromAmountChanged() {
+    if (!_isAutoChange && _areCurrenciesSame) {
+      _isAutoChange = true;
+      toAmountController.amount = fromAmountController.amount;
+      _isAutoChange = false;
+    }
+  }
+
+  void _onToAmountChanged() {
+    if (!_isAutoChange && _areCurrenciesSame) {
+      _isAutoChange = true;
+      fromAmountController.amount = toAmountController.amount;
+      _isAutoChange = false;
+    }    
+  }
 
   void setDate(DateTime? date) {
     _draft = _draft.copyWith(date: date);

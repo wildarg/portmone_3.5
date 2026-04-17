@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/expense.dart';
+import 'package:portmone_bloc/ui/journal/list/transaction_notes.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/money_extensions.dart';
 import 'package:portmone_bloc/utils/string_extensions.dart';
@@ -20,7 +21,7 @@ class ExpenseListTile extends StatelessWidget {
     final centsAmountColor = expense.isPending? context.colorScheme.error : theme.colorScheme.onSurfaceVariant;
 
     final notes = expense.notes.isNotEmpty
-      ? Text(expense.notes) 
+      ? TransactionNotes(expense.notes)
       : null;
     final (main, cents) = expense.amount.formattedSplitAmount;
 
