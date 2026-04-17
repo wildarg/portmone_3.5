@@ -42,6 +42,6 @@ class TransactionNotes extends StatelessWidget {
             child: Text(text, style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.primary))
           )
         )
-        : WidgetSpan(child: Text(text, style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurface)));
+        : TextSpan(text: text, style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurface));
 
 }
