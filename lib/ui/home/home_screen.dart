@@ -4,6 +4,7 @@ import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/store/portmone_actions.dart';
 import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:portmone_bloc/store/store_listener.dart';
+import 'package:portmone_bloc/ui/core/slidable_fab.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/ui/home/app_bar_content.dart';
 import 'package:portmone_bloc/ui/home/banner/filter_banner.dart';
@@ -29,18 +30,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   late final AnimationController _controller;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _fadeAnimation;
+  late final FabController _fabController;
+  late final FocusNode _searchFocusNode;
 
-  static final _appDestinations = [
-    (page: (BuildContext ctx) => Container(), icon: UiIcons.dashboard, selectedIcon: UiIcons.dashboardFill, label: 'Dashboard'),
-    (page: (BuildContext ctx) => JournalScreen(), icon: UiIcons.wallet, selectedIcon: UiIcons.walletFill, label: 'Journal'),
-    (page: (BuildContext ctx) => ReportsScreen(), icon: UiIcons.report, selectedIcon: UiIcons.reportFill, label: 'Reports'),
-    (page: (BuildContext ctx) => SettingsScreen(), icon: UiIcons.settings, selectedIcon: UiIcons.settingsFill, label: 'Settings'),
+  final _appDestinations = [
+    (page: (BuildContext ctx, [dynamic obj]) => Container(), icon: UiIcons.dashboard, selectedIcon: UiIcons.dashboardFill, label: 'Dashboard'),
+    (page: (BuildContext ctx, [dynamic obj]) => JournalScreen(searchFocusNode: obj), icon: UiIcons.wallet, selectedIcon: UiIcons.walletFill, label: 'Journal'),
+    (page: (BuildContext ctx, [dynamic obj]) => ReportsScreen(), icon: UiIcons.report, selectedIcon: UiIcons.reportFill, label: 'Reports'),
+    (page: (BuildContext ctx, [dynamic obj]) => SettingsScreen(), icon: UiIcons.settings, selectedIcon: UiIcons.settingsFill, label: 'Settings'),
   ];
 
   @override
   void initState() {
     super.initState();
 
+    _searchFocusNode = FocusNode();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -53,16 +57,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
     _fadeAnimation =
         CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+
+    _fabController = FabController();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
     _controller.dispose();
+    _fabController.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
   void _updateBanner(MainFilter filter) async {
+    _searchFocusNode.unfocus();
     if (filter.account.hasData) {
       setState(() {
         _banner = BannerData(
@@ -84,7 +93,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     setState(() {
       _pageInd = index;
     });
+    index == 1
+      ? _fabController.show() 
+      : _fabController.hide();    
     _pageController.jumpToPage(index);
+    _searchFocusNode.unfocus();
   }
 
   @override
@@ -116,8 +129,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       body: PageView.builder(
         controller: _pageController,
         physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) => _appDestinations[index].page(context),
+        itemBuilder: (context, index) => _appDestinations[index].page(context, _searchFocusNode),
       ),
+      floatingActionButton: SlidableFab(
+        controller: _fabController, 
+        onClick: () {
+          _searchFocusNode.unfocus();
+        }),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [

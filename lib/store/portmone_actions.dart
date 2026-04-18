@@ -8,6 +8,7 @@ import 'package:portmone_bloc/model/currency_range_info.dart';
 import 'package:portmone_bloc/model/date_transactions.dart';
 import 'package:portmone_bloc/model/expense_draft.dart';
 import 'package:portmone_bloc/model/income_draft.dart';
+import 'package:portmone_bloc/model/transfer_draft.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/model/operation_type.dart';
 
@@ -96,6 +97,10 @@ class SaveIncomeAction extends PortmoneAction {
   SaveIncomeAction(this.draft);
 }
 
+class SaveTransferAction extends PortmoneAction {
+  final TransferDraft draft;
+  SaveTransferAction(this.draft);
+}
 
 // Reports actions
 class SetTotalReportAction extends PortmoneAction {

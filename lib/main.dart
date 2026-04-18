@@ -10,6 +10,7 @@ import 'package:portmone_bloc/data/repo/journal_repo.dart';
 import 'package:portmone_bloc/data/repo/main_filter_repo.dart';
 import 'package:portmone_bloc/data/repo/reports_repo.dart';
 import 'package:portmone_bloc/data/repo/tags_repo.dart';
+import 'package:portmone_bloc/data/repo/transfers_repo.dart';
 import 'package:portmone_bloc/routes/routes.dart';
 import 'package:portmone_bloc/store/middleware/accounts_middleware.dart';
 import 'package:portmone_bloc/store/middleware/currencies_middleware.dart';
@@ -21,6 +22,7 @@ import 'package:portmone_bloc/store/middleware/main_filter_middleware.dart';
 import 'package:portmone_bloc/store/middleware/report_middleware.dart';
 import 'package:portmone_bloc/store/middleware/tags_middleware.dart';
 import 'package:portmone_bloc/store/middleware/transaction_type_middlewares.dart';
+import 'package:portmone_bloc/store/middleware/transfers_middleware.dart';
 import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:portmone_bloc/ui/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +50,7 @@ class PortmoneApp extends StatelessWidget {
         Provider<TagsRepo>(create: (context) => TagsRepo(db: context.read<PortmoneDB>())),
         Provider<ExpensesRepo>(create: (context) => ExpensesRepo(db: context.read<PortmoneDB>())),
         Provider<IncomesRepo>(create: (context) => IncomesRepo(db: context.read<PortmoneDB>())),
+        Provider<TransfersRepo>(create: (context) => TransfersRepo(db: context.read<PortmoneDB>())),
         Provider<PortmoneStore>(create:(context) => PortmoneStore([
           dbMiddleware(context.read<PortmoneDB>()),
           mainFilterMiddleware(context.read<MainFilterRepo>()),
@@ -70,6 +73,12 @@ class PortmoneApp extends StatelessWidget {
             context.read<IncomeTypesRepo>(), 
             context.read<AccountsRepo>(), 
             context.read<CurrenciesRepo>(), 
+            context.read<TagsRepo>()
+          ),
+          transfersMiddleware(
+            context.read<TransfersRepo>(),
+            context.read<AccountsRepo>(),
+            context.read<CurrenciesRepo>(),
             context.read<TagsRepo>()
           )
         ]))

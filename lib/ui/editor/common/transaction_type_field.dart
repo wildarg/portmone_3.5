@@ -11,6 +11,7 @@ class TransactionTypeField extends StatelessWidget {
   final Widget? leading;
   final BehaviorSubject<List<TransactionType>> Function(PortmoneStore store) types;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   const TransactionTypeField({
     super.key,
@@ -18,6 +19,7 @@ class TransactionTypeField extends StatelessWidget {
     required this.title,
     required this.types,
     this.controller,
+    this.focusNode,
   });
 
   @override
@@ -30,6 +32,7 @@ class TransactionTypeField extends StatelessWidget {
         displayStringForText: (value) => value.name,
         suggestions: state,
         controller: controller,
+        focusNode: focusNode,
       ),
     );
   }

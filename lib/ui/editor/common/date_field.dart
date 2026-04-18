@@ -43,6 +43,7 @@ class _EditorDateFieldState extends State<EditorDateField> {
   Widget build(BuildContext context) {
     return UiDateField(
       leadingIcon: UiIcon(UiIcons.calendar),
+      isRemovable: false,
       label: widget.title,
       value: _value,
       onChange:(value) {

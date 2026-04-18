@@ -11,6 +11,7 @@ class UiDateField extends StatelessWidget {
   final void Function(DateTime? value)? onChange;
   final DateTime? firstDate;
   final DateTime? lastDate;
+  final bool isRemovable;
 
   const UiDateField({
     super.key,
@@ -21,6 +22,7 @@ class UiDateField extends StatelessWidget {
     this.controller,
     this.firstDate,
     this.lastDate,
+    this.isRemovable = true,
   });
 
   @override
@@ -29,7 +31,7 @@ class UiDateField extends StatelessWidget {
     return UiTextField(
       readOnly: true,
       leadingIcon: leadingIcon,
-      trailingIcon: value == null
+      trailingIcon: value == null || !isRemovable
         ? UiIcon(UiIcons.arrowForward, color: colorScheme.surfaceContainerHighest)
         : IconButton(
             onPressed: () => onChange?.call(null), 

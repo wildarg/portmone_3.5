@@ -1,40 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:portmone_bloc/model/income.dart';
+import 'package:portmone_bloc/model/transfer.dart';
 import 'package:portmone_bloc/store/portmone_actions.dart';
 import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:portmone_bloc/ui/editor/common/date_field.dart';
 import 'package:portmone_bloc/ui/editor/common/focus_node_group.dart';
 import 'package:portmone_bloc/ui/editor/common/transaction_amount_field.dart';
 import 'package:portmone_bloc/ui/editor/common/transaction_notes_field.dart';
-import 'package:portmone_bloc/ui/editor/common/transaction_type_field.dart';
 import 'package:portmone_bloc/ui/editor/common/toggle_field.dart';
 import 'package:portmone_bloc/ui/editor/common/transaction_account_field.dart';
-import 'package:portmone_bloc/ui/editor/income/income_controller.dart';
 import 'package:portmone_bloc/ui/editor/operation_editor.dart';
+import 'package:portmone_bloc/ui/editor/transfer/transfer_controller.dart';
 
-class IncomeEditor extends StatefulWidget {
+class TransferEditor extends StatefulWidget {
+  final Transfer? transfer;
 
-  final Income? income;
-
-  const IncomeEditor({
-    super.key, 
-    this.income
+  const TransferEditor({
+    super.key,
+    this.transfer,
   });
 
   @override
-  State<IncomeEditor> createState() => _IncomeEditorState();
+  State<TransferEditor> createState() => _TransferEditorState();
 }
 
-class _IncomeEditorState extends State<IncomeEditor> {
-
-  late IncomeController _controller;
+class _TransferEditorState extends State<TransferEditor> {
+  late TransferController _controller;
   late FocusNodeGroup _nodes;
 
   @override
   void initState() {
     super.initState();
-    _controller = IncomeController(widget.income);
-    _nodes = FocusNodeGroup(4);
+    _controller = TransferController(widget.transfer);
+    _nodes = FocusNodeGroup(5);
   }
 
   @override
@@ -45,22 +42,23 @@ class _IncomeEditorState extends State<IncomeEditor> {
   }
 
   @override
-  void didUpdateWidget(covariant IncomeEditor oldWidget) {
+  void didUpdateWidget(covariant TransferEditor oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.income != oldWidget.income) {
+    if (widget.transfer != oldWidget.transfer) {
       setState(() {
         _controller.dispose();
-        _controller = IncomeController(widget.income);
+        _controller = TransferController(widget.transfer);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // TODO _l10n
     return OperationEditor(
-      title: 'Income', // TODO _l10n
+      title: 'Transfer',
       validator: () => _controller.errorMessage,
-      onSave: () => context.dispatch(SaveIncomeAction(_controller.draft)),
+      onSave: () => context.dispatch(SaveTransferAction(_controller.draft)),
       canPopUp: () {
         if (_nodes.hasFocus) {
           _nodes.unfocus();
@@ -70,44 +68,47 @@ class _IncomeEditorState extends State<IncomeEditor> {
       },
       fieldListBuilder: (ctx) => [
         EditorDateField(
-          title: 'Income date', 
+          title: 'Transfer date',
           value: _controller.date,
           onChange: (date) => setState(() => _controller.setDate(date)),
         ),
         PendingToggleField(
-          title: 'Pending income', 
+          title: 'Pending transfer',
           onChange: (value) {
             _nodes.unfocus();
             setState(() => _controller.setPending(value));
           },
           value: _controller.isPending,
         ),
-        TransactionTypeField(
-          title: 'Income type', 
-          leading: const SizedBox(width: 24),
-          types:(store) => store.incomeTypesState,
-          controller: _controller.typeController,
-          focusNode: _nodes[0],
-        ),
         TransactionAccountField(
-          title: 'Account', 
-          accountController: _controller.accountController,
-          currencyController: _controller.currencyController,
-          accountFocusNode: _nodes[1],
-          currencyFocusNode: _nodes[2],
+          title: 'From Account',
+          accountController: _controller.fromAccountController,
+          currencyController: _controller.fromCurrencyController,
+          accountFocusNode: _nodes[0],
+          currencyFocusNode: _nodes[1],
         ),
         TransactionAmountField(
-          title: 'Amount',
-          controller: _controller.amountController,
+          title: 'From Amount',
+          controller: _controller.fromAmountController,
+        ),
+        TransactionAccountField(
+          title: 'To Account',
+          accountController: _controller.toAccountController,
+          currencyController: _controller.toCurrencyController,
+          accountFocusNode: _nodes[2],
+          currencyFocusNode: _nodes[3],
+        ),
+        TransactionAmountField(
+          title: 'To Amount',
+          controller: _controller.toAmountController,
         ),
         TransactionNotesField(
           title: 'Notes',
           tags: (store) => store.tagsState,
           controller: _controller.notesController,
-          focusNode: _nodes[3],
+          focusNode: _nodes[4],
         ),
       ],
     );
   }
-
 }

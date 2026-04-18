@@ -85,4 +85,6 @@ extension StoreExtensions on BuildContext {
     return store.dispatch(action);
   }
 
+  PortmoneStore get store => read<PortmoneStore>();
+
 }

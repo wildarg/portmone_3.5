@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class UiSwitcher extends StatelessWidget {
   final Widget? leading;
@@ -23,9 +24,10 @@ class UiSwitcher extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       title: Row(
         children: [
-          Expanded(child: Text(label, style: TextStyle(color: activeColor))),
+          Expanded(child: Text(label, style: TextStyle(color: value? activeColor : context.colorScheme.onSurface))),
           Switch(
             activeThumbColor: activeColor,
+            inactiveThumbColor: context.colorScheme.surfaceContainerHighest,
             inactiveTrackColor: Theme.of(context).colorScheme.surfaceContainerHigh,
             value: value, 
             onChanged: onChanged

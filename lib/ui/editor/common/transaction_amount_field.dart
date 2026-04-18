@@ -24,16 +24,7 @@ class TransactionAmountField extends StatelessWidget {
         color: context.colorScheme.primary,
         height: 66 / 58
       ),
-      // style: TextStyle(
-      //   color: context.colorScheme.primary,
-      //   fontSize: 62,
-      //   fontWeight: FontWeight.w100,
-      //   fontFamily: 'Montserrat',
-      //   letterSpacing: -0.5,
-      //   height: 55 / 48,        
-      // ),
       textAlign: TextAlign.end,
-      // validator: (String? value) => fmt.parseToCents(value.orEmpty) > 0? null : 'Should be greater than zero', // TODO localization
     );
   }
 

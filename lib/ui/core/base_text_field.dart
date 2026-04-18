@@ -50,6 +50,7 @@ class BaseTextField extends StatelessWidget {
       onChanged: onChanged,
       style: style,
       textAlign: textAlign ?? TextAlign.start,
+      keyboardType: keyboardType,
       decoration: InputDecoration(         
         constraints: constraints,           
         prefix: SizedBox(width: 16),

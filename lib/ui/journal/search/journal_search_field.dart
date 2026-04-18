@@ -12,7 +12,9 @@ import 'package:rxdart/rxdart.dart';
 
 class JournalSearchField extends StatefulWidget {
 
-  const JournalSearchField({super.key});
+  final FocusNode? focusNode;
+
+  const JournalSearchField({super.key, this.focusNode});
 
   @override
   State<JournalSearchField> createState() => _JournalSearchFieldState();
@@ -30,7 +32,13 @@ class _JournalSearchFieldState extends State<JournalSearchField> with SingleTick
     _controller.stream
       .debounceTime(const Duration(milliseconds: 300))
       .listen((action) => action.call());
-    _clearButtonAnimation = AnimationController(vsync: this);
+    _clearButtonAnimation = AnimationController(vsync: this, duration: Durations.medium1);
+    _textController.text = context.store.filterState.value.text;
+    Future.delayed(Durations.medium1, (){
+      if (_textController.text.isNotEmpty) {
+        _clearButtonAnimation.forward();
+      }
+    });
   }
 
   @override
@@ -38,6 +46,7 @@ class _JournalSearchFieldState extends State<JournalSearchField> with SingleTick
     return UiTextField(
       controller: _textController,
       leadingIcon: UiIcon(UiIcons.search),
+      focusNode: widget.focusNode,
       trailingIcon: UnconstrainedBox(
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -76,6 +85,7 @@ class _JournalSearchFieldState extends State<JournalSearchField> with SingleTick
               icon: UiIcons.close,
               iconSize: 16,
               onTap: () {
+                widget.focusNode?.unfocus();
                 _textController.clear();
                 context.dispatch(SetTextFilterAction(''));
                 _clearButtonAnimation.reverse();

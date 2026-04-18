@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/expense.dart';
+import 'package:portmone_bloc/ui/journal/list/transaction_notes.dart';
+import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/money_extensions.dart';
 import 'package:portmone_bloc/utils/string_extensions.dart';
 
@@ -12,8 +14,14 @@ class ExpenseListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    final avatarTextColor = expense.isPending? context.colorScheme.error : theme.colorScheme.onSecondaryContainer;
+    final titleColor = expense.isPending? context.colorScheme.error : theme.colorScheme.onSurface;
+    final mainAmountColor = expense.isPending? context.colorScheme.error : theme.colorScheme.onSurface.withAlpha(200);
+    final centsAmountColor = expense.isPending? context.colorScheme.error : theme.colorScheme.onSurfaceVariant;
+
     final notes = expense.notes.isNotEmpty
-      ? Text(expense.notes) 
+      ? TransactionNotes(expense.notes)
       : null;
     final (main, cents) = expense.amount.formattedSplitAmount;
 
@@ -22,9 +30,9 @@ class ExpenseListTile extends StatelessWidget {
       tileColor: theme.colorScheme.surfaceContainer,
       leading: CircleAvatar(
         backgroundColor: expense.type.name.toColor,
-        child: Text(expense.type.name.substring(0, 1)),
+        child: Text(expense.type.name.substring(0, 1), style: context.textTheme.bodyMedium?.copyWith(color: avatarTextColor)),
       ),
-      title: Text(expense.type.name, style: theme.textTheme.bodyMedium),
+      title: Text(expense.type.name, style: theme.textTheme.bodyMedium?.copyWith(color: titleColor)),
       subtitle: notes,
       trailing: Column(
         mainAxisSize: MainAxisSize.min,
@@ -36,10 +44,10 @@ class ExpenseListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('-$main', style: theme.textTheme.headlineSmall?.copyWith(
-                color: theme.colorScheme.onSurface.withAlpha(200)
+                color: mainAmountColor
               )),
               const SizedBox(width: 2),
-              Text(cents, style: theme.textTheme.labelLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              Text(cents, style: theme.textTheme.labelLarge?.copyWith(color: centsAmountColor)),
             ],
           ),
           Row(

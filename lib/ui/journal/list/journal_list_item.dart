@@ -15,8 +15,9 @@ import 'package:portmone_bloc/utils/datetime_extensions.dart';
 class JournalListItem extends StatelessWidget {
 
   final DateTransactions data;
+  final VoidCallback? onOpenEditor;
 
-  const JournalListItem({super.key, required this.data});
+  const JournalListItem({super.key, required this.data, this.onOpenEditor});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class JournalListItem extends StatelessWidget {
       ] + data.transactions.map<Widget>((operation) =>
         switch (operation) {
           Expense() => ExpenseListTile(expense: operation, onTap: () => _openTransactionEditor(context, operation, '/expense/editor')),
-          Transfer() => TransferListTile(transfer: operation),
+          Transfer() => TransferListTile(transfer: operation, onTap: () => _openTransactionEditor(context, operation, '/transfer/editor')),
           Income() => IncomeListTile(income: operation, onTap: () => _openTransactionEditor(context, operation, '/income/editor')),
           _ => Container()
         }
@@ -45,6 +46,7 @@ class JournalListItem extends StatelessWidget {
   }
 
   void _openTransactionEditor(BuildContext context, Transaction transaction, String route) async {
+    onOpenEditor?.call();
     dynamic result = await context.push(route, extra: transaction);
     while (result is CreateNewTransaction) {
       if (context.mounted) {

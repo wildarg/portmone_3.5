@@ -24,18 +24,18 @@ class FilterBanner extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(10)
         ),
-        color: context.colorScheme.onTertiaryContainer,
-        elevation: 6,
+        color: context.colorScheme.secondaryContainer,
+        elevation: 2,
         shadowColor: context.colorScheme.tertiary,
         child: ListTile(
-          leading: UiIcon(UiIcons.filter, color: context.colorScheme.secondaryContainer),
-          title: Text(banner.title, style: context.textTheme.labelMedium?.copyWith(color: context.colorScheme.secondaryContainer)),
-          subtitle: Text(banner.subtitle, style: context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.secondaryContainer)),
+          leading: UiIcon(UiIcons.filter, color: context.colorScheme.onSecondaryContainer),
+          title: Text(banner.title, style: context.textTheme.labelMedium?.copyWith(color: context.colorScheme.onSecondaryContainer)),
+          subtitle: Text(banner.subtitle, style: context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.onSecondaryContainer)),
           trailing: IconButton(
             onPressed: onClick,
-            icon: UiIcon(UiIcons.trash, color: context.colorScheme.onTertiaryContainer),
+            icon: UiIcon(UiIcons.trash, color: context.colorScheme.secondaryContainer),
             style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(context.colorScheme.tertiary)
+              backgroundColor: WidgetStatePropertyAll(context.colorScheme.onSecondaryContainer)
             ),
           ),
         ),
