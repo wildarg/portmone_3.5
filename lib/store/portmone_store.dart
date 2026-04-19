@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/account_ranged_info.dart';
+import 'package:portmone_bloc/model/amount_tracker_info.dart';
 import 'package:portmone_bloc/model/amount_type_info.dart';
 import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/model/currency_info.dart';
@@ -38,6 +39,7 @@ class PortmoneStore {
   BehaviorSubject<List<AmountTypeInfo>> typedIncomeState = BehaviorSubject.seeded(const []);
   BehaviorSubject<List<DateTransactions>> journalState = BehaviorSubject.seeded(const []);
   BehaviorSubject<List<String>> tagsState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<AmountTrackerData>> expenseTrackerState = BehaviorSubject.seeded(const []);
 
   PortmoneStore(this._middlewares) {
     _dispatcher = _createDispatcher();
@@ -59,6 +61,7 @@ class PortmoneStore {
       SetIncomeTypesAction() => incomeTypesState.sink.add(action.list),
       SetExpenseTypesAction() => expenseTypesState.sink.add(action.list),
       SetTagsAction() => tagsState.sink.add(action.list),
+      SetExpenseTrackersAction() => expenseTrackerState.sink.add(action.data),
       _ => null
     };
   }

@@ -1,4 +1,5 @@
-import 'package:portmone/data/db/portmone_db.dart';
+
+import 'package:portmone_bloc/data/db/portmone_db.dart';
 
 class ExpenseTrackerResult {
   final String? currencyUid;
