@@ -37,16 +37,8 @@ class _AnimatedSpendLabelState extends State<AnimatedSpendLabel> with SingleTick
   int _currentValue = 0;
 
   @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
-    _currentValue = widget._controller.value?.amount.amountInCents ?? 0;
-    _animationController.forward();
-    _subscribe();
-  }
-
-  @override
   void dispose() {
+    widget._controller.removeListener(_handleUpdate);
     _animationController.dispose();
     super.dispose();
   }
@@ -55,17 +47,32 @@ class _AnimatedSpendLabelState extends State<AnimatedSpendLabel> with SingleTick
   void didUpdateWidget(covariant AnimatedSpendLabel oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget._controller != oldWidget._controller) {
+      oldWidget._controller.removeListener(_handleUpdate);
       _subscribe();
     }
   }
 
   void _subscribe() {
-    widget._controller.addListener(() => setState((){      
+    widget._controller.addListener(_handleUpdate);
+  }
+
+  void _handleUpdate() {
+    if (!mounted) return;
+    setState(() {
       _prevValue = _currentValue;
       _currentValue = widget._controller.value?.amount.amountInCents ?? 0;
       _animationController.reset();
       _animationController.forward();
-    }));
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    _currentValue = widget._controller.value?.amount.amountInCents ?? 0;
+    _animationController.forward();
+    _subscribe();
   }
 
   @override
