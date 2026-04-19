@@ -6,6 +6,7 @@ import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:portmone_bloc/store/store_listener.dart';
 import 'package:portmone_bloc/ui/core/slidable_fab.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
+import 'package:portmone_bloc/ui/dashboard/dashboard_screen.dart';
 import 'package:portmone_bloc/ui/home/app_bar_content.dart';
 import 'package:portmone_bloc/ui/home/banner/filter_banner.dart';
 import 'package:portmone_bloc/ui/journal/journal_screen.dart';
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   late final FocusNode _searchFocusNode;
 
   final _appDestinations = [
-    (page: (BuildContext ctx, [dynamic obj]) => Container(), icon: UiIcons.dashboard, selectedIcon: UiIcons.dashboardFill, label: 'Dashboard'),
+    (page: (BuildContext ctx, [dynamic obj]) => DashboardScreen(), icon: UiIcons.dashboard, selectedIcon: UiIcons.dashboardFill, label: 'Dashboard'),
     (page: (BuildContext ctx, [dynamic obj]) => JournalScreen(searchFocusNode: obj), icon: UiIcons.wallet, selectedIcon: UiIcons.walletFill, label: 'Journal'),
     (page: (BuildContext ctx, [dynamic obj]) => ReportsScreen(), icon: UiIcons.report, selectedIcon: UiIcons.reportFill, label: 'Reports'),
     (page: (BuildContext ctx, [dynamic obj]) => SettingsScreen(), icon: UiIcons.settings, selectedIcon: UiIcons.settingsFill, label: 'Settings'),
@@ -126,6 +127,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           );
         })
       ),
+      backgroundColor: context.colorScheme.surfaceContainer,
       body: PageView.builder(
         controller: _pageController,
         physics: NeverScrollableScrollPhysics(),

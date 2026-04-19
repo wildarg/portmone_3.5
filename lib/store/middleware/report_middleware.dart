@@ -18,15 +18,27 @@ Middleware reportsMiddleware(ReportsRepo repo) => (PortmoneStore store, Portmone
   if (action is SaveAccountAction) {
     _refreshReports(store, repo, store.filterState.value);
   }
+
+  if (action is RefreshJournalAction) {
+    _refreshReports(store, repo, store.filterState.value);
+  }
 };
 
 void _refreshReports(PortmoneStore store, ReportsRepo repo, MainFilter filter) {
+    _refreshExpenseTracker(store, repo, filter);
     _refreshTotalBalance(store, repo, filter);
     _refreshAccountsBalance(store, repo, filter);
     _refreshTotalExpense(store, repo, filter);
     _refreshTypedExpense(store, repo, filter);
     _refreshTotalIncome(store, repo, filter);
     _refreshTypedIncome(store, repo, filter);
+}
+
+void _refreshExpenseTracker(PortmoneStore store, ReportsRepo repo, MainFilter filter) {
+  Future(() async {
+    final data = await repo.getExpenseTrackers(filter);
+    store.dispatch(SetExpenseTrackersAction(data: data.toList()));
+  });
 }
 
 void _refreshTotalBalance(PortmoneStore store, ReportsRepo repo, MainFilter filter) {

@@ -1,6 +1,7 @@
 
 import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/account_ranged_info.dart';
+import 'package:portmone_bloc/model/amount_tracker_info.dart';
 import 'package:portmone_bloc/model/amount_type_info.dart';
 import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/model/currency_info.dart';
@@ -85,24 +86,30 @@ class SetTagsAction extends PortmoneAction {
 // transaction actions
 class RefreshJournalAction extends PortmoneAction {}
 
+class SaveTransactionAction extends PortmoneAction {}
 
-class SaveExpenseAction extends PortmoneAction {
+class SaveExpenseAction extends SaveTransactionAction {
   final ExpenseDraft draft;
   SaveExpenseAction(this.draft);
 }
 
 
-class SaveIncomeAction extends PortmoneAction {
+class SaveIncomeAction extends SaveTransactionAction {
   final IncomeDraft draft;
   SaveIncomeAction(this.draft);
 }
 
-class SaveTransferAction extends PortmoneAction {
+class SaveTransferAction extends SaveTransactionAction {
   final TransferDraft draft;
   SaveTransferAction(this.draft);
 }
 
 // Reports actions
+class SetExpenseTrackersAction extends PortmoneAction {
+  final List<AmountTrackerData> data;
+  SetExpenseTrackersAction({required this.data});
+}
+
 class SetTotalReportAction extends PortmoneAction {
   final List<CurrencyRangeInfo> data;
   SetTotalReportAction({required this.data});
