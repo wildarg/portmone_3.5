@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/store/store_builder.dart';
-import 'package:portmone_bloc/ui/dashboard/expense_tracker.dart/expense_tracker_content.dart';
+import 'package:portmone_bloc/ui/dashboard/expense_tracker/expense_tracker_content.dart';
 
 class ExpenseTracker extends StatelessWidget {
   const ExpenseTracker({super.key});

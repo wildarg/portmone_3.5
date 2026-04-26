@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/amount_tracker_info.dart';
 import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/model/money.dart';
-import 'package:portmone_bloc/ui/dashboard/expense_tracker.dart/animated_spend_label.dart';
-import 'package:portmone_bloc/ui/dashboard/expense_tracker.dart/currency_selector.dart';
+import 'package:portmone_bloc/ui/dashboard/expense_tracker/animated_spend_label.dart';
+import 'package:portmone_bloc/ui/dashboard/expense_tracker/currency_selector.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class ExpenseTrackerContent extends StatefulWidget {

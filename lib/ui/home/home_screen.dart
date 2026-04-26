@@ -127,7 +127,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           );
         })
       ),
-      backgroundColor: context.colorScheme.surfaceContainer,
       body: PageView.builder(
         controller: _pageController,
         physics: NeverScrollableScrollPhysics(),
