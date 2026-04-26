@@ -207,7 +207,7 @@ class UiButton extends StatelessWidget {
                 children: <Widget>[
                   if (icon != null) UiIcon(icon!, width: iconSize, color: tColor),
                   if (icon != null && text != null) const SizedBox(width: 8),
-                  if (text != null) Text(text!, style: tStyle ?? context.textTheme.bodyMedium?.copyWith(color: tColor)),
+                  if (text != null) Text(text!, style: tStyle ?? context.textTheme.labelLarge?.copyWith(color: tColor),),
                 ],
               ),
             ),
