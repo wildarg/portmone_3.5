@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/amount_tracker_info.dart';
 import 'package:portmone_bloc/model/money.dart';
-import 'package:portmone_bloc/ui/dashboard/expense_tracker.dart/spend_label.dart';
+import 'package:portmone_bloc/ui/dashboard/expense_tracker/spend_label.dart';
 
 class AnimatedSpendLabelController extends ChangeNotifier {
   AmountTracker? value;
