@@ -28,13 +28,10 @@ class UiScrollableSwimlane extends StatelessWidget {
             ),
           SizedBox(
             height: height ?? 60,
-            child: CustomScrollView(      
+            child: ListView(
               scrollDirection: Axis.horizontal,
-              slivers: [
-                SliverList(
-                  delegate: SliverChildListDelegate.fixed(items)
-                )
-              ],
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              children: items,
             ),
           ),
         ],
