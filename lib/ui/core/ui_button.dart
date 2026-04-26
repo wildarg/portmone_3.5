@@ -147,39 +147,39 @@ class UiButton extends StatelessWidget {
       bgColor, splColor, hlColor, tColor, tStyle
     ) = switch (buttonType) {
       ButtonType.primary => (
-        context.colorScheme.primary,
-        context.colorScheme.primaryContainer.withAlpha(50),
-        context.colorScheme.primaryContainer.withAlpha(50),
-        context.colorScheme.onPrimary,
-        null
+        backgroundColor ?? context.colorScheme.primary,
+        splashColor ?? context.colorScheme.onPrimary.withValues(alpha: 0.2),
+        highlightColor ?? context.colorScheme.onPrimary.withValues(alpha: 0.2),
+        textColor ?? context.colorScheme.onPrimary,
+        textStyle
       ),
       ButtonType.primarySmall => (
-        context.colorScheme.primary,
-        context.colorScheme.primaryContainer.withAlpha(50),
-        context.colorScheme.primaryContainer.withAlpha(50),
-        context.colorScheme.onPrimary,
-        null
+        backgroundColor ?? context.colorScheme.primary,
+        splashColor ?? context.colorScheme.onPrimary.withValues(alpha: 0.2),
+        highlightColor ?? context.colorScheme.onPrimary.withValues(alpha: 0.2),
+        textColor ?? context.colorScheme.onPrimary,
+        textStyle
       ),
       ButtonType.flatRounded => (
-        null,
-        null,
-        null,
-        null,
-        null
+        backgroundColor ?? Colors.transparent,
+        splashColor ?? context.colorScheme.primary.withValues(alpha: 0.1),
+        highlightColor ?? context.colorScheme.primary.withValues(alpha: 0.1),
+        textColor ?? context.colorScheme.onSurface,
+        textStyle
       ),
       ButtonType.secondaryRounded => (
-        context.colorScheme.primaryContainer,
-        context.colorScheme.primary.withAlpha(50),
-        context.colorScheme.primary.withAlpha(50),
-        context.colorScheme.primary,
-        null
+        backgroundColor ?? context.colorScheme.secondaryContainer,
+        splashColor ?? context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+        highlightColor ?? context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+        textColor ?? context.colorScheme.onSecondaryContainer,
+        textStyle
       ),
       ButtonType.secondary => (
-        context.colorScheme.primaryContainer,
-        context.colorScheme.primary.withAlpha(50),
-        context.colorScheme.primary.withAlpha(50),
-        context.colorScheme.primary,
-        null
+        backgroundColor ?? context.colorScheme.secondaryContainer,
+        splashColor ?? context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+        highlightColor ?? context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+        textColor ?? context.colorScheme.onSecondaryContainer,
+        textStyle
       ),
     };
 
