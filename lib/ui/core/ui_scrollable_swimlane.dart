@@ -20,11 +20,12 @@ class UiScrollableSwimlane extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8,
         children: [
           if (title != null)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(title!, style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.primary)),
+              child: Text(title!, style: context.textTheme.bodyMedium),
             ),
           SizedBox(
             height: height ?? 60,

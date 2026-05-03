@@ -3,6 +3,8 @@ import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/account_ranged_info.dart';
 import 'package:portmone_bloc/model/amount_tracker_info.dart';
 import 'package:portmone_bloc/model/amount_type_info.dart';
+import 'package:portmone_bloc/model/budget.dart';
+import 'package:portmone_bloc/model/budget_info.dart';
 import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/model/currency_info.dart';
 import 'package:portmone_bloc/model/currency_range_info.dart';
@@ -102,6 +104,11 @@ class SaveIncomeAction extends SaveTransactionAction {
 class SaveTransferAction extends SaveTransactionAction {
   final TransferDraft draft;
   SaveTransferAction(this.draft);
+}
+
+class SetBudgetsAction extends PortmoneAction {
+  final List<BudgetInfo> list;
+  SetBudgetsAction(this.list);
 }
 
 // Reports actions
