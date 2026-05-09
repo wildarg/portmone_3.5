@@ -24,7 +24,7 @@ class BudgetLane extends StatelessWidget {
         final title = 'Budget ${startDate.shortFormat} - ${endDate.shortFormat}';
         return UiScrollableSwimlane(
           title: title,
-          height: 150,
+          height: 130,
           items: state.map<Widget>(
             (budgetInfo) => BudgetInfoCard(info: budgetInfo)
           ).toList() + <Widget>[NewBudgetCard()],
