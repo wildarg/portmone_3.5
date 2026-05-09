@@ -32,7 +32,7 @@ extension _DbExtension on PortmoneDB {
   }
 
   Future<bool> restore() async {
-    final path = (await FilePicker.platform.pickFiles())?.files.single.path;
+    final path = (await FilePicker.pickFiles())?.files.single.path;
     if (path != null) {
       try {
         final file = File(path);

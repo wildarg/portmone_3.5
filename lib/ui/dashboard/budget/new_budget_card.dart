@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:portmone_bloc/ui/core/ui_button.dart';
 import 'package:portmone_bloc/ui/core/ui_card.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
@@ -19,7 +20,7 @@ class NewBudgetCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       onTap: () {
-        
+        context.push('/budget/editor');
       },
       child: Column(
         children: [

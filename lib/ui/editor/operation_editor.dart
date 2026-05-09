@@ -103,7 +103,8 @@ class OperationEditor extends StatelessWidget {
               Expanded(
                 child: FilledButton(                  
                   style: FilledButton.styleFrom(      
-                    fixedSize: Size(0, 50),         
+                    fixedSize: Size(0, 56),
+                    elevation: 8,
                     padding: const EdgeInsets.all(0),     
                     textStyle: context.textTheme.bodyLarge,
                     shape: RoundedRectangleBorder(
@@ -121,7 +122,8 @@ class OperationEditor extends StatelessWidget {
               ),
               FilledButton(
                 style: FilledButton.styleFrom(
-                  fixedSize: Size(50, 50),                  
+                  fixedSize: Size(56, 56),
+                  elevation: 8,
                   padding: const EdgeInsets.all(12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(

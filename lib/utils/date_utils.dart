@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 import 'package:portmone_bloc/utils/common_extensions.dart';
 import 'package:portmone_bloc/utils/datetime_extensions.dart';
@@ -112,6 +114,44 @@ class DateTimeUtils {
       );
     }
     return (startDate, endDate);
+  }
+
+  static (DateTime, DateTime) getBudgetInterval(DateTime? startDate, DateTime? endDate) {
+    DateTime _now = DateTime.now();
+    DateTime now = DateTime(2025, _now.month, _now.day);
+    if (startDate == null) {
+      return (firstDayOfMonth(now), lastDayOfMonth(now));
+    }
+
+    if (now.day >= startDate.day) {
+      return (
+        DateTime(
+          now.year,
+          now.month,
+          startDate.day
+        ),
+        DateTime(
+          now.year,
+          now.month,
+          startDate.day
+        ).monthForward.minusDay        
+      );
+    } else {
+      final prevMonth = now.monthBack;
+      final day = min(lastDayOfMonth(prevMonth).day, startDate.day);
+      return (
+        DateTime(
+          prevMonth.year,
+          prevMonth.month,
+          day
+        ),
+        DateTime(
+          prevMonth.year,
+          prevMonth.month,
+          day
+        ).monthForward.minusDay,
+      );
+    }
   }
 
   static Iterable<DateTime> iterate(DateTime startDate, DateTime endDate) {

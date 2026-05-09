@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/data/db/portmone_db.dart';
 import 'package:portmone_bloc/data/repo/accounts_repo.dart';
+import 'package:portmone_bloc/data/repo/budgets_repo.dart';
 import 'package:portmone_bloc/data/repo/currencies_repo.dart';
 import 'package:portmone_bloc/data/repo/expense_types_repo.dart';
 import 'package:portmone_bloc/data/repo/expenses_repo.dart';
@@ -13,6 +14,7 @@ import 'package:portmone_bloc/data/repo/tags_repo.dart';
 import 'package:portmone_bloc/data/repo/transfers_repo.dart';
 import 'package:portmone_bloc/routes/routes.dart';
 import 'package:portmone_bloc/store/middleware/accounts_middleware.dart';
+import 'package:portmone_bloc/store/middleware/budgets_middleware.dart';
 import 'package:portmone_bloc/store/middleware/currencies_middleware.dart';
 import 'package:portmone_bloc/store/middleware/db_middleware.dart';
 import 'package:portmone_bloc/store/middleware/expenses_middleware.dart';
@@ -51,6 +53,7 @@ class PortmoneApp extends StatelessWidget {
         Provider<ExpensesRepo>(create: (context) => ExpensesRepo(db: context.read<PortmoneDB>())),
         Provider<IncomesRepo>(create: (context) => IncomesRepo(db: context.read<PortmoneDB>())),
         Provider<TransfersRepo>(create: (context) => TransfersRepo(db: context.read<PortmoneDB>())),
+        Provider<BudgetRepo>(create: (context) => BudgetRepo(db: context.read<PortmoneDB>())),
         Provider<PortmoneStore>(create:(context) => PortmoneStore([
           dbMiddleware(context.read<PortmoneDB>()),
           mainFilterMiddleware(context.read<MainFilterRepo>()),
@@ -80,7 +83,8 @@ class PortmoneApp extends StatelessWidget {
             context.read<AccountsRepo>(),
             context.read<CurrenciesRepo>(),
             context.read<TagsRepo>()
-          )
+          ),
+          budgetMiddlware(context.read<BudgetRepo>(), context.read<CurrenciesRepo>())
         ]))
       ],
       builder:(context, child) => MaterialApp.router(

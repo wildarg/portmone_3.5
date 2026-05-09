@@ -1,9 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:portmone_bloc/data/db/portmone_db.dart';
 import 'package:portmone_bloc/data/db/query/get_budget_data_query.dart';
 import 'package:portmone_bloc/data/db/query/get_budgets_query.dart';
+import 'package:portmone_bloc/data/db/query/get_expense_records.dart';
 import 'package:portmone_bloc/data/db/scheme.dart';
 import 'package:portmone_bloc/model/budget.dart';
 import 'package:portmone_bloc/model/budget_info.dart';
+import 'package:portmone_bloc/model/expense_record_info.dart';
+import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/model/money.dart';
 import 'package:portmone_bloc/model/money_date_info.dart';
 import 'package:portmone_bloc/utils/date_utils.dart';
@@ -12,7 +16,7 @@ class BudgetRepo {
 
   final PortmoneDB db;
 
-  BudgetRepo(this.db);
+  BudgetRepo({required this.db});
 
   Future<Iterable<MoneyDateInfo>> getBudgetChartData(
     Budget budget, 
@@ -28,13 +32,14 @@ class BudgetRepo {
       )
     ).toList();
 
-    return _accumulateBudget(
-      DateTimeUtils.iterate(startDate, endDate), 
+    return accumulateBudget(
+      startDate, endDate, 
       expenses
     );
   }
 
-  Iterable<MoneyDateInfo> _accumulateBudget(Iterable<DateTime> timeline, List<MoneyDateInfo> expenses) sync* {
+  Iterable<MoneyDateInfo> accumulateBudget(DateTime startDate, DateTime endDate, List<MoneyDateInfo> expenses) sync* {
+    final timeline = DateTimeUtils.iterate(startDate, endDate);
     Money current = const Money(amountInCents: 0);
     int ind = 0;
     for (DateTime d in timeline) {
@@ -46,7 +51,6 @@ class BudgetRepo {
     }
   }
 
-  @override
   Future<Budget> saveBudget(Budget budget) async {
     final values = {
       BudgetTable.uid: budget.uid,
@@ -71,8 +75,9 @@ class BudgetRepo {
     return budget;
   }
   
-  Future<Iterable<BudgetInfo>> getBudgets() {
-    return GetBudgetsQuery(db).execute();
+  Future<Iterable<BudgetInfo>> getBudgets(MainFilter filter) {
+    final (startDate, endDate) = DateTimeUtils.getBudgetInterval(filter.startDate.value, filter.endDate.value);
+    return GetBudgetsQuery(db).execute(startDate, endDate, filter.plannedInclude);
   }
   
   Future<Budget> deleteBudget(Budget budget) async {    
@@ -81,6 +86,11 @@ class BudgetRepo {
       "delete from ${BudgetLinkTable.tableName} where ${BudgetLinkTable.budgetUid} = '${budget.uid}'",
     ]);
     return budget;
+  }
+
+  Future<Iterable<ExpenseRecordInfo>> getExpenseRecordInfo(MainFilter filter) {
+    final (startDate, endDate) = DateTimeUtils.getBudgetInterval(filter.startDate.value, filter.endDate.value);
+    return GetExpenseRecordsQuery(db).execute(startDate, endDate, filter.plannedInclude);
   }
 
 }
