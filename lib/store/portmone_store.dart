@@ -3,10 +3,13 @@ import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/account_ranged_info.dart';
 import 'package:portmone_bloc/model/amount_tracker_info.dart';
 import 'package:portmone_bloc/model/amount_type_info.dart';
+import 'package:portmone_bloc/model/budget.dart';
+import 'package:portmone_bloc/model/budget_info.dart';
 import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/model/currency_info.dart';
 import 'package:portmone_bloc/model/currency_range_info.dart';
 import 'package:portmone_bloc/model/date_transactions.dart';
+import 'package:portmone_bloc/model/expense_record_info.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/model/operation_type.dart';
 import 'package:portmone_bloc/store/portmone_actions.dart';
@@ -40,6 +43,8 @@ class PortmoneStore {
   BehaviorSubject<List<DateTransactions>> journalState = BehaviorSubject.seeded(const []);
   BehaviorSubject<List<String>> tagsState = BehaviorSubject.seeded(const []);
   BehaviorSubject<List<AmountTrackerData>> expenseTrackerState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<BudgetInfo>> budgetState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<ExpenseRecordInfo>> expenseRecordsState = BehaviorSubject.seeded(const []);
 
   PortmoneStore(this._middlewares) {
     _dispatcher = _createDispatcher();
@@ -62,6 +67,8 @@ class PortmoneStore {
       SetExpenseTypesAction() => expenseTypesState.sink.add(action.list),
       SetTagsAction() => tagsState.sink.add(action.list),
       SetExpenseTrackersAction() => expenseTrackerState.sink.add(action.data),
+      SetBudgetsAction() => budgetState.sink.add(action.list),
+      SetExpenseRecordInfoAction() => expenseRecordsState.sink.add(action.list),
       _ => null
     };
   }

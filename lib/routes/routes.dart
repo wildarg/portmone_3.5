@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
+import 'package:portmone_bloc/model/budget.dart';
 import 'package:portmone_bloc/model/expense.dart';
 import 'package:portmone_bloc/model/income.dart';
 import 'package:portmone_bloc/model/transfer.dart';
+import 'package:portmone_bloc/ui/editor/budget/budget_editor.dart';
 import 'package:portmone_bloc/ui/editor/expense/expense_editor.dart';
 import 'package:portmone_bloc/ui/editor/income/income_editor.dart';
 import 'package:portmone_bloc/ui/editor/transfer/transfer_editor.dart';
@@ -45,6 +47,13 @@ final appRouter = GoRouter(
       path: '/transfer/editor', 
       builder: (_, state) => TransferEditor(
         transfer: state.extra?.takeIfInstance<Transfer>(),
+      )
+    ),
+    GoRoute(
+      name: 'budgetEditor',
+      path: '/budget/editor', 
+      builder: (_, state) => BudgetEditor(
+        budget: state.extra?.takeIfInstance<Budget>(),
       )
     ),
   ],

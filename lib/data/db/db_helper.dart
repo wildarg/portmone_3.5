@@ -106,6 +106,37 @@ abstract class DBHelper {
     return db.exec(script);
   }
 
+  Future<void> transaction<T>(Future<T> Function(TransactionHelper t) action) async {
+    Database db = await getDb();    
+    return db.transaction((txn) async {
+      final helper = TransactionHelper(txn);
+      await action(helper);
+    });
+  }
+
+}
+
+class TransactionHelper {
+  final Transaction txn;
+
+  TransactionHelper(this.txn);
+
+  Future<void> delete(String table, {String? where, List<dynamic>? args}) async {
+    await txn.delete(table, where: where, whereArgs: args);
+  }
+
+  Future<int> insert(String table, Map<String, dynamic> values) async {
+    return txn.insert(table, values, conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<void> batchInsert(String table, Iterable<Map<String, dynamic>> values) async {
+    Batch batch = txn.batch();
+    for (var map in values) { 
+      batch.insert(table, map, conflictAlgorithm: ConflictAlgorithm.ignore); 
+    }
+    await batch.commit();
+  }
+
 }
 
 extension DatabaseExtension on Database {

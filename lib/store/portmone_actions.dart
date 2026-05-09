@@ -3,13 +3,17 @@ import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/account_ranged_info.dart';
 import 'package:portmone_bloc/model/amount_tracker_info.dart';
 import 'package:portmone_bloc/model/amount_type_info.dart';
+import 'package:portmone_bloc/model/budget.dart';
+import 'package:portmone_bloc/model/budget_info.dart';
 import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/model/currency_info.dart';
 import 'package:portmone_bloc/model/currency_range_info.dart';
 import 'package:portmone_bloc/model/date_transactions.dart';
 import 'package:portmone_bloc/model/expense_draft.dart';
+import 'package:portmone_bloc/model/expense_record_info.dart';
 import 'package:portmone_bloc/model/income_draft.dart';
 import 'package:portmone_bloc/model/transfer_draft.dart';
+import 'package:portmone_bloc/model/budget_draft.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/model/operation_type.dart';
 
@@ -93,7 +97,6 @@ class SaveExpenseAction extends SaveTransactionAction {
   SaveExpenseAction(this.draft);
 }
 
-
 class SaveIncomeAction extends SaveTransactionAction {
   final IncomeDraft draft;
   SaveIncomeAction(this.draft);
@@ -102,6 +105,21 @@ class SaveIncomeAction extends SaveTransactionAction {
 class SaveTransferAction extends SaveTransactionAction {
   final TransferDraft draft;
   SaveTransferAction(this.draft);
+}
+
+class SetBudgetsAction extends PortmoneAction {
+  final List<BudgetInfo> list;
+  SetBudgetsAction(this.list);
+}
+
+class SetExpenseRecordInfoAction extends PortmoneAction {
+  final List<ExpenseRecordInfo> list;
+  SetExpenseRecordInfoAction(this.list);
+}
+
+class SaveBudgetAction extends PortmoneAction {
+  final BudgetDraft draft;
+  SaveBudgetAction(this.draft);
 }
 
 // Reports actions

@@ -72,6 +72,8 @@ class UiIcons {
   static const UiIconData receipt = UiIconData('$_path/receipt.svg');
   static const UiIconData receipt2 = UiIconData('$_path/receipt_2.svg');
   static const UiIconData currencyExchange = UiIconData('$_path/currency_exchange.svg');
+  static const UiIconData newBudget = UiIconData('$_path/new_budget.svg');
+  static const UiIconData dataThresholding = UiIconData('$_path/data_thresholding.svg');
 }
 
 class UiIconData {

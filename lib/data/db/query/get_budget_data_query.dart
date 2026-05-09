@@ -1,12 +1,12 @@
 
 
-import 'package:portmone/data/db/portmone_db.dart';
-import 'package:portmone/domain/model/budget_entity.dart';
+import 'package:portmone_bloc/data/db/portmone_db.dart';
+import 'package:portmone_bloc/model/budget.dart';
 
-class BudgetData {
+class BudgetChartData {
   final int timestamp;
   final int totalCents;
-  BudgetData(this.timestamp, this.totalCents);
+  BudgetChartData(this.timestamp, this.totalCents);
 }
 
 class GetBudgetDataQuery {
@@ -15,7 +15,7 @@ class GetBudgetDataQuery {
 
   GetBudgetDataQuery(this.db );
 
-  Future<Iterable<BudgetData>> execute(
+  Future<Iterable<BudgetChartData>> execute(
     final Budget budget,
     final DateTime? startDate,
     final DateTime? endDate,
@@ -52,8 +52,8 @@ class GetBudgetDataQuery {
     return sql.toString();
   }
 
-  BudgetData _toBudgetData(Map<String, Object?> map) {
-    return BudgetData(
+  BudgetChartData _toBudgetData(Map<String, Object?> map) {
+    return BudgetChartData(
       (map['date'] as num).toInt(), 
       (map['amount'] as num).toInt(),
     );

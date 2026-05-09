@@ -12,6 +12,10 @@ class Money {
           runtimeType == other.runtimeType &&
           amountInCents == other.amountInCents;
 
+  Money operator +(covariant Money other) {
+    return Money(amountInCents: amountInCents + other.amountInCents);
+  }
+
   @override
   int get hashCode => amountInCents.hashCode;
 
