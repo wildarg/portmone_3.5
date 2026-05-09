@@ -43,7 +43,7 @@ class BudgetRepo {
     Money current = const Money(amountInCents: 0);
     int ind = 0;
     for (DateTime d in timeline) {
-      while (ind < expenses.length && d.isAfter(expenses[ind].date)) {
+      while (ind < expenses.length && !expenses[ind].date.isAfter(d)) {
         current += expenses[ind].amount;
         ind++;
       }
