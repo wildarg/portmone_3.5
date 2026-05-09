@@ -8,10 +8,13 @@ class UiCard extends StatelessWidget {
   final Color? color;
   final Color? highlightColor;
   final Color? splashColor;
+  final Color? strokeColor;
+  final double? strokeWidth;
   final String? title;
   final double elevation;
   final CrossAxisAlignment? crossAxisAlignment;
   final MainAxisAlignment? mainAxisAlignment;
+  final MainAxisSize? mainAxisSize;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final VoidCallback? onTap;
@@ -24,8 +27,11 @@ class UiCard extends StatelessWidget {
     this.color,
     this.highlightColor,
     this.splashColor,
+    this.strokeColor,
+    this.strokeWidth,
     this.crossAxisAlignment,
     this.mainAxisAlignment,
+    this.mainAxisSize,
     this.title,
     this.onTap,
     this.elevation = 0,
@@ -38,6 +44,7 @@ class UiCard extends StatelessWidget {
     return Card(
       elevation: elevation,
       margin: margin,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       clipBehavior: Clip.antiAlias,
       child: Material(
         color: color ?? context.colorScheme.surfaceContainer,
@@ -45,13 +52,22 @@ class UiCard extends StatelessWidget {
           highlightColor: highlightColor,
           splashColor: splashColor,
           onTap: onTap,
-          child: SizedBox(   
+          child: Container(   
             width: width,
-            height: height,     
+            height: height,
+            decoration: BoxDecoration(
+              border: strokeWidth != null
+                  ? Border.all(
+                      color: strokeColor ?? context.colorScheme.outline,
+                      width: strokeWidth!,
+                    )
+                  : null,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Column(
               crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
               mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: mainAxisSize ?? MainAxisSize.min,
               children: [
                 if (title != null)
                   Padding(

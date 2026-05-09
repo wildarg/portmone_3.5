@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:portmone_bloc/data/db/portmone_db.dart';
 import 'package:portmone_bloc/data/db/query/get_budget_data_query.dart';
 import 'package:portmone_bloc/data/db/query/get_budgets_query.dart';
@@ -73,7 +72,7 @@ class BudgetRepo {
         })
       );
     });
-    
+
     return budget;
   }
   

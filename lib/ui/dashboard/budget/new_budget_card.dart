@@ -13,7 +13,7 @@ class NewBudgetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return UiCard(
       width: 150,
-      height: 150,
+      height: 120,
       color: context.colorScheme.secondaryContainer,
       highlightColor: context.colorScheme.secondary.withAlpha(50),
       splashColor: context.colorScheme.secondary.withAlpha(100),
