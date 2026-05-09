@@ -58,20 +58,22 @@ class BudgetRepo {
       BudgetTable.amount: budget.amount.amountInCents,
       BudgetTable.currencyUid: budget.currency.uid,
     };
-    await db.insert(BudgetTable.tableName, values);
-    await db.delete(
-      BudgetLinkTable.tableName, 
-      where: '${BudgetLinkTable.budgetUid} = ?', 
-      args: [budget.uid]
-    );
-    await db.batchInsert(
-      BudgetLinkTable.tableName, 
-      budget.expenseTypeUids.map((e) => {
-        BudgetLinkTable.budgetUid : budget.uid,
-        BudgetLinkTable.expenseTypeUid : e
-      })
-    );
-
+    await db.transaction((t) async {
+      await t.insert(BudgetTable.tableName, values);
+      await t.delete(
+        BudgetLinkTable.tableName, 
+        where: '${BudgetLinkTable.budgetUid} = ?', 
+        args: [budget.uid]
+      );
+      await t.batchInsert(
+        BudgetLinkTable.tableName, 
+        budget.expenseTypeUids.map((e) => {
+          BudgetLinkTable.budgetUid : budget.uid,
+          BudgetLinkTable.expenseTypeUid : e
+        })
+      );
+    });
+    
     return budget;
   }
   
