@@ -74,9 +74,8 @@ class TodayTransactionsLane extends StatelessWidget {
   void _openEditor(BuildContext context, Transaction transaction, String route) async {
     dynamic result = await context.push(route, extra: transaction);
     while (result is CreateNewTransaction) {
-      if (context.mounted) {
-        result = await context.push(route);
-      }
+      if (!context.mounted) break;
+      result = await context.push(route);
     }
   }
 }
