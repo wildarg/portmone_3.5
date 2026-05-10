@@ -75,7 +75,18 @@ class _BudgetEditorState extends State<BudgetEditor> {
         backgroundColor: context.colorScheme.surfaceContainer,
         title: const Text('Budget'),
         centerTitle: true,
+        actions: [
+          if (widget.budget != null)
+            IconButton(
+              icon: UiIcon(UiIcons.delete),
+              onPressed: () {
+                context.dispatch(DeleteBudgetAction(widget.budget!));
+                Navigator.of(context).pop();
+              },
+            ),
+        ],
       ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

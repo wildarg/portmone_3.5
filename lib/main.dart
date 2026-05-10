@@ -89,8 +89,7 @@ class PortmoneApp extends StatelessWidget {
       ],
       builder:(context, child) => MaterialApp.router(
         title: 'Portmone App ',
-        theme: appTheme,
-        
+        theme: appTheme,        
         routerConfig: appRouter,
       ),
     );

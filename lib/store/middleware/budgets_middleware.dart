@@ -27,6 +27,12 @@ Middleware budgetMiddlware(BudgetRepo repo, CurrenciesRepo currenciesRepo) => (P
     _refreshBudgets(store, repo);
   }
 
+  if (action is DeleteBudgetAction) {
+    await repo.deleteBudget(action.budget);
+    _refreshBudgets(store, repo);
+  }
+
+
   await next(action);
 
   if (action is SaveTransactionAction) {

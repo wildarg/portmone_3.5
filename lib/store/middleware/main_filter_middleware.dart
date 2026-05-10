@@ -33,7 +33,8 @@ Middleware mainFilterMiddleware(MainFilterRepo repo) => (PortmoneStore store, Po
       final newFilter = filter.copyWith(
         text: action.text
       );
-      store.dispatch(UpdateMainFilterAction(filter: newFilter));
+      repo.save(newFilter);
+      // store.dispatch(UpdateMainFilterAction(filter: newFilter));
     });
   }
 
