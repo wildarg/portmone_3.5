@@ -15,6 +15,11 @@ class TodayAmountTracker extends AmountTracker {
   TodayAmountTracker(super.amount);
 }
 
+class LabeledAmountTracker extends AmountTracker {
+  final String label;
+  LabeledAmountTracker(super.amount,{required this.label});
+}
+
 class MonthAmountTracker extends AmountTracker {
   final String monthName;
   MonthAmountTracker(

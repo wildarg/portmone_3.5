@@ -94,6 +94,7 @@ class _AnimatedSpendLabelState extends State<AnimatedSpendLabel> with SingleTick
     return switch (tracker) {
       TodayAmountTracker() => 'Today', // TODO localization
       MonthAmountTracker() => tracker.monthName,
+      LabeledAmountTracker() => tracker.label,
       _ => ''
     };
   }

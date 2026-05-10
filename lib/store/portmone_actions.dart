@@ -122,6 +122,12 @@ class SaveBudgetAction extends PortmoneAction {
   SaveBudgetAction(this.draft);
 }
 
+class DeleteBudgetAction extends PortmoneAction {
+  final Budget budget;
+  DeleteBudgetAction(this.budget);
+}
+
+
 // Reports actions
 class SetExpenseTrackersAction extends PortmoneAction {
   final List<AmountTrackerData> data;

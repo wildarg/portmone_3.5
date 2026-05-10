@@ -21,6 +21,11 @@ Middleware journalMiddleware(JournalRepo repo) => (PortmoneStore store, Portmone
   if (action is SaveAccountAction) {
     _refreshJournal(store, repo, store.filterState.value);
   }
+
+  if (action is SetTextFilterAction) {
+    MainFilter filter = store.filterState.value.copyWith(text: action.text);
+    _refreshJournal(store, repo, filter);
+  }
 };
 
 void _refreshJournal(PortmoneStore store, JournalRepo repo, MainFilter filter) => Future(() async {
