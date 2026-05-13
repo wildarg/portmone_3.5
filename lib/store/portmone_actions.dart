@@ -15,6 +15,10 @@ import 'package:portmone_bloc/model/income_draft.dart';
 import 'package:portmone_bloc/model/transfer_draft.dart';
 import 'package:portmone_bloc/model/budget_draft.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
+import 'package:portmone_bloc/model/expense.dart';
+import 'package:portmone_bloc/model/income.dart';
+import 'package:portmone_bloc/model/transfer.dart';
+import 'package:portmone_bloc/model/transaction.dart';
 import 'package:portmone_bloc/model/operation_type.dart';
 
 sealed class PortmoneAction {}
@@ -105,6 +109,36 @@ class SaveIncomeAction extends SaveTransactionAction {
 class SaveTransferAction extends SaveTransactionAction {
   final TransferDraft draft;
   SaveTransferAction(this.draft);
+}
+
+class DeleteExpenseAction extends PortmoneAction {
+  final Expense expense;
+  DeleteExpenseAction(this.expense);
+}
+
+class DeleteIncomeAction extends PortmoneAction {
+  final Income income;
+  DeleteIncomeAction(this.income);
+}
+
+class DeleteTransferAction extends PortmoneAction {
+  final Transfer transfer;
+  DeleteTransferAction(this.transfer);
+}
+
+class RestoreExpenseAction extends PortmoneAction {
+  final Expense expense;
+  RestoreExpenseAction(this.expense);
+}
+
+class RestoreIncomeAction extends PortmoneAction {
+  final Income income;
+  RestoreIncomeAction(this.income);
+}
+
+class RestoreTransferAction extends PortmoneAction {
+  final Transfer transfer;
+  RestoreTransferAction(this.transfer);
 }
 
 class SetBudgetsAction extends PortmoneAction {

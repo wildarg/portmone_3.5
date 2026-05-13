@@ -24,6 +24,20 @@ Middleware transfersMiddleware(
         unawaited(_saveTransfer(action.draft, transferRepo, accountsRepo, currenciesRepo, tagsRepo, store));
       }
 
+      if (action is DeleteTransferAction) {
+        unawaited(Future(() async {
+          await transferRepo.deleteByUid(action.transfer.uid);
+          store.dispatch(RefreshJournalAction());
+        }));
+      }
+
+      if (action is RestoreTransferAction) {
+        unawaited(Future(() async {
+          await transferRepo.save(action.transfer);
+          store.dispatch(RefreshJournalAction());
+        }));
+      }
+
       return next(action);
     };
 

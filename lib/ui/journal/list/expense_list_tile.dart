@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/expense.dart';
+import 'package:portmone_bloc/store/portmone_actions.dart';
+import 'package:portmone_bloc/store/portmone_store.dart';
+import 'package:portmone_bloc/ui/journal/list/dismissable_background.dart';
+import 'package:portmone_bloc/ui/journal/list/dismissible_helper.dart';
 import 'package:portmone_bloc/ui/journal/list/transaction_notes.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/money_extensions.dart';
@@ -25,44 +29,49 @@ class ExpenseListTile extends StatelessWidget {
       : null;
     final (main, cents) = expense.amount.formattedSplitAmount;
 
-    return ListTile(
-      contentPadding: notes == null ? const EdgeInsets.symmetric(vertical: 8, horizontal: 16) : null,
-      tileColor: theme.colorScheme.surfaceContainer,
-      leading: CircleAvatar(
-        backgroundColor: expense.type.name.toColor,
-        child: Text(expense.type.name.substring(0, 1), style: context.textTheme.bodyMedium?.copyWith(color: avatarTextColor)),
+    return Dismissible(
+      key: ValueKey(expense.uid),
+      background: const DismissableBackground(),
+      onDismissed: (_) => DismissibleHelper.onDismiss(context, expense),
+      child: ListTile(
+        contentPadding: notes == null ? const EdgeInsets.symmetric(vertical: 8, horizontal: 16) : null,
+        tileColor: theme.colorScheme.surfaceContainer,
+        leading: CircleAvatar(
+          backgroundColor: expense.type.name.toColor,
+          child: Text(expense.type.name.substring(0, 1), style: context.textTheme.bodyMedium?.copyWith(color: avatarTextColor)),
+        ),
+        title: Text(expense.type.name, style: theme.textTheme.bodyMedium?.copyWith(color: titleColor)),
+        subtitle: notes,
+        trailing: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('-$main', style: theme.textTheme.headlineSmall?.copyWith(
+                  color: mainAmountColor
+                )),
+                const SizedBox(width: 2),
+                Text(cents, style: theme.textTheme.labelLarge?.copyWith(color: centsAmountColor)),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(expense.account.name, style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                const SizedBox(width: 4),
+                Text(expense.account.currency.name, style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary))
+              ],
+            )
+          ],
+        ),   
+        onTap: onTap,
       ),
-      title: Text(expense.type.name, style: theme.textTheme.bodyMedium?.copyWith(color: titleColor)),
-      subtitle: notes,
-      trailing: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('-$main', style: theme.textTheme.headlineSmall?.copyWith(
-                color: mainAmountColor
-              )),
-              const SizedBox(width: 2),
-              Text(cents, style: theme.textTheme.labelLarge?.copyWith(color: centsAmountColor)),
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(expense.account.name, style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-              const SizedBox(width: 4),
-              Text(expense.account.currency.name, style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary))
-            ],
-          )
-        ],
-      ),   
-      onTap: onTap,
     );
   }
 }

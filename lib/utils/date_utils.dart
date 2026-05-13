@@ -117,8 +117,7 @@ class DateTimeUtils {
   }
 
   static (DateTime, DateTime) getBudgetInterval(DateTime? startDate, DateTime? endDate) {
-    DateTime _now = DateTime.now();
-    DateTime now = DateTime(2025, _now.month, _now.day);
+    DateTime now = DateTime.now();
     if (startDate == null) {
       return (firstDayOfMonth(now), lastDayOfMonth(now));
     }

@@ -1,4 +1,4 @@
-package com.example.portmone_bloc
+package com.homesoftwaretools.portmone.app
 
 import io.flutter.embedding.android.FlutterActivity
 
