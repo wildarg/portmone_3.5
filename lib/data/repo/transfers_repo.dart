@@ -13,6 +13,10 @@ class TransfersRepo {
     await db.insert(TransfersTable.tableName, toMap(transfer));
   }
 
+  Future<void> deleteByUid(String uid) async {
+    await db.delete(TransfersTable.tableName, where: '${TransfersTable.uid} = ?', args: [uid]);
+  }
+
   Map<String, Object?> toMap(Transfer transfer) {
     return {
       TransfersTable.uid: transfer.uid.isNullOrBlank ? db.getNewUid() : transfer.uid,

@@ -39,5 +39,19 @@ Middleware expensesMiddleware(
     });
   }
 
+  if (action is DeleteExpenseAction) {
+    Future(() async {
+      await expenseRepo.deleteByUid(action.expense.uid);
+      store.dispatch(RefreshJournalAction());
+    });
+  }
+
+  if (action is RestoreExpenseAction) {
+    Future(() async {
+      await expenseRepo.save(action.expense);
+      store.dispatch(RefreshJournalAction());
+    });
+  }
+
   return next(action);
 };

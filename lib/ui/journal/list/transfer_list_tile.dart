@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/transfer.dart';
+import 'package:portmone_bloc/store/portmone_actions.dart';
+import 'package:portmone_bloc/store/portmone_store.dart';
+import 'package:portmone_bloc/ui/journal/list/dismissable_background.dart';
+import 'package:portmone_bloc/ui/journal/list/dismissible_helper.dart';
 import 'package:portmone_bloc/ui/journal/list/transaction_notes.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/money_extensions.dart';
@@ -22,86 +26,91 @@ class TransferListTile extends StatelessWidget {
 
     final (mainFrom, centsFrom) = transfer.fromAmount.formattedSplitAmount;
     final (mainTo, centsTo) = transfer.toAmount.formattedSplitAmount;
-    return ListTile(
-      tileColor: theme.colorScheme.surfaceContainer,
-      leading: CircleAvatar(
-        backgroundColor: theme.colorScheme.secondaryContainer,
-        child: Icon(Icons.swap_horiz_outlined, color: avatarIconColor)
-      ),
-      title: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(mainFrom, style: theme.textTheme.titleLarge?.copyWith(color: mainAmountColor)),
-                    const SizedBox(width: 2),
-                    Text(centsFrom, style: theme.textTheme.labelLarge?.copyWith(color: centsAmountColor)),
-                  ],
-                ),
-                RichText(
-                  textAlign: TextAlign.start,
-                  text: TextSpan(
+    return Dismissible(
+      key: ValueKey(transfer.uid),
+      background: const DismissableBackground(),
+      onDismissed: (_) => DismissibleHelper.onDismiss(context, transfer),
+      child: ListTile(
+        tileColor: theme.colorScheme.surfaceContainer,
+        leading: CircleAvatar(
+          backgroundColor: theme.colorScheme.secondaryContainer,
+          child: Icon(Icons.swap_horiz_outlined, color: avatarIconColor)
+        ),
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextSpan(
-                        text: transfer.fromAccount.name,
-                        style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)
-                      ),
-                      TextSpan(
-                        text: ' ${transfer.fromAccount.currency.name}',
-                        style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary)
-                      ),
-                    ]
+                      Text(mainFrom, style: theme.textTheme.titleLarge?.copyWith(color: mainAmountColor)),
+                      const SizedBox(width: 2),
+                      Text(centsFrom, style: theme.textTheme.labelLarge?.copyWith(color: centsAmountColor)),
+                    ],
                   ),
-                ),
-              ],
-            ),   
-          ),
-          Icon(Icons.keyboard_double_arrow_right, color: transferIconColor),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(mainTo, style: theme.textTheme.titleLarge?.copyWith(color: mainAmountColor)),
-                    const SizedBox(width: 2),
-                    Text(centsTo, style: theme.textTheme.labelLarge?.copyWith(color: centsAmountColor)),
-                  ],
-                ),
-                RichText(
-                  textAlign: TextAlign.end,
-                  text: TextSpan(
+                  RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: transfer.fromAccount.name,
+                          style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)
+                        ),
+                        TextSpan(
+                          text: ' ${transfer.fromAccount.currency.name}',
+                          style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary)
+                        ),
+                      ]
+                    ),
+                  ),
+                ],
+              ),   
+            ),
+            Icon(Icons.keyboard_double_arrow_right, color: transferIconColor),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextSpan(
-                        text: transfer.toAccount.name,
-                        style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)
-                      ),
-                      TextSpan(
-                        text: ' ${transfer.toAccount.currency.name}',
-                        style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary)
-                      ),
-                    ]
+                      Text(mainTo, style: theme.textTheme.titleLarge?.copyWith(color: mainAmountColor)),
+                      const SizedBox(width: 2),
+                      Text(centsTo, style: theme.textTheme.labelLarge?.copyWith(color: centsAmountColor)),
+                    ],
                   ),
-                ),
-              ],
-            ),   
-          ),
-        ],
+                  RichText(
+                    textAlign: TextAlign.end,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: transfer.toAccount.name,
+                          style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)
+                        ),
+                        TextSpan(
+                          text: ' ${transfer.toAccount.currency.name}',
+                          style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary)
+                        ),
+                      ]
+                    ),
+                  ),
+                ],
+              ),   
+            ),
+          ],
+        ),
+        subtitle: transfer.notes.isNotEmpty ? TransactionNotes(transfer.notes) : null,
+        onTap: onTap,
       ),
-      subtitle: transfer.notes.isNotEmpty ? TransactionNotes(transfer.notes) : null,
-      onTap: onTap,
     );
   }
 }

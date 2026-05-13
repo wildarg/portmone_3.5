@@ -13,6 +13,10 @@ class ExpensesRepo {
     await db.insert(ExpensesTable.tableName, toMap(expense));
   }
 
+  Future<void> deleteByUid(String uid) async {
+    await db.delete(ExpensesTable.tableName, where: '${ExpensesTable.uid} = ?', args: [uid]);
+  }
+
   Map<String, Object?> toMap(Expense expense) {
     return {
       ExpensesTable.uid : expense.uid.isNullOrBlank? db.getNewUid() : expense.uid,

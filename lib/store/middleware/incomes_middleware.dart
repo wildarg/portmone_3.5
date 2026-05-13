@@ -39,5 +39,19 @@ Middleware incomesMiddleware(
     });
   }
 
+  if (action is DeleteIncomeAction) {
+    Future(() async {
+      await incomeRepo.deleteByUid(action.income.uid);
+      store.dispatch(RefreshJournalAction());
+    });
+  }
+
+  if (action is RestoreIncomeAction) {
+    Future(() async {
+      await incomeRepo.save(action.income);
+      store.dispatch(RefreshJournalAction());
+    });
+  }
+
   return next(action);
 };

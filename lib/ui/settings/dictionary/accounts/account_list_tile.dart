@@ -22,8 +22,9 @@ class AccountListTile extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final titleColor = account.isArchived ? colorScheme.onSurfaceVariant : colorScheme.onSurface;
-    final subtitleColor = account.isArchived ? colorScheme.onSurfaceVariant : colorScheme.primary;
+    final titleColor = account.isArchived ? colorScheme.surfaceContainerHighest : colorScheme.onSurface;
+    final subtitleColor = account.isArchived ? colorScheme.surfaceContainerHighest : colorScheme.primary;
+    final label = account.isArchived ? 'Restore' : 'Archive';
 
     return ListTile(
       key: ValueKey(account.uid),
@@ -35,9 +36,15 @@ class AccountListTile extends StatelessWidget {
         account.currency.name,
         style: theme.textTheme.bodySmall?.copyWith(color: subtitleColor),
       ),
-      trailing: UiButton.flatRounded(
-        icon: account.isArchived ? UiIcons.unarchiveFill : UiIcons.archive,
-        onTap: () => context.dispatch(SaveAccountAction(account.copyWith(isArchived: !account.isArchived))),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          UiButton.flatRounded(
+            icon: account.isArchived ? UiIcons.unarchiveFill : UiIcons.archive,
+            onTap: () => context.dispatch(SaveAccountAction(account.copyWith(isArchived: !account.isArchived))),
+          ),
+          Text(label)
+        ],
       ),
       onTap: () {
         showDialog(
