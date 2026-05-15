@@ -1,7 +1,7 @@
 name: portmone_bloc
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0+1
+version: 3.5.0+36
 
 environment:
   sdk: ^3.11.1
@@ -39,6 +39,7 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/logo.png"
+  remove_alpha_ios: true
   adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/logo.png"
 

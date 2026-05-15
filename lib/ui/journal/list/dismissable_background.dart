@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 
-class DismissibleBackground extends StatelessWidget {
+class DismissableBackground extends StatelessWidget {
 
   const DismissableBackground({super.key});
 
