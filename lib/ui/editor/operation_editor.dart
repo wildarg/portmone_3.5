@@ -89,10 +89,14 @@ class OperationEditor extends StatelessWidget {
           title: Text(title),
         ),
         backgroundColor: context.colorScheme.surfaceContainer,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ListView( 
-            children: fieldListBuilder(context) + const <Widget>[ SizedBox(height: 500) ]
+        body: SafeArea(
+          maintainBottomViewPadding: false,
+          minimum: EdgeInsets.only(bottom: 50),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ListView( 
+              children: fieldListBuilder(context) + const <Widget>[ SizedBox(height: 100) ]
+            ),
           ),
         ),
         bottomNavigationBar: Padding(
