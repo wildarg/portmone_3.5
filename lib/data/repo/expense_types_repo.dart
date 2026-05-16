@@ -28,15 +28,21 @@ class ExpenseTypesRepo {
   TransactionType fromMap(Map<String, Object?> data) {
     return TransactionType(
       uid: data.getString(ExpenseTypesTable.uid) ?? '', 
-      name: data.getString(ExpenseTypesTable.name) ?? ''
+      name: data.getString(ExpenseTypesTable.name) ?? '',
+      isArchived: (data[ExpenseTypesTable.archived] as num?)?.toInt() == 1
     );
   }
 
   Map<String, Object?> toMap(TransactionType transactioType) {
     return {
       ExpenseTypesTable.uid : transactioType.uid,
-      ExpenseTypesTable.name : transactioType.name
+      ExpenseTypesTable.name : transactioType.name,
+      ExpenseTypesTable.archived : transactioType.isArchived ? 1 : 0
     };
+  }
+
+  Future<void> update(TransactionType type) async {
+    await db.insert(ExpenseTypesTable.tableName, toMap(type));
   }
 
 

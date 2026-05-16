@@ -9,6 +9,9 @@ import 'package:portmone_bloc/ui/editor/income/income_editor.dart';
 import 'package:portmone_bloc/ui/editor/transfer/transfer_editor.dart';
 import 'package:portmone_bloc/ui/home/home_screen.dart';
 import 'package:portmone_bloc/ui/settings/dictionary/accounts/accounts_screen.dart';
+import 'package:portmone_bloc/ui/settings/dictionary/expense_types/expense_types_screen.dart';
+import 'package:portmone_bloc/ui/settings/dictionary/income_types/income_types_screen.dart';
+import 'package:portmone_bloc/ui/settings/dictionary/tags/tags_screen.dart';
 import 'package:portmone_bloc/utils/common_extensions.dart';
 
 final appRouter = GoRouter(
@@ -27,6 +30,21 @@ final appRouter = GoRouter(
       name: 'accounts',
       path: '/accounts',
       builder: (context, state) => const AccountsScreen(),
+    ),
+    GoRoute(
+      name: 'expenseTypes',
+      path: '/expense-types',
+      builder: (context, state) => const ExpenseTypesScreen(),
+    ),
+    GoRoute(
+      name: 'incomeTypes',
+      path: '/income-types',
+      builder: (context, state) => const IncomeTypesScreen(),
+    ),
+    GoRoute(
+      name: 'tags',
+      path: '/tags',
+      builder: (context, state) => const TagsScreen(),
     ),
     GoRoute(
       name: 'expenseEditor',

@@ -27,9 +27,10 @@ class PortmoneDB extends DBHelper {
     22: _upgradeTo22,
     25: _upgradeTo25,
     26: _upgradeTo26,
+    27: _upgradeTo27,
   };
 
-  PortmoneDB() : super(name: 'portmone', version: 26);
+  PortmoneDB() : super(name: 'portmone', version: 27);
 
   Future<void> _upgradeTo20(Database db) async {
       List<Map<String, dynamic>> values = await db.query('mainFilter', where: 'id = ?', whereArgs: [0]);
@@ -80,6 +81,13 @@ class PortmoneDB extends DBHelper {
         SELECT new_pos FROM ordered WHERE ordered.uid = accounts.uid
       )
       '''
+    ]);
+  }
+
+  Future<void> _upgradeTo27(Database db) {
+    return db.exec([
+      'alter table expenseTypes add archived integer',
+      'alter table incomeTypes add archived integer',
     ]);
   }
 

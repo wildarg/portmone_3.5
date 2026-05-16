@@ -36,11 +36,13 @@ class ExpenseTypesTable {
   static const String tableName = 'expenseTypes';
   static const String uid = 'uid';
   static const String name = 'name';
+  static const String archived = 'archived';
 
   static const String createTableSql = '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $name TEXT NOT NULL,
+      $archived INTEGER,
       PRIMARY KEY($uid)
     )
   ''';
@@ -76,11 +78,13 @@ class IncomeTypesTable {
   static const String tableName = 'incomeTypes';
   static const String uid = 'uid';
   static const String name = 'name';
+  static const String archived = 'archived';
 
   static const String createTableSql = '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $name TEXT NOT NULL,
+      $archived INTEGER,
       PRIMARY KEY($uid)
     )
   ''';
