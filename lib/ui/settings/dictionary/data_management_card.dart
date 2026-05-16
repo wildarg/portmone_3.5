@@ -20,6 +20,24 @@ class DataManagementCard extends StatelessWidget {
             title: Text('Accounts'),
             trailing: UiIcon(UiIcons.arrowForward),
           ),
+          ListTile(
+            onTap: () => context.pushNamed('expenseTypes'),
+            leading: UiIcon(UiIcons.receipt),
+            title: Text('Expense Types'),
+            trailing: UiIcon(UiIcons.arrowForward),
+          ),
+          ListTile(
+            onTap: () => context.pushNamed('incomeTypes'),
+            leading: UiIcon(UiIcons.wallet2),
+            title: Text('Income Types'),
+            trailing: UiIcon(UiIcons.arrowForward),
+          ),
+          ListTile(
+            onTap: () => context.pushNamed('tags'),
+            leading: UiIcon(UiIcons.tag),
+            title: Text('Tags'),
+            trailing: UiIcon(UiIcons.arrowForward),
+          ),
         ],
       )
     );

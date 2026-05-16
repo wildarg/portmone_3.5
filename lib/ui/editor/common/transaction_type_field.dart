@@ -30,7 +30,7 @@ class TransactionTypeField extends StatelessWidget {
         leadingIcon: leading ?? SizedBox(width: 24),
         label: title,
         displayStringForText: (value) => value.name,
-        suggestions: state,
+        suggestions: state.where((e) => !e.isArchived).toList(),
         controller: controller,
         focusNode: focusNode,
       ),

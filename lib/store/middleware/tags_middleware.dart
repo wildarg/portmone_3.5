@@ -11,5 +11,11 @@ Middleware tagsMiddlware(TagsRepo repo) => (PortmoneStore store, PortmoneAction 
     });
   }
 
+  if (action is DeleteTagAction) {
+    await repo.delete(action.tag);
+    final list = (await repo.getAll()).toList();
+    store.dispatch(SetTagsAction(list));
+  }
+
   return next(action);
 };

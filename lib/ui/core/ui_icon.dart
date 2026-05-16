@@ -75,6 +75,7 @@ class UiIcons {
   static const UiIconData newBudget = UiIconData('$_path/new_budget.svg');
   static const UiIconData dataThresholding = UiIconData('$_path/data_thresholding.svg');
   static const UiIconData delete = UiIconData('$_path/delete.svg');
+  static const UiIconData tag = UiIconData('$_path/tag.svg');
 }
 
 class UiIconData {

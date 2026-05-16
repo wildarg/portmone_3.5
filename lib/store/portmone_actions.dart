@@ -86,9 +86,24 @@ class SetExpenseTypesAction extends PortmoneAction {
   SetExpenseTypesAction(this.list);
 }
 
+class UpdateExpenseTypeAction extends PortmoneAction {
+  final TransactionType transactionType;
+  UpdateExpenseTypeAction(this.transactionType);
+}
+
+class UpdateIncomeTypeAction extends PortmoneAction {
+  final TransactionType transactionType;
+  UpdateIncomeTypeAction(this.transactionType);
+}
+
 class SetTagsAction extends PortmoneAction {
   final List<String> list;
   SetTagsAction(this.list);
+}
+
+class DeleteTagAction extends PortmoneAction {
+  final String tag;
+  DeleteTagAction(this.tag);
 }
 
 // transaction actions

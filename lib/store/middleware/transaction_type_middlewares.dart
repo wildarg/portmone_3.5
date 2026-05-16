@@ -12,11 +12,11 @@ Middleware expenseTypesMiddlware(ExpenseTypesRepo repo) => (PortmoneStore store,
     });
   }
 
-  // if (action is SaveAccountAction) {
-  //   await repo.save(action.account);
-  //   final accounts = (await repo.getAll()).toList();
-  //   store.dispatch(SetAccountsAction(accounts));
-  // }
+  if (action is UpdateExpenseTypeAction) {
+    await repo.update(action.transactionType);
+    final list = (await repo.getAll()).toList();
+    store.dispatch(SetExpenseTypesAction(list));
+  }
 
   return next(action);
 };
@@ -30,11 +30,11 @@ Middleware incomeTypesMiddlware(IncomeTypesRepo repo) => (PortmoneStore store, P
     });
   }
 
-  // if (action is SaveAccountAction) {
-  //   await repo.save(action.account);
-  //   final accounts = (await repo.getAll()).toList();
-  //   store.dispatch(SetAccountsAction(accounts));
-  // }
+  if (action is UpdateIncomeTypeAction) {
+    await repo.update(action.transactionType);
+    final list = (await repo.getAll()).toList();
+    store.dispatch(SetIncomeTypesAction(list));
+  }
 
   return next(action);
 };

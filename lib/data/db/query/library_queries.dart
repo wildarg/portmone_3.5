@@ -72,7 +72,7 @@ class GetAllExpenseTypesQuery {
   GetAllExpenseTypesQuery(this.portmoneDB);
 
   Future<Iterable<TransactionType>> execute() async {
-    const sql = 'SELECT * FROM ${ExpenseTypesTable.tableName}';
+    const sql = 'SELECT * FROM ${ExpenseTypesTable.tableName} order by ${ExpenseTypesTable.name}';
     final records = await portmoneDB.query(sql);
     return records.map(_toOperationType);
   }
@@ -81,6 +81,7 @@ class GetAllExpenseTypesQuery {
     return TransactionType(
       uid: map[ExpenseTypesTable.uid] as String,
       name: map[ExpenseTypesTable.name] as String,
+      isArchived: (map[ExpenseTypesTable.archived] as num?)?.toInt() == 1,
     );
   }
 }
@@ -92,7 +93,7 @@ class GetAllIncomeTypesQuery {
   GetAllIncomeTypesQuery(this.portmoneDB);
 
   Future<Iterable<TransactionType>> execute() async {
-    const sql = 'SELECT * FROM ${IncomeTypesTable.tableName}';
+    const sql = 'SELECT * FROM ${IncomeTypesTable.tableName} order by ${IncomeTypesTable.name}';
     final records = await portmoneDB.query(sql);
     return records.map(_toOperationType);
   }
@@ -101,6 +102,7 @@ class GetAllIncomeTypesQuery {
     return TransactionType(
       uid: map[IncomeTypesTable.uid] as String,
       name: map[IncomeTypesTable.name] as String,
+      isArchived: (map[IncomeTypesTable.archived] as num?)?.toInt() == 1,
     );
   }
 }

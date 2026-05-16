@@ -92,7 +92,7 @@ class OperationEditor extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ListView( 
-            children: fieldListBuilder(context)
+            children: fieldListBuilder(context) + const <Widget>[ SizedBox(height: 500) ]
           ),
         ),
         bottomNavigationBar: Padding(

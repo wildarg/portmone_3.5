@@ -100,14 +100,25 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
               displayStringForOption: displayStringForText,
               focusNode: _focusNode,
               textEditingController: _controller,
-              fieldViewBuilder:(_, textEditingController, focusNode, onFieldSubmitted) => 
+              fieldViewBuilder: (context, controller, focusNode, onAutocompleteFieldSubmitted) => 
                 BaseTextField(
                   trailingIcon: trailingIcon,
                   label: label,
-                  value: value == null? null : displayStringForText(value!),
+                  value: value == null ? null : displayStringForText(value!),
                   focusNode: focusNode,
-                  controller: textEditingController,
-                  onFieldSubmitted: (value) => onFieldSubmitted(),
+                  controller: controller,
+                  onFieldSubmitted: (v) {
+                    final bool shouldSelect = multiSelect
+                        ? v.getActiveWord(_controller.selection.start).isNotEmpty
+                        : v.trim().isNotEmpty;
+
+                    if (shouldSelect) {
+                      onAutocompleteFieldSubmitted();
+                    } else {
+                      focusNode.unfocus();
+                    }
+                    onFieldSubmitted?.call(v);
+                  },
                 ),
             )
             
