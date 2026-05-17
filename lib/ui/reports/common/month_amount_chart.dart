@@ -17,11 +17,14 @@ class MonthAmountChart extends StatelessWidget {
 
     final maxY = data.map((e) => e.amount.asDouble)
       .fold<double>(0, (old, next) => max(old, next));
+    final chartMaxY = maxY == 0 ? 10.0 : maxY;
     final labels = data.map((e) => e.name).toList();
     final theme = Theme.of(context);
 
     return BarChart(
       BarChartData(
+        maxY: chartMaxY,
+        minY: 0.0,
         gridData: FlGridData(
           drawVerticalLine: false
         ),
@@ -49,7 +52,7 @@ class MonthAmountChart extends StatelessWidget {
           )
         ),
         borderData: FlBorderData(show: false),
-        barGroups: data.mapIndexed((ind, e) => _toBar(ind, e, maxY, theme)).toList()
+        barGroups: data.mapIndexed((ind, e) => _toBar(ind, e, chartMaxY, theme)).toList()
       )
     );
   }
