@@ -18,7 +18,6 @@ import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/model/expense.dart';
 import 'package:portmone_bloc/model/income.dart';
 import 'package:portmone_bloc/model/transfer.dart';
-import 'package:portmone_bloc/model/transaction.dart';
 import 'package:portmone_bloc/model/operation_type.dart';
 
 sealed class PortmoneAction {}

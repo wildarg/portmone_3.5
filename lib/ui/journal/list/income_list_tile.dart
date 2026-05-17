@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/income.dart';
-import 'package:portmone_bloc/store/portmone_actions.dart';
-import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/ui/journal/list/dismissable_background.dart';
 import 'package:portmone_bloc/ui/journal/list/dismissible_helper.dart';
