@@ -18,10 +18,12 @@ class GetTypeIncomeReportQuery {
     final months = await _db.query(monthsSql);
     final monthNames = months.map(
       (map) => [
+        map.shortMonthName('prev_4_months'),
+        map.shortMonthName('prev_3_months'),
         map.shortMonthName('prev_2_months'),
         map.shortMonthName('prev_month'),
         map.shortMonthName('current_month'),
-      ]
+      ],
     ).first;
 
     final sql = _getSql(filter);
@@ -63,6 +65,8 @@ class GetTypeIncomeReportQuery {
               ? 'SUM(CASE WHEN fe.date >= $startTimestamp THEN fe.amount ELSE 0 END) AS total_earn,'
               : 'SUM(fe.amount) AS total_spent,'
           }                
+          SUM(CASE WHEN fe.income_month = m.prev_4_months THEN fe.amount ELSE 0 END) AS earn_prev_4_months,
+          SUM(CASE WHEN fe.income_month = m.prev_3_months THEN fe.amount ELSE 0 END) AS earn_prev_3_months,
           SUM(CASE WHEN fe.income_month = m.prev_2_months THEN fe.amount ELSE 0 END) AS earn_prev_2_months,
           SUM(CASE WHEN fe.income_month = m.prev_month THEN fe.amount ELSE 0 END) AS earn_prev_month,
           SUM(CASE WHEN fe.income_month = m.current_month THEN fe.amount ELSE 0 END) AS earn_current_month
@@ -81,12 +85,16 @@ class GetTypeIncomeReportQuery {
     return endTimestamp == null
       ? """        
         SELECT 
+          strftime('%Y-%m-01', 'now', 'localtime', 'start of month', '-4 months') AS prev_4_months,
+          strftime('%Y-%m-01', 'now', 'localtime', 'start of month', '-3 months') AS prev_3_months,
           strftime('%Y-%m-01', 'now', 'localtime', 'start of month', '-2 months') AS prev_2_months,
           strftime('%Y-%m-01', 'now', 'localtime', 'start of month', '-1 month') AS prev_month,
           strftime('%Y-%m-01', 'now', 'localtime', 'start of month') AS current_month
       """
       : """
         SELECT 
+          strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month', '-4 months') AS prev_4_months,
+          strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month', '-3 months') AS prev_3_months,
           strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month', '-2 months') AS prev_2_months,
           strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month', '-1 month') AS prev_month,
           strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month') AS current_month
@@ -97,15 +105,17 @@ class GetTypeIncomeReportQuery {
     return AmountTypeInfo(
       type: TransactionType(
         uid: map['income_type_uid'] as String,
-        name: map['income_type_name'] as String
+        name: map['income_type_name'] as String,
       ), 
       currency: map.getCurrency(), 
       totalSpent: map.getMoney('total_earn'),
       chartData: [
-        NamedAmount(map.getMoney('earn_prev_2_months'), monthNames[0]),
-        NamedAmount(map.getMoney('earn_prev_month'), monthNames[1]),
-        NamedAmount(map.getMoney('earn_current_month'), monthNames[2]),
-      ]
+        NamedAmount(map.getMoney('earn_prev_4_months'), monthNames[0]),
+        NamedAmount(map.getMoney('earn_prev_3_months'), monthNames[1]),
+        NamedAmount(map.getMoney('earn_prev_2_months'), monthNames[2]),
+        NamedAmount(map.getMoney('earn_prev_month'), monthNames[3]),
+        NamedAmount(map.getMoney('earn_current_month'), monthNames[4]),
+      ],
     );
   }
 
