@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
+import 'package:portmone_bloc/model/operation_type.dart';
 import 'package:portmone_bloc/store/portmone_actions.dart';
 import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:portmone_bloc/store/store_listener.dart';
 import 'package:portmone_bloc/ui/core/slidable_fab.dart';
+import 'package:portmone_bloc/utils/nullable.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/ui/dashboard/dashboard_screen.dart';
 import 'package:portmone_bloc/ui/home/app_bar_content.dart';
@@ -28,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   final PageController _pageController = PageController();
 
   BannerData? _banner;
+  MainFilter? _currentFilter;
   late final AnimationController _controller;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _fadeAnimation;
@@ -73,11 +76,27 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   void _updateBanner(MainFilter filter) async {
     _searchFocusNode.unfocus();
-    if (filter.account.hasData) {
+    _currentFilter = filter;
+    final hasAccount = filter.account.hasData;
+    final hasType = filter.transactionType.hasData;
+
+    if (hasAccount || hasType) {
       setState(() {
+        String title;
+        String subtitle;
+        if (hasAccount && hasType) {
+          title = 'Active filters';
+          subtitle = '${filter.account.value!.fullName} • ${filter.transactionType.value!.name}';
+        } else if (hasAccount) {
+          title = 'Filtered by account';
+          subtitle = filter.account.value!.fullName;
+        } else {
+          title = 'Filtered by type';
+          subtitle = filter.transactionType.value!.name;
+        }
         _banner = BannerData(
-          title: 'Filtered by account', 
-          subtitle: filter.account.value!.fullName
+          title: title, 
+          subtitle: subtitle
         );
       });
       _controller.forward();
@@ -120,7 +139,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 position: _slideAnimation,
                 child: FilterBanner(
                   banner: _banner!,
-                  onClick: () => context.dispatch(SetAccountFilterAction(null)),
+                  onClick: () {
+                    final currentFilter = _currentFilter;
+                    if (currentFilter != null) {
+                      final newFilter = currentFilter.copyWith(
+                        account: Nullable<Account>(null),
+                        transactionType: Nullable<TransactionType>(null),
+                      );
+                      context.dispatch(UpdateMainFilterAction(filter: newFilter));
+                    }
+                  },
                 ),
               ),
             ),

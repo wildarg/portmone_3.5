@@ -33,7 +33,7 @@ class FilterBanner extends StatelessWidget {
           subtitle: Text(banner.subtitle, style: context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.onSecondaryContainer)),
           trailing: IconButton(
             onPressed: onClick,
-            icon: UiIcon(UiIcons.trash, color: context.colorScheme.secondaryContainer),
+            icon: UiIcon(UiIcons.close, color: context.colorScheme.secondaryContainer),
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(context.colorScheme.onSecondaryContainer)
             ),

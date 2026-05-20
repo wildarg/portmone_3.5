@@ -2,6 +2,7 @@ import 'package:portmone_bloc/data/db/portmone_db.dart';
 import 'package:portmone_bloc/data/db/scheme.dart';
 import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
+import 'package:portmone_bloc/model/operation_type.dart';
 import 'package:portmone_bloc/utils/map_extensions.dart';
 import 'package:portmone_bloc/utils/nullable.dart';
 
@@ -46,6 +47,7 @@ class MainFilterRepo {
       plannedInclude: map.getBool('plannedInclude'),
       text: map.getString('text') ?? '',
       account: Nullable<Account>(map.optAccount()),
+      transactionType: Nullable<TransactionType>(null),
       // incomeType: map.optOperationType('incomeType'),
       // expenseType: map.optOperationType('expenseType'),
       // tag: map.getString('tag')
