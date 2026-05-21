@@ -5,7 +5,6 @@ import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class OperationEditor extends StatelessWidget {
-  
   final String title;
   final List<Widget> Function(BuildContext context) fieldListBuilder;
   final String? Function()? validator;
@@ -13,8 +12,8 @@ class OperationEditor extends StatelessWidget {
   final bool Function()? canPopUp;
 
   const OperationEditor({
-    super.key, 
-    required this.title, 
+    super.key,
+    required this.title,
     required this.fieldListBuilder,
     this.onSave,
     this.validator,
@@ -23,8 +22,8 @@ class OperationEditor extends StatelessWidget {
 
   void _showMenu(BuildContext context) async {
     await showDialog(
-      context: context, 
-      builder:(ctx) {
+      context: context,
+      builder: (ctx) {
         return SimpleDialog(
           title: Text('Save options'),
           children: [
@@ -43,7 +42,7 @@ class OperationEditor extends StatelessWidget {
               },
               padding: const EdgeInsets.all(16),
               child: Text('Save & Create new'),
-            )
+            ),
           ],
         );
       },
@@ -58,7 +57,7 @@ class OperationEditor extends StatelessWidget {
         margin: const EdgeInsets.all(16),
         elevation: 8,
         behavior: SnackBarBehavior.floating,
-      )
+      ),
     );
   }
 
@@ -68,15 +67,15 @@ class OperationEditor extends StatelessWidget {
       _showToast(context, error);
       return;
     }
-    onSave?.call();    
-    context.pop(needToCreateNew? CreateNewTransaction() : null);
+    onSave?.call();
+    context.pop(needToCreateNew ? CreateNewTransaction() : null);
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult:(didPop, result) {
+      onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
         final canPop = canPopUp?.call() ?? true;
         if (canPop) {
@@ -94,8 +93,10 @@ class OperationEditor extends StatelessWidget {
           minimum: EdgeInsets.only(bottom: 50),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView( 
-              children: fieldListBuilder(context) + const <Widget>[ SizedBox(height: 100) ]
+            child: ListView(
+              children:
+                  fieldListBuilder(context) +
+                  const <Widget>[SizedBox(height: 100)],
             ),
           ),
         ),
@@ -105,11 +106,11 @@ class OperationEditor extends StatelessWidget {
             spacing: 2,
             children: [
               Expanded(
-                child: FilledButton(                  
-                  style: FilledButton.styleFrom(      
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
                     fixedSize: Size(0, 56),
                     elevation: 8,
-                    padding: const EdgeInsets.all(0),     
+                    padding: const EdgeInsets.all(0),
                     textStyle: context.textTheme.bodyLarge,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
@@ -117,11 +118,11 @@ class OperationEditor extends StatelessWidget {
                         bottomLeft: Radius.circular(24.0),
                         topRight: Radius.circular(4.0),
                         bottomRight: Radius.circular(4.0),
-                      )
-                    )
+                      ),
+                    ),
                   ),
                   onPressed: () => _saveAndExit(context),
-                  child: Text('Save')
+                  child: Text('Save'),
                 ),
               ),
               FilledButton(
@@ -135,20 +136,22 @@ class OperationEditor extends StatelessWidget {
                       bottomLeft: Radius.circular(4.0),
                       topRight: Radius.circular(24.0),
                       bottomRight: Radius.circular(24.0),
-                    )
-                  )
+                    ),
+                  ),
                 ),
                 onPressed: () {
                   _showMenu(context);
                 },
-                child: UiIcon(UiIcons.more, color: context.colorScheme.onPrimary, width: 32,)
+                child: UiIcon(
+                  UiIcons.more,
+                  color: context.colorScheme.onPrimary,
+                  width: 32,
+                ),
               ),
             ],
           ),
         ),
-      )
+      ),
     );
   }
-
-
 }

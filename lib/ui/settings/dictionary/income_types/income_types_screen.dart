@@ -12,11 +12,9 @@ class IncomeTypesScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _IncomeTypesScreenState();
   }
-  
 }
 
 class _IncomeTypesScreenState extends State<IncomeTypesScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,22 +23,22 @@ class _IncomeTypesScreenState extends State<IncomeTypesScreen> {
           icon: UiIcons.arrowBack,
           onTap: () => context.pop(),
         ),
-        title: Text('Income Types'),        
+        title: Text('Income Types'),
       ),
       body: StoreBuilder(
         stream: (store) => store.incomeTypesState,
-        builder:(context, state) {
+        builder: (context, state) {
           return CustomScrollView(
             slivers: [
-              SliverList.builder(     
-                itemCount: state.length,       
-                itemBuilder:(context, index) => IncomeTypeListTile(transactionType: state[index])
-              )
+              SliverList.builder(
+                itemCount: state.length,
+                itemBuilder: (context, index) =>
+                    IncomeTypeListTile(transactionType: state[index]),
+              ),
             ],
           );
-        }
+        },
       ),
     );
   }
-
 }

@@ -7,7 +7,6 @@ import 'package:portmone_bloc/utils/money_extensions.dart';
 import 'package:portmone_bloc/utils/string_extensions.dart';
 
 class BudgetInfoCard extends StatelessWidget {
-
   final BudgetInfo info;
 
   const BudgetInfoCard({super.key, required this.info});
@@ -16,11 +15,15 @@ class BudgetInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final spentAmount = info.spent.amountInCents;
     final budgetAmount = info.budget.amount.amountInCents;
-    final double percent = budgetAmount > 0 ? (spentAmount / budgetAmount) : 0.0;
+    final double percent = budgetAmount > 0
+        ? (spentAmount / budgetAmount)
+        : 0.0;
     final int percentInt = (percent * 100).toInt();
     final (mainPart, cents) = info.spent.formattedSplitAmount;
     final isOverspent = percent > 1.0;
-    final progressColor = isOverspent ? context.colorScheme.error : info.budget.name.toColor;
+    final progressColor = isOverspent
+        ? context.colorScheme.error
+        : info.budget.name.toColor;
 
     return UiCard(
       width: 220,
@@ -63,9 +66,12 @@ class BudgetInfoCard extends StatelessWidget {
                   spacing: 4,
                   children: [
                     Text(mainPart, style: context.textTheme.headlineSmall),
-                    Text(cents, style: context.textTheme.labelLarge?.copyWith(
-                      color: context.colorScheme.onSurfaceVariant
-                    ))
+                    Text(
+                      cents,
+                      style: context.textTheme.labelLarge?.copyWith(
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -98,5 +104,4 @@ class BudgetInfoCard extends StatelessWidget {
       ),
     );
   }
-  
 }

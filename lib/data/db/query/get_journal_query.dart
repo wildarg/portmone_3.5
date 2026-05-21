@@ -11,7 +11,6 @@ import 'package:portmone_bloc/model/transfer.dart';
 import 'package:portmone_bloc/utils/map_extensions.dart';
 
 class GetJournalQuery {
-
   final PortmoneDB db;
 
   GetJournalQuery(this.db);
@@ -26,13 +25,16 @@ class GetJournalQuery {
   Transaction _toTransaction(Map<String, Object?> map) {
     int? operation = map.getInt('operation');
     switch (operation) {
-      case -1: return _createExpense(map);
-      case  1: return _createIncome(map);
-      case  0: return _createTransfer(map);
-      default: throw Exception("Unknown operation type: $operation");
+      case -1:
+        return _createExpense(map);
+      case 1:
+        return _createIncome(map);
+      case 0:
+        return _createTransfer(map);
+      default:
+        throw Exception("Unknown operation type: $operation");
     }
   }
-
 
   String _getSql(MainFilter filter) {
     StringBuffer sql = StringBuffer("""
@@ -58,10 +60,17 @@ class GetJournalQuery {
         left join currencies tc on tc.uid = ta.currencyUid 
       where 
         1 = 1 
-    """); 
-      
+    """);
+
     // sql.addNoteFilter('fa.name||fc.name||ta.name||tc.name||o.description||o.typeName', config.text);
-    sql.addTextFilter(['o.description', 'o.typeName', 'fa.name', 'fc.name', 'ta.name', 'tc.name'], filter.text);
+    sql.addTextFilter([
+      'o.description',
+      'o.typeName',
+      'fa.name',
+      'fc.name',
+      'ta.name',
+      'tc.name',
+    ], filter.text);
     sql.write(' order by o.date desc, o.timestamp desc, o.uid desc');
     return sql.toString();
   }
@@ -93,7 +102,7 @@ class GetJournalQuery {
     sql.addEntityUid('e.accountUid', filter.account.value?.uid);
     // sql.addEntity('e.typeUid', config.expenseType);
     // sql.takeUnless(config.expenseType == null && config.incomeType != null);
-    return sql.toString();  
+    return sql.toString();
   }
 
   String _getIncomesSQL(MainFilter filter) {
@@ -123,7 +132,7 @@ class GetJournalQuery {
     sql.addEntityUid('i.accountUid', filter.account.value?.uid);
     // sql.addEntity('i.typeUid', config.incomeType);
     // sql.takeUnless(config.expenseType != null && config.incomeType == null);
-    return sql.toString();  
+    return sql.toString();
   }
 
   String _getTransfersSQL(MainFilter filter) {
@@ -150,29 +159,32 @@ class GetJournalQuery {
     sql.addEndDate('t.date', filter.endDate.value);
     sql.addPlanned('t.planned', filter.plannedInclude);
     // sql.addNoteFilter('t.description', config.text);
-    sql.addAccountSet(filter.account.value, ['t.fromAccountUid', 't.toAccountUid']);
+    sql.addAccountSet(filter.account.value, [
+      't.fromAccountUid',
+      't.toAccountUid',
+    ]);
     // sql.takeUnless(config.expenseType != null || config.incomeType != null);
-    return sql.toString();  
+    return sql.toString();
   }
 
   Account _getAccount(String prefix, Map<String, Object?> map) {
     Currency? currency = map["${prefix}CurrencyUid"] != null
-      ? Currency(
-          name: map.getString('${prefix}CurrencyName') ?? '', 
-          uid: map.getString('${prefix}CurrencyUid') ?? ''
-        ) 
-      : null;
+        ? Currency(
+            name: map.getString('${prefix}CurrencyName') ?? '',
+            uid: map.getString('${prefix}CurrencyUid') ?? '',
+          )
+        : null;
     return Account(
-      name: map.getString('${prefix}AccountName') ?? '', 
-      uid: map.getString('${prefix}AccountUid') ?? '', 
-      currency: currency ?? Currency(uid: '', name: '')
+      name: map.getString('${prefix}AccountName') ?? '',
+      uid: map.getString('${prefix}AccountUid') ?? '',
+      currency: currency ?? Currency(uid: '', name: ''),
     );
   }
 
   TransactionType _getOperationType(Map<String, Object?> map) {
     return TransactionType(
-      name: map.getString('typeName') ?? '', 
-      uid: map.getString('typeUid') ?? ''
+      name: map.getString('typeName') ?? '',
+      uid: map.getString('typeUid') ?? '',
     );
   }
 
@@ -199,7 +211,7 @@ class GetJournalQuery {
       isPending: map.getBool('planned'),
       notes: map.getString('description') ?? '',
       uid: map.getString('uid') ?? '',
-    );   
+    );
   }
 
   Transfer _createTransfer(Map<String, Object?> map) {
@@ -213,7 +225,6 @@ class GetJournalQuery {
       isPending: map.getBool('planned'),
       notes: map.getString('description') ?? '',
       uid: map.getString('uid') ?? '',
-    );   
-  }  
-
+    );
+  }
 }

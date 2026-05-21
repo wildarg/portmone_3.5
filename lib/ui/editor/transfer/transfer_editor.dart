@@ -14,10 +14,7 @@ import 'package:portmone_bloc/ui/editor/transfer/transfer_controller.dart';
 class TransferEditor extends StatefulWidget {
   final Transfer? transfer;
 
-  const TransferEditor({
-    super.key,
-    this.transfer,
-  });
+  const TransferEditor({super.key, this.transfer});
 
   @override
   State<TransferEditor> createState() => _TransferEditorState();

@@ -1,4 +1,3 @@
-
 import 'package:portmone_bloc/data/db/portmone_db.dart';
 import 'package:portmone_bloc/data/db/query/sql_query_extensions.dart';
 import 'package:portmone_bloc/data/db/scheme.dart';
@@ -8,7 +7,6 @@ import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/utils/map_extensions.dart';
 
 class GetBudgetsQuery {
-
   final PortmoneDB db;
 
   GetBudgetsQuery(this.db);
@@ -73,15 +71,11 @@ class GetBudgetsQuery {
       name: map.getString(BudgetTable.name) ?? '',
       currency: Currency(
         uid: map.getString(BudgetTable.currencyUid) ?? '',
-        name: map.getString('currencyName') ?? ''
+        name: map.getString('currencyName') ?? '',
       ),
       amount: map.getMoney(BudgetTable.amount),
-      expenseTypeUids: map.getString('uids')?.split(',') ?? []
+      expenseTypeUids: map.getString('uids')?.split(',') ?? [],
     );
-    return BudgetInfo(
-      budget: budget,
-      spent: map.getMoney('spent')
-    );
+    return BudgetInfo(budget: budget, spent: map.getMoney('spent'));
   }
-
 }

@@ -3,7 +3,6 @@ import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/string_extensions.dart';
 
 class ExpenseTypeAvatar extends StatefulWidget {
-
   final TextEditingController controller;
 
   const ExpenseTypeAvatar({super.key, required this.controller});
@@ -15,7 +14,6 @@ class ExpenseTypeAvatar extends StatefulWidget {
 }
 
 class _ExpenseTypeAvatarState extends State<ExpenseTypeAvatar> {
-
   String text = '';
 
   @override
@@ -56,14 +54,14 @@ class _ExpenseTypeAvatarState extends State<ExpenseTypeAvatar> {
     super.dispose();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: 12,
       backgroundColor: text.toColor,
-      child: text.length < 2? null : Text(text.substring(0, 1), style: context.textTheme.labelSmall),
+      child: text.length < 2
+          ? null
+          : Text(text.substring(0, 1), style: context.textTheme.labelSmall),
     );
   }
-
 }

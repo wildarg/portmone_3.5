@@ -1,4 +1,3 @@
-
 import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/account_ranged_info.dart';
 import 'package:portmone_bloc/model/amount_tracker_info.dart';
@@ -24,11 +23,10 @@ sealed class PortmoneAction {}
 
 class InitAction extends PortmoneAction {}
 
-
 // Database actions
 class BackupDbAction extends PortmoneAction {}
-class RestoreDbAction extends PortmoneAction {}
 
+class RestoreDbAction extends PortmoneAction {}
 
 // Main Filter actions
 class SetMainFilterAction extends PortmoneAction {
@@ -51,7 +49,6 @@ class UpdateMainFilterAction extends PortmoneAction {
   UpdateMainFilterAction({required this.filter});
 }
 
-
 class RefreshAccounts extends PortmoneAction {}
 
 class SetAccountsAction extends PortmoneAction {
@@ -61,14 +58,13 @@ class SetAccountsAction extends PortmoneAction {
 
 class SaveAccountAction extends PortmoneAction {
   final Account account;
-  SaveAccountAction(this.account);  
+  SaveAccountAction(this.account);
 }
 
 class SetAccountOrderAction extends PortmoneAction {
   final List<Account> accounts;
   SetAccountOrderAction(this.accounts);
 }
-
 
 class SetCurrencyListAction extends PortmoneAction {
   final List<Currency> list;
@@ -174,7 +170,6 @@ class DeleteBudgetAction extends PortmoneAction {
   final Budget budget;
   DeleteBudgetAction(this.budget);
 }
-
 
 // Reports actions
 class SetExpenseTrackersAction extends PortmoneAction {

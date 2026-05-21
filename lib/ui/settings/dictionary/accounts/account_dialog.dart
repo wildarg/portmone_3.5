@@ -8,10 +8,9 @@ class RenameAccountDialog extends StatefulWidget {
   final Account account;
 
   const RenameAccountDialog({super.key, required this.account});
-  
+
   @override
   State<StatefulWidget> createState() => _RenameAccountDialogState();
-
 }
 
 class _RenameAccountDialogState extends State<RenameAccountDialog> {
@@ -49,7 +48,9 @@ class _RenameAccountDialogState extends State<RenameAccountDialog> {
           onTap: () {
             final newName = textController.text.trim();
             if (newName.isNotEmpty && newName != widget.account.name) {
-              context.dispatch(SaveAccountAction(widget.account.copyWith(name: newName)));
+              context.dispatch(
+                SaveAccountAction(widget.account.copyWith(name: newName)),
+              );
             }
             Navigator.of(context).pop();
           },

@@ -4,7 +4,6 @@ import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/model/transaction.dart';
 
 class JournalRepo {
-
   final PortmoneDB db;
 
   JournalRepo({required this.db});
@@ -12,5 +11,4 @@ class JournalRepo {
   Future<Iterable<Transaction>> getJournal(MainFilter filter) {
     return GetJournalQuery(db).execute(filter);
   }
-  
 }

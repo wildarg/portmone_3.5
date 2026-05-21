@@ -16,11 +16,11 @@ abstract class MainFilter with _$MainFilter {
   }) = _MainFilter;
 
   static MainFilter empty = MainFilter(
-    id: 0, 
-    startDate: Nullable<DateTime>(null), 
+    id: 0,
+    startDate: Nullable<DateTime>(null),
     endDate: Nullable<DateTime>(null),
     plannedInclude: false,
     account: Nullable<Account>(null),
-    text: ''
+    text: '',
   );
 }

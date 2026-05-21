@@ -8,10 +8,9 @@ class RenameIncomeTypeDialog extends StatefulWidget {
   final TransactionType transactionType;
 
   const RenameIncomeTypeDialog({super.key, required this.transactionType});
-  
+
   @override
   State<StatefulWidget> createState() => _RenameIncomeTypeDialogState();
-
 }
 
 class _RenameIncomeTypeDialogState extends State<RenameIncomeTypeDialog> {
@@ -49,7 +48,11 @@ class _RenameIncomeTypeDialogState extends State<RenameIncomeTypeDialog> {
           onTap: () {
             final newName = textController.text.trim();
             if (newName.isNotEmpty && newName != widget.transactionType.name) {
-              context.dispatch(UpdateIncomeTypeAction(widget.transactionType.copyWith(name: newName)));
+              context.dispatch(
+                UpdateIncomeTypeAction(
+                  widget.transactionType.copyWith(name: newName),
+                ),
+              );
             }
             Navigator.of(context).pop();
           },

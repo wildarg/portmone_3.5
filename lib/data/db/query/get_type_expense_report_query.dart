@@ -9,7 +9,6 @@ import 'package:portmone_bloc/utils/map_extensions.dart';
 import 'package:portmone_bloc/utils/string_extensions.dart';
 
 class GetTypeExpenseReportQuery {
-  
   final PortmoneDB _db;
 
   GetTypeExpenseReportQuery(this._db);
@@ -17,20 +16,23 @@ class GetTypeExpenseReportQuery {
   Future<Iterable<AmountTypeInfo>> execute(MainFilter filter) async {
     final monthsSql = _monthsSql(filter.endDate.value?.millisecondsSinceEpoch);
     final months = await _db.query(monthsSql);
-    final monthNames = months.map(
-      (map) => [
-        map.shortMonthName('prev_4_months'),
-        map.shortMonthName('prev_3_months'),
-        map.shortMonthName('prev_2_months'),
-        map.shortMonthName('prev_month'),
-        map.shortMonthName('current_month'),
-      ],
-    ).first;
+    final monthNames = months
+        .map(
+          (map) => [
+            map.shortMonthName('prev_4_months'),
+            map.shortMonthName('prev_3_months'),
+            map.shortMonthName('prev_2_months'),
+            map.shortMonthName('prev_month'),
+            map.shortMonthName('current_month'),
+          ],
+        )
+        .first;
 
     final sql = _getSql(filter);
     final list = await _db.query(sql);
-    final result = list.map((e) => _toExpenseTypeInfo(e, monthNames))
-      .where((e) => e.totalSpent.amountInCents > 0);
+    final result = list
+        .map((e) => _toExpenseTypeInfo(e, monthNames))
+        .where((e) => e.totalSpent.amountInCents > 0);
     return result;
   }
 
@@ -54,18 +56,14 @@ class GetTypeExpenseReportQuery {
     return """
       WITH FilteredExpenses AS ( ${sql.toString()} ),
       Months AS (
-        ${ _monthsSql(endTimestamp) }        
+        ${_monthsSql(endTimestamp)}        
       )
       SELECT 
           et.uid AS expense_type_uid,
           et.name AS expense_type_name,
           c.uid AS currencyUid,
           c.name AS currencyName,
-          ${
-            startTimestamp != null
-              ? 'SUM(CASE WHEN fe.date >= $startTimestamp THEN fe.amount ELSE 0 END) AS total_spent,'
-              : 'SUM(fe.amount) AS total_spent,'
-          }                
+          ${startTimestamp != null ? 'SUM(CASE WHEN fe.date >= $startTimestamp THEN fe.amount ELSE 0 END) AS total_spent,' : 'SUM(fe.amount) AS total_spent,'}                
           SUM(CASE WHEN fe.expense_month = m.prev_4_months THEN fe.amount ELSE 0 END) AS spent_prev_4_months,
           SUM(CASE WHEN fe.expense_month = m.prev_3_months THEN fe.amount ELSE 0 END) AS spent_prev_3_months,
           SUM(CASE WHEN fe.expense_month = m.prev_2_months THEN fe.amount ELSE 0 END) AS spent_prev_2_months,
@@ -83,7 +81,7 @@ class GetTypeExpenseReportQuery {
 
   String _monthsSql(int? endTimestamp) {
     return endTimestamp == null
-      ? """        
+        ? """        
         SELECT 
           strftime('%Y-%m-01', 'now', 'localtime', 'start of month', '-4 months') AS prev_4_months,
           strftime('%Y-%m-01', 'now', 'localtime', 'start of month', '-3 months') AS prev_3_months,
@@ -91,23 +89,26 @@ class GetTypeExpenseReportQuery {
           strftime('%Y-%m-01', 'now', 'localtime', 'start of month', '-1 month') AS prev_month,
           strftime('%Y-%m-01', 'now', 'localtime', 'start of month') AS current_month
       """
-      : """
+        : """
         SELECT 
-          strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month', '-4 months') AS prev_4_months,
-          strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month', '-3 months') AS prev_3_months,
-          strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month', '-2 months') AS prev_2_months,
-          strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month', '-1 month') AS prev_month,
-          strftime('%Y-%m-01', ${endTimestamp/1000}, 'unixepoch', 'localtime', 'start of month') AS current_month
+          strftime('%Y-%m-01', ${endTimestamp / 1000}, 'unixepoch', 'localtime', 'start of month', '-4 months') AS prev_4_months,
+          strftime('%Y-%m-01', ${endTimestamp / 1000}, 'unixepoch', 'localtime', 'start of month', '-3 months') AS prev_3_months,
+          strftime('%Y-%m-01', ${endTimestamp / 1000}, 'unixepoch', 'localtime', 'start of month', '-2 months') AS prev_2_months,
+          strftime('%Y-%m-01', ${endTimestamp / 1000}, 'unixepoch', 'localtime', 'start of month', '-1 month') AS prev_month,
+          strftime('%Y-%m-01', ${endTimestamp / 1000}, 'unixepoch', 'localtime', 'start of month') AS current_month
       """;
   }
 
-  AmountTypeInfo _toExpenseTypeInfo(Map<String, Object?> map, List<String> monthNames) {
+  AmountTypeInfo _toExpenseTypeInfo(
+    Map<String, Object?> map,
+    List<String> monthNames,
+  ) {
     return AmountTypeInfo(
       type: TransactionType(
         uid: map.getString('expense_type_uid') ?? '',
         name: map.getString('expense_type_name') ?? '',
-      ), 
-      currency: map.getCurrency(), 
+      ),
+      currency: map.getCurrency(),
       totalSpent: map.getMoney('total_spent'),
       chartData: [
         NamedAmount(map.getMoney('spent_prev_4_months'), monthNames[0]),
@@ -118,15 +119,12 @@ class GetTypeExpenseReportQuery {
       ],
     );
   }
-
 }
 
 extension MapDateTimeExtenstion on Map<String, Object?> {
-
   String shortMonthName(String key) {
     final stringDate = this[key] as String;
     final date = stringDate.asDateTime;
     return date.shortMonthName();
   }
-
 }

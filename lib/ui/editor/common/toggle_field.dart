@@ -4,16 +4,15 @@ import 'package:portmone_bloc/ui/core/ui_switcher.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class PendingToggleField extends StatefulWidget {
-
   final String title;
   final bool value;
   final ValueChanged<bool> onChange;
 
   const PendingToggleField({
-    super.key, 
-    required this.title, 
+    super.key,
+    required this.title,
     required this.onChange,
-    this.value = false
+    this.value = false,
   });
 
   @override
@@ -21,7 +20,6 @@ class PendingToggleField extends StatefulWidget {
 }
 
 class _PendingToggleFieldState extends State<PendingToggleField> {
-
   bool _value = false;
 
   @override
@@ -45,12 +43,17 @@ class _PendingToggleFieldState extends State<PendingToggleField> {
     return UiSwitcher(
       activeColor: context.colorScheme.error,
       label: widget.title,
-      leading: UiIcon(UiIcons.pending, color: _value? context.colorScheme.error : context.colorScheme.onSurfaceVariant),
+      leading: UiIcon(
+        UiIcons.pending,
+        color: _value
+            ? context.colorScheme.error
+            : context.colorScheme.onSurfaceVariant,
+      ),
       value: _value,
       onChanged: (value) {
         setState(() => _value = value);
         widget.onChange(value);
-      }
+      },
     );
   }
 }

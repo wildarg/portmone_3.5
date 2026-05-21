@@ -39,8 +39,7 @@ class DataManagementCard extends StatelessWidget {
             trailing: UiIcon(UiIcons.arrowForward),
           ),
         ],
-      )
+      ),
     );
   }
-  
 }

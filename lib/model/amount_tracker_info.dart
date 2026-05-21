@@ -17,15 +17,12 @@ class TodayAmountTracker extends AmountTracker {
 
 class LabeledAmountTracker extends AmountTracker {
   final String label;
-  LabeledAmountTracker(super.amount,{required this.label});
+  LabeledAmountTracker(super.amount, {required this.label});
 }
 
 class MonthAmountTracker extends AmountTracker {
   final String monthName;
-  MonthAmountTracker(
-    super.amount,
-    this.monthName
-  );
+  MonthAmountTracker(super.amount, this.monthName);
 
   @override
   String toString() {
@@ -43,7 +40,11 @@ class AmountTrackerData {
   final AmountTracker first;
   final AmountTracker second;
 
-  AmountTrackerData({required this.currency, required this.first, required this.second});
+  AmountTrackerData({
+    required this.currency,
+    required this.first,
+    required this.second,
+  });
 
   @override
   String toString() {

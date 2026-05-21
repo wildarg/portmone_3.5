@@ -8,28 +8,24 @@ import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:portmone_bloc/ui/core/undo_snackbar.dart';
 
 class DismissibleHelper {
-
-  static void onDismiss(
-    BuildContext context,
-    Transaction operation
-  ) {
+  static void onDismiss(BuildContext context, Transaction operation) {
     final (label, deleteAction, undoAction) = switch (operation) {
       Expense() => (
-        'Expense deleted', 
-        DeleteExpenseAction(operation), 
-        RestoreExpenseAction(operation)
+        'Expense deleted',
+        DeleteExpenseAction(operation),
+        RestoreExpenseAction(operation),
       ),
       Income() => (
-        'Income deleted', 
-        DeleteIncomeAction(operation), 
-        RestoreIncomeAction(operation)
+        'Income deleted',
+        DeleteIncomeAction(operation),
+        RestoreIncomeAction(operation),
       ),
       Transfer() => (
-        'Transfer deleted', 
-        DeleteTransferAction(operation), 
-        RestoreTransferAction(operation)
+        'Transfer deleted',
+        DeleteTransferAction(operation),
+        RestoreTransferAction(operation),
       ),
-      _ => throw ArgumentError('Unknown operation')      
+      _ => throw ArgumentError('Unknown operation'),
     };
 
     context.dispatch(deleteAction);
@@ -41,10 +37,10 @@ class DismissibleHelper {
       onUndo: () {
         store.dispatch(undoAction);
         messenger.hideCurrentSnackBar();
-      }
+      },
     );
 
     messenger.hideCurrentSnackBar();
     messenger.showSnackBar(snackBar);
-  } 
+  }
 }

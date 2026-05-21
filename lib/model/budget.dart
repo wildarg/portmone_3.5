@@ -2,7 +2,6 @@ import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/model/money.dart';
 
 class Budget {
-
   final String uid;
   final String name;
   final Money amount;
@@ -15,8 +14,7 @@ class Budget {
     this.amount = const Money(amountInCents: 0),
     Currency? currency,
     this.expenseTypeUids = const <String>[],
-  }) :
-    currency = currency ?? Currency(uid: '', name: '');
+  }) : currency = currency ?? Currency(uid: '', name: '');
 
   Budget copy({
     String? name,
@@ -29,11 +27,11 @@ class Budget {
       name: name ?? this.name,
       amount: amount ?? this.amount,
       currency: currency ?? this.currency,
-      expenseTypeUids: expenseTypeUids ?? this.expenseTypeUids
+      expenseTypeUids: expenseTypeUids ?? this.expenseTypeUids,
     );
   }
 
   @override
-  String toString() => '{name: $name, amount: $amount, currency: $currency, expenseTypeUids: $expenseTypeUids}';
-  
+  String toString() =>
+      '{name: $name, amount: $amount, currency: $currency, expenseTypeUids: $expenseTypeUids}';
 }

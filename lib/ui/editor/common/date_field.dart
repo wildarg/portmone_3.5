@@ -3,16 +3,15 @@ import 'package:portmone_bloc/ui/core/ui_date_field.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 
 class EditorDateField extends StatefulWidget {
-
   final String title;
   final DateTime? value;
   final ValueChanged<DateTime?> onChange;
 
   const EditorDateField({
-    super.key, 
-    required this.title, 
+    super.key,
+    required this.title,
     required this.onChange,
-    this.value
+    this.value,
   });
 
   @override
@@ -20,7 +19,6 @@ class EditorDateField extends StatefulWidget {
 }
 
 class _EditorDateFieldState extends State<EditorDateField> {
-
   DateTime? _value;
 
   @override
@@ -46,7 +44,7 @@ class _EditorDateFieldState extends State<EditorDateField> {
       isRemovable: false,
       label: widget.title,
       value: _value,
-      onChange:(value) {
+      onChange: (value) {
         setState(() {
           _value = value;
         });

@@ -13,20 +13,15 @@ import 'package:portmone_bloc/ui/editor/income/income_controller.dart';
 import 'package:portmone_bloc/ui/editor/operation_editor.dart';
 
 class IncomeEditor extends StatefulWidget {
-
   final Income? income;
 
-  const IncomeEditor({
-    super.key, 
-    this.income
-  });
+  const IncomeEditor({super.key, this.income});
 
   @override
   State<IncomeEditor> createState() => _IncomeEditorState();
 }
 
 class _IncomeEditorState extends State<IncomeEditor> {
-
   late IncomeController _controller;
   late FocusNodeGroup _nodes;
 
@@ -70,12 +65,12 @@ class _IncomeEditorState extends State<IncomeEditor> {
       },
       fieldListBuilder: (ctx) => [
         EditorDateField(
-          title: 'Income date', 
+          title: 'Income date',
           value: _controller.date,
           onChange: (date) => setState(() => _controller.setDate(date)),
         ),
         PendingToggleField(
-          title: 'Pending income', 
+          title: 'Pending income',
           onChange: (value) {
             _nodes.unfocus();
             setState(() => _controller.setPending(value));
@@ -83,14 +78,14 @@ class _IncomeEditorState extends State<IncomeEditor> {
           value: _controller.isPending,
         ),
         TransactionTypeField(
-          title: 'Income type', 
+          title: 'Income type',
           leading: const SizedBox(width: 24),
-          types:(store) => store.incomeTypesState,
+          types: (store) => store.incomeTypesState,
           controller: _controller.typeController,
           focusNode: _nodes[0],
         ),
         TransactionAccountField(
-          title: 'Account', 
+          title: 'Account',
           accountController: _controller.accountController,
           currencyController: _controller.currencyController,
           accountFocusNode: _nodes[1],
@@ -109,5 +104,4 @@ class _IncomeEditorState extends State<IncomeEditor> {
       ],
     );
   }
-
 }

@@ -14,20 +14,15 @@ import 'package:portmone_bloc/ui/editor/expense/expense_type_avatar.dart';
 import 'package:portmone_bloc/ui/editor/operation_editor.dart';
 
 class ExpenseEditor extends StatefulWidget {
-
   final Expense? expense;
 
-  const ExpenseEditor({
-    super.key, 
-    this.expense
-  });
+  const ExpenseEditor({super.key, this.expense});
 
   @override
   State<ExpenseEditor> createState() => _ExpenseEditorState();
 }
 
 class _ExpenseEditorState extends State<ExpenseEditor> {
-
   late ExpenseController _controller;
   late FocusNodeGroup _nodes;
 
@@ -71,12 +66,12 @@ class _ExpenseEditorState extends State<ExpenseEditor> {
       },
       fieldListBuilder: (ctx) => [
         EditorDateField(
-          title: 'Expense date', 
+          title: 'Expense date',
           value: _controller.date,
           onChange: (date) => setState(() => _controller.setDate(date)),
         ),
         PendingToggleField(
-          title: 'Pending expense', 
+          title: 'Pending expense',
           onChange: (value) {
             _nodes.unfocus();
             setState(() => _controller.setPending(value));
@@ -84,14 +79,14 @@ class _ExpenseEditorState extends State<ExpenseEditor> {
           value: _controller.isPending,
         ),
         TransactionTypeField(
-          title: 'Expense type', 
+          title: 'Expense type',
           leading: ExpenseTypeAvatar(controller: _controller.typeController),
-          types:(store) => store.expenseTypesState,
+          types: (store) => store.expenseTypesState,
           controller: _controller.typeController,
           focusNode: _nodes[0],
         ),
         TransactionAccountField(
-          title: 'Account', 
+          title: 'Account',
           accountController: _controller.accountController,
           currencyController: _controller.currencyController,
           accountFocusNode: _nodes[1],
@@ -104,11 +99,10 @@ class _ExpenseEditorState extends State<ExpenseEditor> {
         TransactionNotesField(
           title: 'Notes',
           tags: (store) => store.tagsState,
-          controller: _controller.notesController, 
+          controller: _controller.notesController,
           focusNode: _nodes[3],
         ),
       ],
     );
   }
-
 }

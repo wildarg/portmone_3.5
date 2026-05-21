@@ -18,7 +18,7 @@ class UiDateField extends StatelessWidget {
     this.value,
     this.leadingIcon,
     this.label,
-    this.onChange, 
+    this.onChange,
     this.controller,
     this.firstDate,
     this.lastDate,
@@ -32,26 +32,31 @@ class UiDateField extends StatelessWidget {
       readOnly: true,
       leadingIcon: leadingIcon,
       trailingIcon: value == null || !isRemovable
-        ? UiIcon(UiIcons.arrowForward, color: colorScheme.surfaceContainerHighest)
-        : IconButton(
-            onPressed: () => onChange?.call(null), 
-            icon: const UiIcon(UiIcons.close)
-          ),
+          ? UiIcon(
+              UiIcons.arrowForward,
+              color: colorScheme.surfaceContainerHighest,
+            )
+          : IconButton(
+              onPressed: () => onChange?.call(null),
+              icon: const UiIcon(UiIcons.close),
+            ),
       label: label,
       value: value?.fullFormat,
-      onTap: () async { 
+      onTap: () async {
         final initial = value ?? DateTime.now();
         final first = firstDate ?? DateTime(1900);
         final last = lastDate ?? DateTime(3000);
-        
+
         final date = await showDatePicker(
-          context: context, 
-          initialDate: initial.isBefore(first) ? first : (initial.isAfter(last) ? last : initial),
-          firstDate: first, 
-          lastDate: last,        
+          context: context,
+          initialDate: initial.isBefore(first)
+              ? first
+              : (initial.isAfter(last) ? last : initial),
+          firstDate: first,
+          lastDate: last,
         );
         onChange?.call(date);
-      }
+      },
     );
   }
 }

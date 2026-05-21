@@ -3,11 +3,14 @@ import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 enum ButtonType {
-  primary, primarySmall, flatRounded, secondaryRounded, secondary;
+  primary,
+  primarySmall,
+  flatRounded,
+  secondaryRounded,
+  secondary,
 }
 
 class UiButton extends StatelessWidget {
-
   final UiIconData? icon;
   final String? text;
   final void Function()? onTap;
@@ -26,7 +29,7 @@ class UiButton extends StatelessWidget {
   final TextStyle? textStyle;
 
   const UiButton({
-    super.key, 
+    super.key,
     required this.buttonType,
     this.backgroundColor,
     this.splashColor,
@@ -42,7 +45,7 @@ class UiButton extends StatelessWidget {
     this.icon,
     this.text,
     this.onTap,
-    this.textStyle
+    this.textStyle,
   });
 
   factory UiButton.primarySmall({
@@ -142,44 +145,45 @@ class UiButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final (
-      bgColor, splColor, hlColor, tColor, tStyle
-    ) = switch (buttonType) {
+    final (bgColor, splColor, hlColor, tColor, tStyle) = switch (buttonType) {
       ButtonType.primary => (
         backgroundColor ?? context.colorScheme.primary,
         splashColor ?? context.colorScheme.onPrimary.withValues(alpha: 0.2),
         highlightColor ?? context.colorScheme.onPrimary.withValues(alpha: 0.2),
         textColor ?? context.colorScheme.onPrimary,
-        textStyle
+        textStyle,
       ),
       ButtonType.primarySmall => (
         backgroundColor ?? context.colorScheme.primary,
         splashColor ?? context.colorScheme.onPrimary.withValues(alpha: 0.2),
         highlightColor ?? context.colorScheme.onPrimary.withValues(alpha: 0.2),
         textColor ?? context.colorScheme.onPrimary,
-        textStyle
+        textStyle,
       ),
       ButtonType.flatRounded => (
         backgroundColor ?? Colors.transparent,
         splashColor ?? context.colorScheme.primary.withValues(alpha: 0.1),
         highlightColor ?? context.colorScheme.primary.withValues(alpha: 0.1),
         textColor ?? context.colorScheme.onSurface,
-        textStyle
+        textStyle,
       ),
       ButtonType.secondaryRounded => (
         backgroundColor ?? context.colorScheme.secondaryContainer,
-        splashColor ?? context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
-        highlightColor ?? context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+        splashColor ??
+            context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+        highlightColor ??
+            context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
         textColor ?? context.colorScheme.onSecondaryContainer,
-        textStyle
+        textStyle,
       ),
       ButtonType.secondary => (
         backgroundColor ?? context.colorScheme.secondaryContainer,
-        splashColor ?? context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
-        highlightColor ?? context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+        splashColor ??
+            context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
+        highlightColor ??
+            context.colorScheme.onSecondaryContainer.withValues(alpha: 0.1),
         textColor ?? context.colorScheme.onSecondaryContainer,
-        textStyle
+        textStyle,
       ),
     };
 
@@ -188,11 +192,11 @@ class UiButton extends StatelessWidget {
         padding: margins ?? EdgeInsets.zero,
         child: Material(
           color: bgColor,
-          borderRadius: BorderRadius.circular(radius),      
+          borderRadius: BorderRadius.circular(radius),
           child: InkWell(
             onTap: onTap,
             customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius)
+              borderRadius: BorderRadius.circular(radius),
             ),
             splashColor: splColor,
             highlightColor: hlColor,
@@ -205,9 +209,16 @@ class UiButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  if (icon != null) UiIcon(icon!, width: iconSize, color: tColor),
+                  if (icon != null)
+                    UiIcon(icon!, width: iconSize, color: tColor),
                   if (icon != null && text != null) const SizedBox(width: 8),
-                  if (text != null) Text(text!, style: tStyle ?? context.textTheme.labelLarge?.copyWith(color: tColor),),
+                  if (text != null)
+                    Text(
+                      text!,
+                      style:
+                          tStyle ??
+                          context.textTheme.labelLarge?.copyWith(color: tColor),
+                    ),
                 ],
               ),
             ),
@@ -216,5 +227,4 @@ class UiButton extends StatelessWidget {
       ),
     );
   }
-
 }

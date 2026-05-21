@@ -5,7 +5,6 @@ import 'package:portmone_bloc/ui/core/ui_autocomplete_field.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TransactionNotesField extends StatelessWidget {
-
   final String title;
   final Widget? leading;
   final BehaviorSubject<List<String>> Function(PortmoneStore store) tags;
@@ -33,8 +32,7 @@ class TransactionNotesField extends StatelessWidget {
         suggestions: state,
         controller: controller,
         focusNode: focusNode,
-      )
+      ),
     );
   }
-
 }

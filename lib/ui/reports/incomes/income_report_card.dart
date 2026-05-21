@@ -15,11 +15,15 @@ class IncomesCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TotalTransactionListTile(streamBuilder: (store) => store.totalIncomeState),
-          TypedTransactionSheet(streamBuilder: (store) => store.typedIncomeState, isExpense: false)
+          TotalTransactionListTile(
+            streamBuilder: (store) => store.totalIncomeState,
+          ),
+          TypedTransactionSheet(
+            streamBuilder: (store) => store.typedIncomeState,
+            isExpense: false,
+          ),
         ],
-      )
+      ),
     );
   }
-  
 }

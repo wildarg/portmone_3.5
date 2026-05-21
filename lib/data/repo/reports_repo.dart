@@ -17,24 +17,25 @@ import 'package:portmone_bloc/model/money.dart';
 import 'package:portmone_bloc/utils/datetime_extensions.dart';
 
 class ReportsRepo {
-  
   final PortmoneDB db;
 
   ReportsRepo({required this.db});
 
   Future<Iterable<CurrencyRangeInfo>> getTotalBalanceReport(MainFilter filter) {
     return GetTotalRangedBalanceQuery(db).execute(
-      filter.startDate.value, 
-      filter.endDate.value, 
-      filter.plannedInclude
+      filter.startDate.value,
+      filter.endDate.value,
+      filter.plannedInclude,
     );
   }
 
-  Future<Iterable<AccountRangedInfo>> getAccountBalanceReport(MainFilter filter) {
+  Future<Iterable<AccountRangedInfo>> getAccountBalanceReport(
+    MainFilter filter,
+  ) {
     return GetAccountRangedBalanceQuery(db).execute(
-      filter.startDate.value, 
-      filter.endDate.value, 
-      filter.plannedInclude
+      filter.startDate.value,
+      filter.endDate.value,
+      filter.plannedInclude,
     );
   }
 
@@ -55,7 +56,7 @@ class ReportsRepo {
   }
 
   Future<Iterable<AmountTrackerData>> getExpenseTrackers(
-    MainFilter filter
+    MainFilter filter,
   ) async {
     final today = DateTime.now();
     final query = GetExpenseTrackerQuery(db);
@@ -65,21 +66,26 @@ class ReportsRepo {
     final secondEnd = today.lastDayOfMonth.millisecondsSinceEpoch;
 
     final list = await query.execute(
-      firstStart, 
-      firstEnd, 
-      secondStart, 
-      secondEnd, 
-      filter.plannedInclude
+      firstStart,
+      firstEnd,
+      secondStart,
+      secondEnd,
+      filter.plannedInclude,
     );
     return list.map(_toExpenseTrackerData);
   }
 
   AmountTrackerData _toExpenseTrackerData(ExpenseTrackerResult result) {
     return AmountTrackerData(
-      currency: Currency(name: result.currencyName ?? '', uid: result.currencyUid ?? ''), 
-      first: TodayAmountTracker(Money(amountInCents: result.firstAmount)), 
-      second: MonthAmountTracker(Money(amountInCents: result.secondAmount), 'This month')
+      currency: Currency(
+        name: result.currencyName ?? '',
+        uid: result.currencyUid ?? '',
+      ),
+      first: TodayAmountTracker(Money(amountInCents: result.firstAmount)),
+      second: MonthAmountTracker(
+        Money(amountInCents: result.secondAmount),
+        'This month',
+      ),
     );
   }
-
 }

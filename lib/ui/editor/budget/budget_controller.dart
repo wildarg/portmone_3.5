@@ -17,7 +17,6 @@ class BudgetController {
   final MainFilter filter;
   final Iterable<ExpenseRecordInfo> records;
 
-
   BudgetDraft _draft;
   final TextEditingController nameController;
   final MoneyFormatTextEditingController amountController;
@@ -29,11 +28,14 @@ class BudgetController {
   final chartData = ValueNotifier<List<MoneyDateInfo>>([]);
 
   BudgetController(this.budget, this.filter, this.records)
-      : _draft = budget?.let(BudgetDraft.fromBudget) ?? BudgetDraft(),
-        nameController = TextEditingController(text: budget?.name ?? ''),
-        amountController = MoneyFormatTextEditingController(cents: budget?.amount.amountInCents),
-        currencyController = TextEditingController(text: budget?.currency.name ?? '') {
-    
+    : _draft = budget?.let(BudgetDraft.fromBudget) ?? BudgetDraft(),
+      nameController = TextEditingController(text: budget?.name ?? ''),
+      amountController = MoneyFormatTextEditingController(
+        cents: budget?.amount.amountInCents,
+      ),
+      currencyController = TextEditingController(
+        text: budget?.currency.name ?? '',
+      ) {
     nameController.addListener(_notify);
     amountController.addListener(_notify);
     currencyController.addListener(_notify);
@@ -42,7 +44,7 @@ class BudgetController {
         .debounceTime(const Duration(milliseconds: 300))
         .listen((_) => _onUpdate());
 
-    _notify();    
+    _notify();
   }
 
   void _notify() => _updateTrigger.add(null);
@@ -50,8 +52,8 @@ class BudgetController {
   void _onUpdate() {
     final d = draft;
     final (startDate, endDate) = DateTimeUtils.getBudgetInterval(
-      filter.startDate.value, 
-      filter.endDate.value
+      filter.startDate.value,
+      filter.endDate.value,
     );
 
     final expenses = records
@@ -59,7 +61,7 @@ class BudgetController {
         .where((e) => d.expenseTypeUids.contains(e.type.uid))
         .map((e) => MoneyDateInfo(e.date, e.amount))
         .toList();
-    
+
     // Sorting is crucial for the accumulation logic
     expenses.sort((a, b) => a.date.compareTo(b.date));
 
@@ -68,9 +70,9 @@ class BudgetController {
   }
 
   Iterable<MoneyDateInfo> accumulateBudget(
-    DateTime startDate, 
-    DateTime endDate, 
-    List<MoneyDateInfo> expenses
+    DateTime startDate,
+    DateTime endDate,
+    List<MoneyDateInfo> expenses,
   ) sync* {
     final timeline = DateTimeUtils.iterate(startDate, endDate);
     Money current = const Money(amountInCents: 0);

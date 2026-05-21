@@ -12,15 +12,15 @@ class IncomeDraft {
   final int? amountInCents;
 
   IncomeDraft({
-    this.uid, 
-    this.date, 
+    this.uid,
+    this.date,
     this.timestamp,
-    this.isPending, 
-    this.notes, 
-    this.typeName, 
-    this.accountName, 
-    this.currencyName, 
-    this.amountInCents
+    this.isPending,
+    this.notes,
+    this.typeName,
+    this.accountName,
+    this.currencyName,
+    this.amountInCents,
   });
 
   static IncomeDraft fromIncome(Income src) {
@@ -33,7 +33,7 @@ class IncomeDraft {
       accountName: src.account.name,
       currencyName: src.account.currency.name,
       amountInCents: src.amount.amountInCents,
-      notes: src.notes
+      notes: src.notes,
     );
   }
 
@@ -60,5 +60,4 @@ class IncomeDraft {
       amountInCents: amountInCents ?? this.amountInCents,
     );
   }
-
 }

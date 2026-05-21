@@ -5,7 +5,6 @@ import 'package:portmone_bloc/utils/common_extensions.dart';
 import 'package:portmone_bloc/utils/money_text_controller.dart';
 
 class ExpenseController {
-
   final Expense? expense;
 
   ExpenseDraft _draft;
@@ -15,14 +14,21 @@ class ExpenseController {
   final TextEditingController notesController;
   final MoneyFormatTextEditingController amountController;
 
-  ExpenseController(this.expense) 
-    : _draft = expense?.let(ExpenseDraft.fromExpense) 
-        ?? ExpenseDraft(date: DateTime.now()),
+  ExpenseController(this.expense)
+    : _draft =
+          expense?.let(ExpenseDraft.fromExpense) ??
+          ExpenseDraft(date: DateTime.now()),
       typeController = TextEditingController(text: expense?.type.name ?? ''),
-      accountController = TextEditingController(text: expense?.account.name ?? ''),
-      currencyController = TextEditingController(text: expense?.account.currency.name ?? ''),
+      accountController = TextEditingController(
+        text: expense?.account.name ?? '',
+      ),
+      currencyController = TextEditingController(
+        text: expense?.account.currency.name ?? '',
+      ),
       notesController = TextEditingController(text: expense?.notes ?? ''),
-      amountController = MoneyFormatTextEditingController(cents: expense?.amount.amountInCents);
+      amountController = MoneyFormatTextEditingController(
+        cents: expense?.amount.amountInCents,
+      );
 
   DateTime? get date => _draft.date;
   bool get isPending => _draft.isPending ?? false;
@@ -65,5 +71,4 @@ class ExpenseController {
     amountController.dispose();
     notesController.dispose();
   }
-
 }

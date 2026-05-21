@@ -8,29 +8,30 @@ import 'package:portmone_bloc/utils/date_utils.dart';
 import 'package:portmone_bloc/utils/datetime_extensions.dart';
 
 class BudgetLane extends StatelessWidget {
-
   const BudgetLane({super.key});
 
   @override
   Widget build(BuildContext context) {
     return StoreBuilder(
       stream: (store) => store.budgetState,
-      builder:(_, state) {
+      builder: (_, state) {
         final filter = context.store.filterState.value;
         final (startDate, endDate) = DateTimeUtils.getBudgetInterval(
           filter.startDate.value,
-          filter.endDate.value
+          filter.endDate.value,
         );
-        final title = 'Budget ${startDate.shortFormat} - ${endDate.shortFormat}';
+        final title =
+            'Budget ${startDate.shortFormat} - ${endDate.shortFormat}';
         return UiScrollableSwimlane(
           title: title,
           height: 130,
-          items: state.map<Widget>(
-            (budgetInfo) => BudgetInfoCard(info: budgetInfo)
-          ).toList() + <Widget>[NewBudgetCard()],
+          items:
+              state
+                  .map<Widget>((budgetInfo) => BudgetInfoCard(info: budgetInfo))
+                  .toList() +
+              <Widget>[NewBudgetCard()],
         );
-      }
+      },
     );
   }
-  
 }

@@ -17,22 +17,23 @@ class AppBarContent extends StatelessWidget {
           children: [
             Text('portmone', style: textTheme.titleLarge),
             StoreBuilder(
-              stream:(store) => store.filterState, 
-              builder:(context, state) => Text(_filterToText(state), style: textTheme.labelSmall),
-            )
+              stream: (store) => store.filterState,
+              builder: (context, state) =>
+                  Text(_filterToText(state), style: textTheme.labelSmall),
+            ),
           ],
-        )
+        ),
       ],
     );
   }
 
   String _filterToText(MainFilter filter) {
     return [
-      if (filter.startDate.hasData) 'from ${filter.startDate.value?.shortFormat}',
+      if (filter.startDate.hasData)
+        'from ${filter.startDate.value?.shortFormat}',
       if (filter.endDate.hasData) 'till ${filter.endDate.value?.shortFormat}',
       if (filter.plannedInclude) 'pending included',
       if (!filter.plannedInclude) 'no pending included',
     ].join(', ');
   }
-
 }

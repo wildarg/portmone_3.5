@@ -14,7 +14,6 @@ import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/datetime_extensions.dart';
 
 class TodayTransactionsLane extends StatelessWidget {
-
   const TodayTransactionsLane({super.key});
 
   @override
@@ -51,15 +50,18 @@ class TodayTransactionsLane extends StatelessWidget {
                   (operation) => switch (operation) {
                     Expense() => ExpenseListTile(
                       expense: operation,
-                      onTap: () => _openEditor(context, operation, '/expense/editor'),
+                      onTap: () =>
+                          _openEditor(context, operation, '/expense/editor'),
                     ),
                     Transfer() => TransferListTile(
                       transfer: operation,
-                      onTap: () => _openEditor(context, operation, '/transfer/editor'),
+                      onTap: () =>
+                          _openEditor(context, operation, '/transfer/editor'),
                     ),
                     Income() => IncomeListTile(
                       income: operation,
-                      onTap: () => _openEditor(context, operation, '/income/editor'),
+                      onTap: () =>
+                          _openEditor(context, operation, '/income/editor'),
                     ),
                     _ => const SizedBox.shrink(),
                   },
@@ -71,7 +73,11 @@ class TodayTransactionsLane extends StatelessWidget {
     );
   }
 
-  void _openEditor(BuildContext context, Transaction transaction, String route) async {
+  void _openEditor(
+    BuildContext context,
+    Transaction transaction,
+    String route,
+  ) async {
     dynamic result = await context.push(route, extra: transaction);
     while (result is CreateNewTransaction) {
       if (!context.mounted) break;

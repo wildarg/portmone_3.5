@@ -20,7 +20,7 @@ class UiTextField extends StatelessWidget {
   final TextAlign? textAlign;
 
   const UiTextField({
-    super.key, 
+    super.key,
     this.readOnly = false,
     this.label,
     this.onTap,
@@ -62,7 +62,7 @@ class UiTextField extends StatelessWidget {
           onChanged: onChanged,
           style: style,
           textAlign: textAlign,
-        )
+        ),
       ),
     );
   }

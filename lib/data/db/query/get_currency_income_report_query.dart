@@ -5,7 +5,6 @@ import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/utils/map_extensions.dart';
 
 class GetCurrencyIncomeReportQuery {
-  
   final PortmoneDB _db;
 
   GetCurrencyIncomeReportQuery(this._db);
@@ -14,7 +13,7 @@ class GetCurrencyIncomeReportQuery {
     final sql = _getSql(filter);
     final list = await _db.query(sql);
     final result = list.map(_toAmountCurrencyInfo);
-    return result;    
+    return result;
   }
 
   String _getSql(MainFilter filter) {
@@ -46,9 +45,8 @@ class GetCurrencyIncomeReportQuery {
 
   CurrencyInfo _toAmountCurrencyInfo(Map<String, Object?> map) {
     return CurrencyInfo(
-      currency: map.getCurrency(), 
-      amount: map.getMoney('total_earn')
+      currency: map.getCurrency(),
+      amount: map.getMoney('total_earn'),
     );
   }
-
 }

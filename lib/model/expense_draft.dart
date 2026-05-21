@@ -12,15 +12,15 @@ class ExpenseDraft {
   final int? amountInCents;
 
   ExpenseDraft({
-    this.uid, 
-    this.date, 
+    this.uid,
+    this.date,
     this.timestamp,
-    this.isPending, 
-    this.notes, 
-    this.typeName, 
-    this.accountName, 
-    this.currencyName, 
-    this.amountInCents
+    this.isPending,
+    this.notes,
+    this.typeName,
+    this.accountName,
+    this.currencyName,
+    this.amountInCents,
   });
 
   static ExpenseDraft fromExpense(Expense src) {
@@ -33,7 +33,7 @@ class ExpenseDraft {
       accountName: src.account.name,
       currencyName: src.account.currency.name,
       amountInCents: src.amount.amountInCents,
-      notes: src.notes
+      notes: src.notes,
     );
   }
 
@@ -60,5 +60,4 @@ class ExpenseDraft {
       amountInCents: amountInCents ?? this.amountInCents,
     );
   }
-
 }

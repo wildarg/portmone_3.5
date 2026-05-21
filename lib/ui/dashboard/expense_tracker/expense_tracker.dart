@@ -8,9 +8,8 @@ class ExpenseTracker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreBuilder(
-      stream:(store) => store.expenseTrackerState, 
-      builder:(context, state) => ExpenseTrackerContent(data: state),
+      stream: (store) => store.expenseTrackerState,
+      builder: (context, state) => ExpenseTrackerContent(data: state),
     );
   }
-  
 }

@@ -7,7 +7,6 @@ import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/utils/string_extensions.dart';
 
 class UiAutocompleteField<T extends Object> extends StatelessWidget {
-
   final T? value;
   final List<T> suggestions;
   final Widget? leadingIcon;
@@ -27,31 +26,39 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
     this.suggestions = const [],
     this.leadingIcon,
     this.label,
-    this.onSelected, 
-    this.trailingIcon, 
-    TextEditingController? controller, 
-    FocusNode? focusNode, 
+    this.onSelected,
+    this.trailingIcon,
+    TextEditingController? controller,
+    FocusNode? focusNode,
     this.onFieldSubmitted,
     required this.displayStringForText,
     this.toLabel,
-    this.multiSelect = false
+    this.multiSelect = false,
   }) : _focusNode = focusNode ?? FocusNode(debugLabel: 'autocomplete-$label'),
-       _controller = controller ?? TextEditingController(text: value == null? '' : displayStringForText(value));
+       _controller =
+           controller ??
+           TextEditingController(
+             text: value == null ? '' : displayStringForText(value),
+           );
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: label != null? 16 : 0),
+      padding: EdgeInsets.only(top: label != null ? 16 : 0),
       child: LayoutBuilder(
         builder: (_, BoxConstraints constraints) {
           return ListTile(
             leading: leadingIcon,
             contentPadding: const EdgeInsets.all(0),
             title: Autocomplete<T>(
-              optionsBuilder:(textEditingValue) {
+              optionsBuilder: (textEditingValue) {
                 return multiSelect
-                  ? _getTags(textEditingValue, suggestions)
-                  : suggestions.where((e) => displayStringForText(e).toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                    ? _getTags(textEditingValue, suggestions)
+                    : suggestions.where(
+                        (e) => displayStringForText(e).toLowerCase().contains(
+                          textEditingValue.text.toLowerCase(),
+                        ),
+                      );
               },
               onSelected: onSelected,
               optionsViewBuilder: (context, onOptionSelect, options) {
@@ -60,15 +67,24 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 4),
                       child: CustomAutocompleteOptionsView<T>(
-                        displayStringForOption: toLabel ?? displayStringForText, 
-                        onSelected:(option) {
-                          final String optionText = displayStringForText(option);
+                        displayStringForOption: toLabel ?? displayStringForText,
+                        onSelected: (option) {
+                          final String optionText = displayStringForText(
+                            option,
+                          );
                           if (multiSelect) {
-                            var (String newText, int position) = _controller.text.replaceActiveWord(_controller.selection.start, optionText);
+                            var (String newText, int position) = _controller
+                                .text
+                                .replaceActiveWord(
+                                  _controller.selection.start,
+                                  optionText,
+                                );
                             onOptionSelect(option);
                             _controller.value = TextEditingValue(
                               text: newText,
-                              selection: TextSelection.fromPosition(TextPosition(offset: position))
+                              selection: TextSelection.fromPosition(
+                                TextPosition(offset: position),
+                              ),
                             );
                           } else {
                             onOptionSelect(option);
@@ -79,10 +95,10 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
                           }
                           onSelected?.call(option);
                           // onSelected(option);
-                        }, 
-                        options: options, 
+                        },
+                        options: options,
                         maxOptionsHeight: 200,
-                        maxOptionWidth: constraints.maxWidth - 0  + 0
+                        maxOptionWidth: constraints.maxWidth - 0 + 0,
                       ),
                     ),
                     Align(
@@ -93,37 +109,43 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
                           _focusNode.unfocus();
                         },
                       ),
-                    )
-                  ]
+                    ),
+                  ],
                 );
               },
               displayStringForOption: displayStringForText,
               focusNode: _focusNode,
               textEditingController: _controller,
-              fieldViewBuilder: (context, controller, focusNode, onAutocompleteFieldSubmitted) => 
-                BaseTextField(
-                  trailingIcon: trailingIcon,
-                  label: label,
-                  value: value == null ? null : displayStringForText(value!),
-                  focusNode: focusNode,
-                  controller: controller,
-                  onFieldSubmitted: (v) {
-                    final bool shouldSelect = multiSelect
-                        ? v.getActiveWord(_controller.selection.start).isNotEmpty
-                        : v.trim().isNotEmpty;
+              fieldViewBuilder:
+                  (
+                    context,
+                    controller,
+                    focusNode,
+                    onAutocompleteFieldSubmitted,
+                  ) => BaseTextField(
+                    trailingIcon: trailingIcon,
+                    label: label,
+                    value: value == null ? null : displayStringForText(value!),
+                    focusNode: focusNode,
+                    controller: controller,
+                    onFieldSubmitted: (v) {
+                      final bool shouldSelect = multiSelect
+                          ? v
+                                .getActiveWord(_controller.selection.start)
+                                .isNotEmpty
+                          : v.trim().isNotEmpty;
 
-                    if (shouldSelect) {
-                      onAutocompleteFieldSubmitted();
-                    } else {
-                      focusNode.unfocus();
-                    }
-                    onFieldSubmitted?.call(v);
-                  },
-                ),
-            )
-            
+                      if (shouldSelect) {
+                        onAutocompleteFieldSubmitted();
+                      } else {
+                        focusNode.unfocus();
+                      }
+                      onFieldSubmitted?.call(v);
+                    },
+                  ),
+            ),
           );
-        }
+        },
       ),
     );
   }
@@ -131,12 +153,8 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
   FutureOr<Iterable<T>> _getTags(TextEditingValue value, Iterable<T> options) {
     final String s = value.text.trim().toLowerCase();
     final String tag = s.getActiveWord(_controller.selection.start);
-    return options
-      .where((e) => 
-        tag.isEmpty 
-        || displayStringForText(e).toLowerCase().contains(tag)
-      );
+    return options.where(
+      (e) => tag.isEmpty || displayStringForText(e).toLowerCase().contains(tag),
+    );
   }
-
-
 }

@@ -1,4 +1,3 @@
-
 import 'package:portmone_bloc/data/db/portmone_db.dart';
 
 class ExpenseTrackerResult {
@@ -8,16 +7,14 @@ class ExpenseTrackerResult {
   final int secondAmount;
 
   ExpenseTrackerResult({
-    required this.currencyUid, 
-    required this.currencyName, 
-    required this.firstAmount, 
-    required this.secondAmount
+    required this.currencyUid,
+    required this.currencyName,
+    required this.firstAmount,
+    required this.secondAmount,
   });
 }
 
-
 class GetExpenseTrackerQuery {
-
   final PortmoneDB db;
 
   GetExpenseTrackerQuery(this.db);
@@ -27,21 +24,27 @@ class GetExpenseTrackerQuery {
     int firstEnd,
     int secondStart,
     int secondEnd,
-    bool includePlanned
+    bool includePlanned,
   ) async {
-    final sql = _getSql(firstStart, firstEnd, secondStart, secondEnd, includePlanned? 1 : 0);
+    final sql = _getSql(
+      firstStart,
+      firstEnd,
+      secondStart,
+      secondEnd,
+      includePlanned ? 1 : 0,
+    );
     final list = await db.query(sql);
     return list.map(_toExpenseTrackerResult);
   }
 
   ExpenseTrackerResult _toExpenseTrackerResult(Map<String, Object?> map) {
     return ExpenseTrackerResult(
-      currencyUid: map['currencyUid'] as String?, 
-      currencyName: map['currencyName'] as String?, 
+      currencyUid: map['currencyUid'] as String?,
+      currencyName: map['currencyName'] as String?,
       firstAmount: (map['firstAmount'] as num).toInt(),
       secondAmount: (map['secondAmount'] as num).toInt(),
     );
-  }  
+  }
 
   String _getSql(
     int firstStart,
@@ -74,5 +77,4 @@ class GetExpenseTrackerQuery {
         3 desc, 4 desc	
     ''';
   }
-
 }

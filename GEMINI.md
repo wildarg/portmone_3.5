@@ -31,6 +31,7 @@ Portmone is a personal and family finance tracker for iOS/Android (Flutter) usin
 - **UI:** Decompose large widgets (>150 lines). Use `ui/core` for shared design system components.
 - **Extensions:** Use extensions for clean calls (e.g., `context.dispatch`, `context.textTheme`).
 - **Formatting:** Use trailing commas.
+- **Auto-Formatting Restriction:** Do NOT run any automatic code formatting tools (like `dart format` or formatters on save) on existing files without explicit user permission. Ensure formatting is done manually only for code additions/modifications.
 
 ## 5. Data Management & Backup
 - **Backup:** File-based. Share the `Portmone.db` file directly via system share sheet.

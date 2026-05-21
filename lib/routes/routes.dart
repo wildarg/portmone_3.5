@@ -48,31 +48,27 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       name: 'expenseEditor',
-      path: '/expense/editor', 
-      builder: (_, state) => ExpenseEditor(
-        expense: state.extra?.takeIfInstance<Expense>(),
-      )
+      path: '/expense/editor',
+      builder: (_, state) =>
+          ExpenseEditor(expense: state.extra?.takeIfInstance<Expense>()),
     ),
     GoRoute(
       name: 'incomeEditor',
-      path: '/income/editor', 
-      builder: (_, state) => IncomeEditor(
-        income: state.extra?.takeIfInstance<Income>(),
-      )
+      path: '/income/editor',
+      builder: (_, state) =>
+          IncomeEditor(income: state.extra?.takeIfInstance<Income>()),
     ),
     GoRoute(
       name: 'transferEditor',
-      path: '/transfer/editor', 
-      builder: (_, state) => TransferEditor(
-        transfer: state.extra?.takeIfInstance<Transfer>(),
-      )
+      path: '/transfer/editor',
+      builder: (_, state) =>
+          TransferEditor(transfer: state.extra?.takeIfInstance<Transfer>()),
     ),
     GoRoute(
       name: 'budgetEditor',
-      path: '/budget/editor', 
-      builder: (_, state) => BudgetEditor(
-        budget: state.extra?.takeIfInstance<Budget>(),
-      )
+      path: '/budget/editor',
+      builder: (_, state) =>
+          BudgetEditor(budget: state.extra?.takeIfInstance<Budget>()),
     ),
   ],
 );

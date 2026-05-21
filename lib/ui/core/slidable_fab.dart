@@ -5,7 +5,6 @@ import 'package:portmone_bloc/ui/core/expandable_fab.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 
 class FabController extends ChangeNotifier {
-
   bool _isShown = false;
   bool get isShown => _isShown;
 
@@ -21,7 +20,6 @@ class FabController extends ChangeNotifier {
 }
 
 class SlidableFab extends StatefulWidget {
-
   final FabController controller;
   final VoidCallback? onClick;
 
@@ -31,11 +29,10 @@ class SlidableFab extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _SlidableFabState();
   }
-  
 }
 
-class _SlidableFabState extends State<SlidableFab> with SingleTickerProviderStateMixin {
-
+class _SlidableFabState extends State<SlidableFab>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool _isShown = false;
 
@@ -53,7 +50,7 @@ class _SlidableFabState extends State<SlidableFab> with SingleTickerProviderStat
     if (oldWidget.controller != widget.controller) {
       _unsubscribe(oldWidget.controller);
       _subscribe(widget.controller);
-      _handleControllerChange();      
+      _handleControllerChange();
     }
   }
 
@@ -79,31 +76,30 @@ class _SlidableFabState extends State<SlidableFab> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return ExpandableFab(
-        initialOpen: false,
-        distance: 150,
-        onClick: widget.onClick,
-        buttons: [          
-          ActionButtonData(
-            onPressed: () => context.push('/transfer/editor'),
-            icon: UiIcons.currencyExchange,
-          ),
-          ActionButtonData(
-            onPressed: () => context.push('/income/editor'),
-            icon: UiIcons.wallet,
-          ),
-          ActionButtonData(
-            onPressed: () => context.push('/expense/editor'),
-            icon: UiIcons.receipt,
-          ),
-        ],  
-      )
+          initialOpen: false,
+          distance: 150,
+          onClick: widget.onClick,
+          buttons: [
+            ActionButtonData(
+              onPressed: () => context.push('/transfer/editor'),
+              icon: UiIcons.currencyExchange,
+            ),
+            ActionButtonData(
+              onPressed: () => context.push('/income/editor'),
+              icon: UiIcons.wallet,
+            ),
+            ActionButtonData(
+              onPressed: () => context.push('/expense/editor'),
+              icon: UiIcons.receipt,
+            ),
+          ],
+        )
         .animate(controller: _controller, autoPlay: false)
         .slideX(
           curve: Curves.fastOutSlowIn,
           duration: const Duration(milliseconds: 500),
           begin: 100,
-          end: 0
-        );    
+          end: 0,
+        );
   }
-
 }

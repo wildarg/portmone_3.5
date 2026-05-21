@@ -7,23 +7,22 @@ import 'package:portmone_bloc/ui/core/ui_button.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 
 class AccountListTile extends StatelessWidget {
-
   final Account account;
   final VoidCallback? onTap;
 
-  const AccountListTile({
-    super.key, 
-    required this.account,
-    this.onTap
-  });
-  
+  const AccountListTile({super.key, required this.account, this.onTap});
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final titleColor = account.isArchived ? colorScheme.surfaceContainerHighest : colorScheme.onSurface;
-    final subtitleColor = account.isArchived ? colorScheme.surfaceContainerHighest : colorScheme.primary;
+    final titleColor = account.isArchived
+        ? colorScheme.surfaceContainerHighest
+        : colorScheme.onSurface;
+    final subtitleColor = account.isArchived
+        ? colorScheme.surfaceContainerHighest
+        : colorScheme.primary;
     final label = account.isArchived ? 'Restore' : 'Archive';
 
     return ListTile(
@@ -41,9 +40,13 @@ class AccountListTile extends StatelessWidget {
         children: [
           UiButton.flatRounded(
             icon: account.isArchived ? UiIcons.unarchiveFill : UiIcons.archive,
-            onTap: () => context.dispatch(SaveAccountAction(account.copyWith(isArchived: !account.isArchived))),
+            onTap: () => context.dispatch(
+              SaveAccountAction(
+                account.copyWith(isArchived: !account.isArchived),
+              ),
+            ),
           ),
-          Text(label)
+          Text(label),
         ],
       ),
       onTap: () {
@@ -55,5 +58,5 @@ class AccountListTile extends StatelessWidget {
         );
       },
     );
-  }  
+  }
 }

@@ -4,7 +4,6 @@ import 'package:portmone_bloc/ui/journal/search/journal_search_field.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class JournalScreen extends StatelessWidget {
-
   final FocusNode searchFocusNode;
 
   const JournalScreen({super.key, required this.searchFocusNode});
@@ -23,9 +22,8 @@ class JournalScreen extends StatelessWidget {
             child: JournalSearchField(focusNode: searchFocusNode),
           ),
         ),
-        JournalItemList(searchFocusNode: searchFocusNode)
+        JournalItemList(searchFocusNode: searchFocusNode),
       ],
     );
   }
-  
 }

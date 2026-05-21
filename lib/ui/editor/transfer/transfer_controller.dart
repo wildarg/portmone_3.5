@@ -19,23 +19,37 @@ class TransferController {
   final TextEditingController notesController;
 
   TransferController(this.transfer)
-      : _draft = transfer?.let(TransferDraft.fromTransfer) ?? TransferDraft(date: DateTime.now()),
-        fromAccountController = TextEditingController(text: transfer?.fromAccount.name ?? ''),
-        fromCurrencyController = TextEditingController(text: transfer?.fromAccount.currency.name ?? ''),
-        fromAmountController = MoneyFormatTextEditingController(cents: transfer?.fromAmount.amountInCents),
-        toAccountController = TextEditingController(text: transfer?.toAccount.name ?? ''),
-        toCurrencyController = TextEditingController(text: transfer?.toAccount.currency.name ?? ''),
-        toAmountController = MoneyFormatTextEditingController(cents: transfer?.toAmount.amountInCents),
-        notesController = TextEditingController(text: transfer?.notes ?? '')
-    {
-      fromAmountController.addListener(_onFromAmountChanged);
-      toAmountController.addListener(_onToAmountChanged);
-    }
+    : _draft =
+          transfer?.let(TransferDraft.fromTransfer) ??
+          TransferDraft(date: DateTime.now()),
+      fromAccountController = TextEditingController(
+        text: transfer?.fromAccount.name ?? '',
+      ),
+      fromCurrencyController = TextEditingController(
+        text: transfer?.fromAccount.currency.name ?? '',
+      ),
+      fromAmountController = MoneyFormatTextEditingController(
+        cents: transfer?.fromAmount.amountInCents,
+      ),
+      toAccountController = TextEditingController(
+        text: transfer?.toAccount.name ?? '',
+      ),
+      toCurrencyController = TextEditingController(
+        text: transfer?.toAccount.currency.name ?? '',
+      ),
+      toAmountController = MoneyFormatTextEditingController(
+        cents: transfer?.toAmount.amountInCents,
+      ),
+      notesController = TextEditingController(text: transfer?.notes ?? '') {
+    fromAmountController.addListener(_onFromAmountChanged);
+    toAmountController.addListener(_onToAmountChanged);
+  }
 
   DateTime? get date => _draft.date;
   bool get isPending => _draft.isPending ?? false;
 
-  bool get _areCurrenciesSame => fromCurrencyController.text == toCurrencyController.text;
+  bool get _areCurrenciesSame =>
+      fromCurrencyController.text == toCurrencyController.text;
 
   bool _isAutoChange = false;
 
@@ -52,7 +66,7 @@ class TransferController {
       _isAutoChange = true;
       fromAmountController.amount = toAmountController.amount;
       _isAutoChange = false;
-    }    
+    }
   }
 
   void setDate(DateTime? date) {
@@ -65,11 +79,15 @@ class TransferController {
 
   String? get errorMessage {
     if (date == null) return 'Select transfer date';
-    if (fromAccountController.text.isEmpty) return 'The source account is empty';
-    if (fromCurrencyController.text.isEmpty) return 'The source currency is empty';
+    if (fromAccountController.text.isEmpty)
+      return 'The source account is empty';
+    if (fromCurrencyController.text.isEmpty)
+      return 'The source currency is empty';
     if (fromAmountController.amount <= 0) return 'The source amount is zero';
-    if (toAccountController.text.isEmpty) return 'The destination account is empty';
-    if (toCurrencyController.text.isEmpty) return 'The destination currency is empty';
+    if (toAccountController.text.isEmpty)
+      return 'The destination account is empty';
+    if (toCurrencyController.text.isEmpty)
+      return 'The destination currency is empty';
     if (toAmountController.amount <= 0) return 'The destination amount is zero';
     return null;
   }

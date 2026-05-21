@@ -30,8 +30,7 @@ class DbCard extends StatelessWidget {
             trailing: UiIcon(UiIcons.arrowForward),
           ),
         ],
-      )
+      ),
     );
   }
-  
 }

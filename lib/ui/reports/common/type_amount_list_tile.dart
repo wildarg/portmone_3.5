@@ -5,18 +5,20 @@ import 'package:portmone_bloc/ui/reports/common/month_amount_chart.dart';
 import 'package:portmone_bloc/utils/money_extensions.dart';
 
 class TypeAmountListTile extends StatefulWidget {
-
   final AmountTypeInfo data;
   final bool isExpense;
 
-  const TypeAmountListTile({super.key, required this.data, required this.isExpense});
+  const TypeAmountListTile({
+    super.key,
+    required this.data,
+    required this.isExpense,
+  });
 
   @override
   State<TypeAmountListTile> createState() => _TypeAmountListTileState();
 }
 
 class _TypeAmountListTileState extends State<TypeAmountListTile> {
-
   bool _collapsed = true;
 
   @override
@@ -38,23 +40,33 @@ class _TypeAmountListTileState extends State<TypeAmountListTile> {
                 if (widget.isExpense && widget.data.trendingSign == 1)
                   UiIcon(UiIcons.trendingUp, color: theme.colorScheme.error),
                 if (widget.isExpense && widget.data.trendingSign == -1)
-                  UiIcon(UiIcons.trendingDown, color: theme.colorScheme.primary),
+                  UiIcon(
+                    UiIcons.trendingDown,
+                    color: theme.colorScheme.primary,
+                  ),
                 if (!widget.isExpense && widget.data.trendingSign == 1)
                   UiIcon(UiIcons.trendingUp, color: theme.colorScheme.primary),
                 if (!widget.isExpense && widget.data.trendingSign == -1)
                   UiIcon(UiIcons.trendingDown, color: theme.colorScheme.error),
                 const SizedBox(width: 4.0),
-                Text(widget.data.currency.name, style: TextStyle(color: theme.colorScheme.primary)),
+                Text(
+                  widget.data.currency.name,
+                  style: TextStyle(color: theme.colorScheme.primary),
+                ),
                 const SizedBox(width: 4.0),
-                Text(widget.data.totalSpent.formattedAmount, style: theme.textTheme.labelLarge),
-                UiIcon(UiIcons.arrowDropDown, color: theme.colorScheme.outline)
+                Text(
+                  widget.data.totalSpent.formattedAmount,
+                  style: theme.textTheme.labelLarge,
+                ),
+                UiIcon(UiIcons.arrowDropDown, color: theme.colorScheme.outline),
               ],
             ),
             if (!_collapsed) SizedBox(height: 24),
-            if (!_collapsed) SizedBox(
-              height: 200,
-              child: MonthAmountChart(data: widget.data.chartData)
-            )
+            if (!_collapsed)
+              SizedBox(
+                height: 200,
+                child: MonthAmountChart(data: widget.data.chartData),
+              ),
           ],
         ),
       ),

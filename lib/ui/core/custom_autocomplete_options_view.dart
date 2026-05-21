@@ -7,7 +7,7 @@ class CustomAutocompleteOptionsView<T extends Object> extends StatelessWidget {
     required this.onSelected,
     required this.options,
     required this.maxOptionsHeight,
-    required this.maxOptionWidth
+    required this.maxOptionWidth,
   });
 
   final AutocompleteOptionToString<T> displayStringForOption;
@@ -26,13 +26,16 @@ class CustomAutocompleteOptionsView<T extends Object> extends StatelessWidget {
         elevation: 4.0,
         borderRadius: BorderRadius.circular(10),
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: maxOptionsHeight, maxWidth: maxOptionWidth),
-          child: ListView.builder(            
+          constraints: BoxConstraints(
+            maxHeight: maxOptionsHeight,
+            maxWidth: maxOptionWidth,
+          ),
+          child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 4),
             shrinkWrap: true,
             itemCount: options.length + 3,
             itemBuilder: (BuildContext context, int index) {
-              final T option; 
+              final T option;
               if (index >= options.length) {
                 return Container(height: 16);
               }
@@ -55,13 +58,16 @@ class CustomAutocompleteOptionsView<T extends Object> extends StatelessWidget {
                       return Container(
                         decoration: BoxDecoration(
                           // color: highlight ? Theme.of(context).focusColor : null,
-                          borderRadius: BorderRadius.circular(10)
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        // color: 
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        // color:
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
                         child: Text(displayStringForOption(option)),
                       );
-                    }
+                    },
                   ),
                 ),
               );

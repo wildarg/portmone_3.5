@@ -6,7 +6,6 @@ import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class NewBudgetCard extends StatelessWidget {
-
   const NewBudgetCard({super.key});
 
   @override
@@ -24,13 +23,10 @@ class NewBudgetCard extends StatelessWidget {
       },
       child: Column(
         children: [
-          UiButton.flatRounded(
-            icon: UiIcons.newBudget,
-          ),
+          UiButton.flatRounded(icon: UiIcons.newBudget),
           Text('Add new budget', style: context.textTheme.labelMedium),
         ],
-      )
+      ),
     );
   }
-  
 }

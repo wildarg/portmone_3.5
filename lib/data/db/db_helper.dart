@@ -5,7 +5,6 @@ import 'package:portmone_bloc/utils/list_extensions.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class DBHelper {
-
   final String name;
   final int version;
 
@@ -22,10 +21,10 @@ abstract class DBHelper {
   Future<Database> _openDb() async {
     String path = await _getDBPath();
     return openDatabase(
-      path, 
+      path,
       version: version,
       onCreate: _onCreate,
-      onUpgrade: _onUpgrade
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -38,17 +37,20 @@ abstract class DBHelper {
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    final Iterable<Future<void> Function(Database db)> upgradeCallbacks = upgradeMap.entries
-        .where((e) => oldVersion < e.key)
-        .sortWith(_upgradeEntriesComparator)
-        .map((e) => e.value);
+    final Iterable<Future<void> Function(Database db)> upgradeCallbacks =
+        upgradeMap.entries
+            .where((e) => oldVersion < e.key)
+            .sortWith(_upgradeEntriesComparator)
+            .map((e) => e.value);
 
-    await Future.forEach(upgradeCallbacks, (f) async { await f(db); });
+    await Future.forEach(upgradeCallbacks, (f) async {
+      await f(db);
+    });
   }
 
   int _upgradeEntriesComparator(
     MapEntry<int, Future<void> Function(Database db)> first,
-    MapEntry<int, Future<void> Function(Database db)> second,    
+    MapEntry<int, Future<void> Function(Database db)> second,
   ) {
     return first.key.compareTo(second.key);
   }
@@ -74,21 +76,32 @@ abstract class DBHelper {
     return db.rawQuery(sql);
   }
 
-  Future<void> delete(String table, {String? where, List<dynamic>? args}) async {
+  Future<void> delete(
+    String table, {
+    String? where,
+    List<dynamic>? args,
+  }) async {
     Database db = await getDb();
     await db.delete(table, where: where, whereArgs: args);
   }
 
   Future<int> insert(String table, Map<String, dynamic> values) async {
     Database db = await getDb();
-    return db.insert(table, values, conflictAlgorithm: ConflictAlgorithm.replace);
+    return db.insert(
+      table,
+      values,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
-  Future<void> batchInsert(String table, Iterable<Map<String, dynamic>> values) async {
+  Future<void> batchInsert(
+    String table,
+    Iterable<Map<String, dynamic>> values,
+  ) async {
     Database db = await getDb();
     Batch batch = db.batch();
-    for (var map in values) { 
-      batch.insert(table, map, conflictAlgorithm: ConflictAlgorithm.ignore); 
+    for (var map in values) {
+      batch.insert(table, map, conflictAlgorithm: ConflictAlgorithm.ignore);
     }
     await batch.commit();
   }
@@ -106,14 +119,15 @@ abstract class DBHelper {
     return db.exec(script);
   }
 
-  Future<void> transaction<T>(Future<T> Function(TransactionHelper t) action) async {
-    Database db = await getDb();    
+  Future<void> transaction<T>(
+    Future<T> Function(TransactionHelper t) action,
+  ) async {
+    Database db = await getDb();
     return db.transaction((txn) async {
       final helper = TransactionHelper(txn);
       await action(helper);
     });
   }
-
 }
 
 class TransactionHelper {
@@ -121,30 +135,38 @@ class TransactionHelper {
 
   TransactionHelper(this.txn);
 
-  Future<void> delete(String table, {String? where, List<dynamic>? args}) async {
+  Future<void> delete(
+    String table, {
+    String? where,
+    List<dynamic>? args,
+  }) async {
     await txn.delete(table, where: where, whereArgs: args);
   }
 
   Future<int> insert(String table, Map<String, dynamic> values) async {
-    return txn.insert(table, values, conflictAlgorithm: ConflictAlgorithm.replace);
+    return txn.insert(
+      table,
+      values,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
-  Future<void> batchInsert(String table, Iterable<Map<String, dynamic>> values) async {
+  Future<void> batchInsert(
+    String table,
+    Iterable<Map<String, dynamic>> values,
+  ) async {
     Batch batch = txn.batch();
-    for (var map in values) { 
-      batch.insert(table, map, conflictAlgorithm: ConflictAlgorithm.ignore); 
+    for (var map in values) {
+      batch.insert(table, map, conflictAlgorithm: ConflictAlgorithm.ignore);
     }
     await batch.commit();
   }
-
 }
 
 extension DatabaseExtension on Database {
-
   Future<void> exec(List<String> script) {
     return transaction((txn) async {
       Future.forEach(script, txn.execute);
     });
   }
-
 }

@@ -1,5 +1,4 @@
 extension CommonExtensions<T> on T {
-
   R let<R>(R Function(T value) block) {
     return block(this);
   }
@@ -10,11 +9,10 @@ extension CommonExtensions<T> on T {
   }
 
   T? takeIf(bool Function(T) block) {
-    return block(this)? this : null;
+    return block(this) ? this : null;
   }
 
   R? takeIfInstance<R>() {
-    return this is R? this as R : null;
+    return this is R ? this as R : null;
   }
-
 }

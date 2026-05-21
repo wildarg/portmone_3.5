@@ -12,32 +12,36 @@ import 'package:portmone_bloc/model/money_date_info.dart';
 import 'package:portmone_bloc/utils/date_utils.dart';
 
 class BudgetRepo {
-
   final PortmoneDB db;
 
   BudgetRepo({required this.db});
 
   Future<Iterable<MoneyDateInfo>> getBudgetChartData(
-    Budget budget, 
-    DateTime startDate, 
-    DateTime endDate, 
-    bool plannedInclude
+    Budget budget,
+    DateTime startDate,
+    DateTime endDate,
+    bool plannedInclude,
   ) async {
-    final data = await GetBudgetDataQuery(db).execute(budget, startDate, endDate, plannedInclude);
-    final expenses = data.map((e) => 
-      MoneyDateInfo(
-        DateTime.fromMillisecondsSinceEpoch(e.timestamp), 
-        Money(amountInCents: e.totalCents)
-      )
-    ).toList();
+    final data = await GetBudgetDataQuery(
+      db,
+    ).execute(budget, startDate, endDate, plannedInclude);
+    final expenses = data
+        .map(
+          (e) => MoneyDateInfo(
+            DateTime.fromMillisecondsSinceEpoch(e.timestamp),
+            Money(amountInCents: e.totalCents),
+          ),
+        )
+        .toList();
 
-    return accumulateBudget(
-      startDate, endDate, 
-      expenses
-    );
+    return accumulateBudget(startDate, endDate, expenses);
   }
 
-  Iterable<MoneyDateInfo> accumulateBudget(DateTime startDate, DateTime endDate, List<MoneyDateInfo> expenses) sync* {
+  Iterable<MoneyDateInfo> accumulateBudget(
+    DateTime startDate,
+    DateTime endDate,
+    List<MoneyDateInfo> expenses,
+  ) sync* {
     final timeline = DateTimeUtils.iterate(startDate, endDate);
     Money current = const Money(amountInCents: 0);
     int ind = 0;
@@ -60,28 +64,35 @@ class BudgetRepo {
     await db.transaction((t) async {
       await t.insert(BudgetTable.tableName, values);
       await t.delete(
-        BudgetLinkTable.tableName, 
-        where: '${BudgetLinkTable.budgetUid} = ?', 
-        args: [budget.uid]
+        BudgetLinkTable.tableName,
+        where: '${BudgetLinkTable.budgetUid} = ?',
+        args: [budget.uid],
       );
       await t.batchInsert(
-        BudgetLinkTable.tableName, 
-        budget.expenseTypeUids.map((e) => {
-          BudgetLinkTable.budgetUid : budget.uid,
-          BudgetLinkTable.expenseTypeUid : e
-        })
+        BudgetLinkTable.tableName,
+        budget.expenseTypeUids.map(
+          (e) => {
+            BudgetLinkTable.budgetUid: budget.uid,
+            BudgetLinkTable.expenseTypeUid: e,
+          },
+        ),
       );
     });
 
     return budget;
   }
-  
+
   Future<Iterable<BudgetInfo>> getBudgets(MainFilter filter) {
-    final (startDate, endDate) = DateTimeUtils.getBudgetInterval(filter.startDate.value, filter.endDate.value);
-    return GetBudgetsQuery(db).execute(startDate, endDate, filter.plannedInclude);
+    final (startDate, endDate) = DateTimeUtils.getBudgetInterval(
+      filter.startDate.value,
+      filter.endDate.value,
+    );
+    return GetBudgetsQuery(
+      db,
+    ).execute(startDate, endDate, filter.plannedInclude);
   }
-  
-  Future<Budget> deleteBudget(Budget budget) async {    
+
+  Future<Budget> deleteBudget(Budget budget) async {
     await db.exec([
       "delete from ${BudgetTable.tableName} where ${BudgetTable.uid} = '${budget.uid}'",
       "delete from ${BudgetLinkTable.tableName} where ${BudgetLinkTable.budgetUid} = '${budget.uid}'",
@@ -90,9 +101,12 @@ class BudgetRepo {
   }
 
   Future<Iterable<ExpenseRecordInfo>> getExpenseRecordInfo(MainFilter filter) {
-    final (startDate, endDate) = DateTimeUtils.getBudgetInterval(filter.startDate.value, filter.endDate.value);
-    return GetExpenseRecordsQuery(db).execute(startDate, endDate, filter.plannedInclude);
+    final (startDate, endDate) = DateTimeUtils.getBudgetInterval(
+      filter.startDate.value,
+      filter.endDate.value,
+    );
+    return GetExpenseRecordsQuery(
+      db,
+    ).execute(startDate, endDate, filter.plannedInclude);
   }
-
 }
-

@@ -11,7 +11,6 @@ abstract class Account with _$Account {
     required Currency currency,
     @Default(false) bool isArchived,
   }) = _Account;
-  
 }
 
 extension AccountExtension on Account {

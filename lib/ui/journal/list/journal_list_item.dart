@@ -13,7 +13,6 @@ import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/datetime_extensions.dart';
 
 class JournalListItem extends StatelessWidget {
-
   final DateTransactions data;
   final VoidCallback? onOpenEditor;
 
@@ -24,28 +23,60 @@ class JournalListItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          color: context.colorScheme.surfaceContainer,
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Row(
-            children: [
-              Text(data.dateTime.shortFormat, style: context.textTheme.bodySmall),
-            ],
-          ),
-        )
-      ] + data.transactions.map<Widget>((operation) =>
-        switch (operation) {
-          Expense() => ExpenseListTile(expense: operation, onTap: () => _openTransactionEditor(context, operation, '/expense/editor')),
-          Transfer() => TransferListTile(transfer: operation, onTap: () => _openTransactionEditor(context, operation, '/transfer/editor')),
-          Income() => IncomeListTile(income: operation, onTap: () => _openTransactionEditor(context, operation, '/income/editor')),
-          _ => Container()
-        }
-      ).toList(),
+      children:
+          <Widget>[
+            Container(
+              color: context.colorScheme.surfaceContainer,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Row(
+                children: [
+                  Text(
+                    data.dateTime.shortFormat,
+                    style: context.textTheme.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+          ] +
+          data.transactions
+              .map<Widget>(
+                (operation) => switch (operation) {
+                  Expense() => ExpenseListTile(
+                    expense: operation,
+                    onTap: () => _openTransactionEditor(
+                      context,
+                      operation,
+                      '/expense/editor',
+                    ),
+                  ),
+                  Transfer() => TransferListTile(
+                    transfer: operation,
+                    onTap: () => _openTransactionEditor(
+                      context,
+                      operation,
+                      '/transfer/editor',
+                    ),
+                  ),
+                  Income() => IncomeListTile(
+                    income: operation,
+                    onTap: () => _openTransactionEditor(
+                      context,
+                      operation,
+                      '/income/editor',
+                    ),
+                  ),
+                  _ => Container(),
+                },
+              )
+              .toList(),
     );
   }
 
-  void _openTransactionEditor(BuildContext context, Transaction transaction, String route) async {
+  void _openTransactionEditor(
+    BuildContext context,
+    Transaction transaction,
+    String route,
+  ) async {
     onOpenEditor?.call();
     dynamic result = await context.push(route, extra: transaction);
     while (result is CreateNewTransaction) {
@@ -53,5 +84,4 @@ class JournalListItem extends StatelessWidget {
       result = await context.push(route);
     }
   }
-  
 }

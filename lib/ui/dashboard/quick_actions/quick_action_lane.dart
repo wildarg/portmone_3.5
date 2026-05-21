@@ -12,26 +12,25 @@ class QuickActionLane extends StatelessWidget {
     return UiScrollableSwimlane(
       items: [
         const SizedBox(width: 16),
-        UiButton.primarySmall(          
-          icon: UiIcons.receipt, 
+        UiButton.primarySmall(
+          icon: UiIcons.receipt,
           text: 'Expense',
           onTap: () => context.push('/expense/editor'),
         ),
         const SizedBox(width: 8),
-        UiButton.primarySmall(          
-          icon: UiIcons.currencyExchange, 
+        UiButton.primarySmall(
+          icon: UiIcons.currencyExchange,
           text: 'Transfer',
           onTap: () => context.push('/transfer/editor'),
         ),
         const SizedBox(width: 8),
-        UiButton.primarySmall(          
-          icon: UiIcons.wallet, 
+        UiButton.primarySmall(
+          icon: UiIcons.wallet,
           text: 'Income',
           onTap: () => context.push('/income/editor'),
         ),
         const SizedBox(width: 16),
       ],
-    );  
+    );
   }
-  
 }
