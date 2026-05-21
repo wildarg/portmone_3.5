@@ -47,7 +47,7 @@ class MainFilterRepo {
       plannedInclude: map.getBool('plannedInclude'),
       text: map.getString('text') ?? '',
       account: Nullable<Account>(map.optAccount()),
-      transactionType: Nullable<TransactionType>(null),
+      transactionType: Nullable<TransactionType>(map.optTransactionType('incomeType')),
       // incomeType: map.optOperationType('incomeType'),
       // expenseType: map.optOperationType('expenseType'),
       // tag: map.getString('tag')
@@ -60,6 +60,7 @@ class MainFilterRepo {
     MainFilterTable.endDate : filter.endDate.value?.millisecondsSinceEpoch,
     MainFilterTable.plannedInclude : filter.plannedInclude? 1 : 0,
     MainFilterTable.accountUid : filter.account.value?.uid,
+    MainFilterTable.incomeTypeUid : filter.transactionType.value?.uid,
     MainFilterTable.text : filter.text,
   };
 
