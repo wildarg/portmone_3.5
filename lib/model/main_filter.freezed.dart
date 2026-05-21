@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MainFilter {
 
- int get id; Nullable<DateTime> get startDate; Nullable<DateTime> get endDate; bool get plannedInclude; Nullable<Account> get account; String get text;
+ int get id; Nullable<DateTime> get startDate; Nullable<DateTime> get endDate; bool get plannedInclude; Nullable<Account> get account; Nullable<TransactionType> get transactionType; String get text;
 /// Create a copy of MainFilter
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $MainFilterCopyWith<MainFilter> get copyWith => _$MainFilterCopyWithImpl<MainFil
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MainFilter&&(identical(other.id, id) || other.id == id)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.plannedInclude, plannedInclude) || other.plannedInclude == plannedInclude)&&(identical(other.account, account) || other.account == account)&&(identical(other.text, text) || other.text == text));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MainFilter&&(identical(other.id, id) || other.id == id)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.plannedInclude, plannedInclude) || other.plannedInclude == plannedInclude)&&(identical(other.account, account) || other.account == account)&&(identical(other.transactionType, transactionType) || other.transactionType == transactionType)&&(identical(other.text, text) || other.text == text));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,startDate,endDate,plannedInclude,account,text);
+int get hashCode => Object.hash(runtimeType,id,startDate,endDate,plannedInclude,account,transactionType,text);
 
 @override
 String toString() {
-  return 'MainFilter(id: $id, startDate: $startDate, endDate: $endDate, plannedInclude: $plannedInclude, account: $account, text: $text)';
+  return 'MainFilter(id: $id, startDate: $startDate, endDate: $endDate, plannedInclude: $plannedInclude, account: $account, transactionType: $transactionType, text: $text)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $MainFilterCopyWith<$Res>  {
   factory $MainFilterCopyWith(MainFilter value, $Res Function(MainFilter) _then) = _$MainFilterCopyWithImpl;
 @useResult
 $Res call({
- int id, Nullable<DateTime> startDate, Nullable<DateTime> endDate, bool plannedInclude, Nullable<Account> account, String text
+ int id, Nullable<DateTime> startDate, Nullable<DateTime> endDate, bool plannedInclude, Nullable<Account> account, Nullable<TransactionType> transactionType, String text
 });
 
 
@@ -62,14 +62,15 @@ class _$MainFilterCopyWithImpl<$Res>
 
 /// Create a copy of MainFilter
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? startDate = null,Object? endDate = null,Object? plannedInclude = null,Object? account = null,Object? text = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? startDate = null,Object? endDate = null,Object? plannedInclude = null,Object? account = null,Object? transactionType = null,Object? text = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as Nullable<DateTime>,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
 as Nullable<DateTime>,plannedInclude: null == plannedInclude ? _self.plannedInclude : plannedInclude // ignore: cast_nullable_to_non_nullable
 as bool,account: null == account ? _self.account : account // ignore: cast_nullable_to_non_nullable
-as Nullable<Account>,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as Nullable<Account>,transactionType: null == transactionType ? _self.transactionType : transactionType // ignore: cast_nullable_to_non_nullable
+as Nullable<TransactionType>,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  Nullable<DateTime> startDate,  Nullable<DateTime> endDate,  bool plannedInclude,  Nullable<Account> account,  String text)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  Nullable<DateTime> startDate,  Nullable<DateTime> endDate,  bool plannedInclude,  Nullable<Account> account,  Nullable<TransactionType> transactionType,  String text)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MainFilter() when $default != null:
-return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_that.account,_that.text);case _:
+return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_that.account,_that.transactionType,_that.text);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  Nullable<DateTime> startDate,  Nullable<DateTime> endDate,  bool plannedInclude,  Nullable<Account> account,  String text)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  Nullable<DateTime> startDate,  Nullable<DateTime> endDate,  bool plannedInclude,  Nullable<Account> account,  Nullable<TransactionType> transactionType,  String text)  $default,) {final _that = this;
 switch (_that) {
 case _MainFilter():
-return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_that.account,_that.text);case _:
+return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_that.account,_that.transactionType,_that.text);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  Nullable<DateTime> startDate,  Nullable<DateTime> endDate,  bool plannedInclude,  Nullable<Account> account,  String text)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  Nullable<DateTime> startDate,  Nullable<DateTime> endDate,  bool plannedInclude,  Nullable<Account> account,  Nullable<TransactionType> transactionType,  String text)?  $default,) {final _that = this;
 switch (_that) {
 case _MainFilter() when $default != null:
-return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_that.account,_that.text);case _:
+return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_that.account,_that.transactionType,_that.text);case _:
   return null;
 
 }
@@ -211,7 +212,7 @@ return $default(_that.id,_that.startDate,_that.endDate,_that.plannedInclude,_tha
 
 
 class _MainFilter implements MainFilter {
-  const _MainFilter({required this.id, required this.startDate, required this.endDate, required this.plannedInclude, required this.account, required this.text});
+  const _MainFilter({required this.id, required this.startDate, required this.endDate, required this.plannedInclude, required this.account, required this.transactionType, required this.text});
   
 
 @override final  int id;
@@ -219,6 +220,7 @@ class _MainFilter implements MainFilter {
 @override final  Nullable<DateTime> endDate;
 @override final  bool plannedInclude;
 @override final  Nullable<Account> account;
+@override final  Nullable<TransactionType> transactionType;
 @override final  String text;
 
 /// Create a copy of MainFilter
@@ -231,16 +233,16 @@ _$MainFilterCopyWith<_MainFilter> get copyWith => __$MainFilterCopyWithImpl<_Mai
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MainFilter&&(identical(other.id, id) || other.id == id)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.plannedInclude, plannedInclude) || other.plannedInclude == plannedInclude)&&(identical(other.account, account) || other.account == account)&&(identical(other.text, text) || other.text == text));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MainFilter&&(identical(other.id, id) || other.id == id)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.plannedInclude, plannedInclude) || other.plannedInclude == plannedInclude)&&(identical(other.account, account) || other.account == account)&&(identical(other.transactionType, transactionType) || other.transactionType == transactionType)&&(identical(other.text, text) || other.text == text));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,startDate,endDate,plannedInclude,account,text);
+int get hashCode => Object.hash(runtimeType,id,startDate,endDate,plannedInclude,account,transactionType,text);
 
 @override
 String toString() {
-  return 'MainFilter(id: $id, startDate: $startDate, endDate: $endDate, plannedInclude: $plannedInclude, account: $account, text: $text)';
+  return 'MainFilter(id: $id, startDate: $startDate, endDate: $endDate, plannedInclude: $plannedInclude, account: $account, transactionType: $transactionType, text: $text)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$MainFilterCopyWith<$Res> implements $MainFilterCopyWith<$
   factory _$MainFilterCopyWith(_MainFilter value, $Res Function(_MainFilter) _then) = __$MainFilterCopyWithImpl;
 @override @useResult
 $Res call({
- int id, Nullable<DateTime> startDate, Nullable<DateTime> endDate, bool plannedInclude, Nullable<Account> account, String text
+ int id, Nullable<DateTime> startDate, Nullable<DateTime> endDate, bool plannedInclude, Nullable<Account> account, Nullable<TransactionType> transactionType, String text
 });
 
 
@@ -268,14 +270,15 @@ class __$MainFilterCopyWithImpl<$Res>
 
 /// Create a copy of MainFilter
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? startDate = null,Object? endDate = null,Object? plannedInclude = null,Object? account = null,Object? text = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? startDate = null,Object? endDate = null,Object? plannedInclude = null,Object? account = null,Object? transactionType = null,Object? text = null,}) {
   return _then(_MainFilter(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as Nullable<DateTime>,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
 as Nullable<DateTime>,plannedInclude: null == plannedInclude ? _self.plannedInclude : plannedInclude // ignore: cast_nullable_to_non_nullable
 as bool,account: null == account ? _self.account : account // ignore: cast_nullable_to_non_nullable
-as Nullable<Account>,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as Nullable<Account>,transactionType: null == transactionType ? _self.transactionType : transactionType // ignore: cast_nullable_to_non_nullable
+as Nullable<TransactionType>,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
