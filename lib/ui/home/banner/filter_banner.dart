@@ -44,10 +44,7 @@ class FilterBanner extends StatelessWidget {
           ),
           trailing: IconButton(
             onPressed: onClick,
-            icon: UiIcon(
-              UiIcons.trash,
-              color: context.colorScheme.secondaryContainer,
-            ),
+            icon: UiIcon(UiIcons.close, color: context.colorScheme.secondaryContainer),
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(
                 context.colorScheme.onSecondaryContainer,

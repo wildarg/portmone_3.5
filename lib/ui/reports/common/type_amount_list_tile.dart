@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/amount_type_info.dart';
+import 'package:portmone_bloc/store/portmone_actions.dart';
+import 'package:portmone_bloc/store/portmone_store.dart';
+import 'package:portmone_bloc/ui/core/ui_button.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
 import 'package:portmone_bloc/ui/reports/common/month_amount_chart.dart';
 import 'package:portmone_bloc/utils/money_extensions.dart';
@@ -61,12 +64,19 @@ class _TypeAmountListTileState extends State<TypeAmountListTile> {
                 UiIcon(UiIcons.arrowDropDown, color: theme.colorScheme.outline),
               ],
             ),
-            if (!_collapsed) SizedBox(height: 24),
-            if (!_collapsed)
-              SizedBox(
-                height: 200,
-                child: MonthAmountChart(data: widget.data.chartData),
-              ),
+            if (!_collapsed) const SizedBox(height: 24),
+            if (!_collapsed) SizedBox(
+              height: 200,
+              child: MonthAmountChart(data: widget.data.chartData)
+            ),
+            if (!_collapsed) const SizedBox(height: 16),
+            if (!_collapsed) UiButton.secondary(
+              icon: UiIcons.filter,
+              text: 'Filter by ${widget.data.type.name}',
+              onTap: () {
+                context.dispatch(SetTransactionTypeFilterAction(widget.data.type));
+              },
+            ),
           ],
         ),
       ),

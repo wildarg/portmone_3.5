@@ -39,6 +39,11 @@ class SetAccountFilterAction extends PortmoneAction {
   SetAccountFilterAction(this.account);
 }
 
+class SetTransactionTypeFilterAction extends PortmoneAction {
+  final TransactionType? transactionType;
+  SetTransactionTypeFilterAction(this.transactionType);
+}
+
 class SetTextFilterAction extends PortmoneAction {
   final String text;
   SetTextFilterAction(this.text);

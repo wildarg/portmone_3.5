@@ -4,6 +4,7 @@
 import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/model/money.dart';
+import 'package:portmone_bloc/model/operation_type.dart';
 
 extension MapExtensions on Map<String, dynamic> {
   int? getInt(String name, {int? fallback}) {
@@ -50,12 +51,18 @@ extension MapExtensions on Map<String, dynamic> {
   //     return OperationType(uid: uid, name: name);
   //   }
 
-  //   OperationType? optOperationType(String prefix) {
-  //     final uid = getString('${prefix}Uid');
-  //     if (uid == null) return null;
-  //     final name = getString('${prefix}Name')!;
-  //     return OperationType(uid: uid, name: name);
-  //   }
+  TransactionType getTransactionType(String prefix) {
+    final uid = getString('${prefix}Uid')!;
+    final name = getString('${prefix}Name')!;
+    return TransactionType(uid: uid, name: name);
+  }
+
+  TransactionType? optTransactionType(String prefix) {
+    final uid = getString('${prefix}Uid');
+    if (uid == null) return null;
+    final name = getString('${prefix}Name')!;
+    return TransactionType(uid: uid, name: name);
+  }
 
   DateTime? getDateTime(String name) {
     final millis = getInt(name);

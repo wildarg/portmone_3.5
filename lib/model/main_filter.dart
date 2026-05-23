@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:portmone_bloc/model/account.dart';
+import 'package:portmone_bloc/model/operation_type.dart';
 import 'package:portmone_bloc/utils/nullable.dart';
 
 part 'main_filter.freezed.dart';
@@ -12,6 +13,7 @@ abstract class MainFilter with _$MainFilter {
     required Nullable<DateTime> endDate,
     required bool plannedInclude,
     required Nullable<Account> account,
+    required Nullable<TransactionType> transactionType,
     required String text,
   }) = _MainFilter;
 
@@ -21,6 +23,8 @@ abstract class MainFilter with _$MainFilter {
     endDate: Nullable<DateTime>(null),
     plannedInclude: false,
     account: Nullable<Account>(null),
-    text: '',
+    transactionType: Nullable<TransactionType>(null),
+    text: ''
   );
 }
+

@@ -100,7 +100,7 @@ class GetJournalQuery {
     sql.addEndDate('e.date', filter.endDate.value);
     sql.addPlanned('e.planned', filter.plannedInclude);
     sql.addEntityUid('e.accountUid', filter.account.value?.uid);
-    // sql.addEntity('e.typeUid', config.expenseType);
+    sql.addEntityUid('e.typeUid', filter.transactionType.value?.uid);
     // sql.takeUnless(config.expenseType == null && config.incomeType != null);
     return sql.toString();
   }
@@ -130,7 +130,7 @@ class GetJournalQuery {
     sql.addEndDate('i.date', filter.endDate.value);
     sql.addPlanned('i.planned', filter.plannedInclude);
     sql.addEntityUid('i.accountUid', filter.account.value?.uid);
-    // sql.addEntity('i.typeUid', config.incomeType);
+    sql.addEntityUid('i.typeUid', filter.transactionType.value?.uid);
     // sql.takeUnless(config.expenseType != null && config.incomeType == null);
     return sql.toString();
   }
@@ -159,12 +159,9 @@ class GetJournalQuery {
     sql.addEndDate('t.date', filter.endDate.value);
     sql.addPlanned('t.planned', filter.plannedInclude);
     // sql.addNoteFilter('t.description', config.text);
-    sql.addAccountSet(filter.account.value, [
-      't.fromAccountUid',
-      't.toAccountUid',
-    ]);
-    // sql.takeUnless(config.expenseType != null || config.incomeType != null);
-    return sql.toString();
+    sql.addAccountSet(filter.account.value, ['t.fromAccountUid', 't.toAccountUid']);
+    sql.takeUnless(filter.transactionType.hasData);
+    return sql.toString();  
   }
 
   Account _getAccount(String prefix, Map<String, Object?> map) {
