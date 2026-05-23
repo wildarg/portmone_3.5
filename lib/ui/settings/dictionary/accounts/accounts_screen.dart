@@ -12,11 +12,9 @@ class AccountsScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _AccountsScreenState();
   }
-  
 }
 
 class _AccountsScreenState extends State<AccountsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,24 +23,22 @@ class _AccountsScreenState extends State<AccountsScreen> {
           icon: UiIcons.arrowBack,
           onTap: () => context.pop(),
         ),
-        title: Text('Accounts'),        
+        title: Text('Accounts'),
       ),
       body: StoreBuilder(
         stream: (store) => store.accountsState,
-        builder:(context, state) {
+        builder: (context, state) {
           return CustomScrollView(
             slivers: [
-              SliverList.builder(     
-                itemCount: state.length,       
-                itemBuilder:(context, index) => AccountListTile(account: state[index])
-              )
+              SliverList.builder(
+                itemCount: state.length,
+                itemBuilder: (context, index) =>
+                    AccountListTile(account: state[index]),
+              ),
             ],
           );
-        }
+        },
       ),
     );
   }
-
-
 }
-

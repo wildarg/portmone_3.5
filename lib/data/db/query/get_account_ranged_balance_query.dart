@@ -3,41 +3,47 @@ import 'package:portmone_bloc/model/account_ranged_info.dart';
 import 'package:portmone_bloc/model/money_date_info.dart';
 import 'package:portmone_bloc/utils/map_extensions.dart';
 
-class GetAccountRangedBalanceQuery  {
-
+class GetAccountRangedBalanceQuery {
   final PortmoneDB db;
 
   GetAccountRangedBalanceQuery(this.db);
 
-  Future<Iterable<AccountRangedInfo>> execute(DateTime? startDate, DateTime? endDate, bool includedPending) async {
+  Future<Iterable<AccountRangedInfo>> execute(
+    DateTime? startDate,
+    DateTime? endDate,
+    bool includedPending,
+  ) async {
     final startTimestamp = startDate?.millisecondsSinceEpoch ?? 0;
     final endTimestamp = (endDate ?? DateTime.now()).millisecondsSinceEpoch;
 
-    final sql = getSql(startTimestamp, endTimestamp, includedPending? 1 : 0);
+    final sql = getSql(startTimestamp, endTimestamp, includedPending ? 1 : 0);
     final list = await db.query(sql);
-    final result = list.map((e) => _toBalanceResult(e, startTimestamp, endTimestamp));
+    final result = list.map(
+      (e) => _toBalanceResult(e, startTimestamp, endTimestamp),
+    );
     return result;
   }
 
   AccountRangedInfo _toBalanceResult(
     Map<String, Object?> map,
     int startTimestamp,
-    int endTimestamp
+    int endTimestamp,
   ) {
     return AccountRangedInfo(
       account: map.getAccount(),
       enter: MoneyDateInfo(
-        DateTime.fromMillisecondsSinceEpoch(startTimestamp), 
-        map.getMoney('enterAmount')
+        DateTime.fromMillisecondsSinceEpoch(startTimestamp),
+        map.getMoney('enterAmount'),
       ),
-      exit: MoneyDateInfo( 
+      exit: MoneyDateInfo(
         DateTime.fromMillisecondsSinceEpoch(endTimestamp),
-        map.getMoney('exitAmount')
-      )
+        map.getMoney('exitAmount'),
+      ),
     );
   }
 
-  String getSql(int start, int end, int includePlanned) => '''
+  String getSql(int start, int end, int includePlanned) =>
+      '''
     with income as (
       select
         t.accountUid,
@@ -121,5 +127,4 @@ class GetAccountRangedBalanceQuery  {
     order by
       a.position
   ''';
-  
 }

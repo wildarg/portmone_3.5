@@ -7,7 +7,6 @@ import 'package:portmone_bloc/utils/map_extensions.dart';
 import 'package:portmone_bloc/utils/nullable.dart';
 
 class MainFilterRepo {
-
   final PortmoneDB db;
 
   MainFilterRepo({required this.db});
@@ -28,8 +27,7 @@ class MainFilterRepo {
       left join incomeTypes it on it.uid = mf.incomeTypeUid
       left join expenseTypes et on et.uid = mf.expenseTypeUid
     ''';
-    final map = (await db.query(sql))
-      .firstOrNull ?? {};
+    final map = (await db.query(sql)).firstOrNull ?? {};
     return _fromMap(map);
   }
 
@@ -53,7 +51,7 @@ class MainFilterRepo {
       // tag: map.getString('tag')
     );
   }
-  
+
   Map<String, dynamic> _toMap(MainFilter filter) => {
     MainFilterTable.id : filter.id,
     MainFilterTable.startDate : filter.startDate.value?.millisecondsSinceEpoch,
@@ -63,6 +61,4 @@ class MainFilterRepo {
     MainFilterTable.incomeTypeUid : filter.transactionType.value?.uid,
     MainFilterTable.text : filter.text,
   };
-
-
 }

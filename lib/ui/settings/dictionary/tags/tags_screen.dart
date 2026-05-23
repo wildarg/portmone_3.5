@@ -12,11 +12,9 @@ class TagsScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _TagsScreenState();
   }
-  
 }
 
 class _TagsScreenState extends State<TagsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,22 +23,21 @@ class _TagsScreenState extends State<TagsScreen> {
           icon: UiIcons.arrowBack,
           onTap: () => context.pop(),
         ),
-        title: Text('Tags'),        
+        title: Text('Tags'),
       ),
       body: StoreBuilder(
         stream: (store) => store.tagsState,
-        builder:(context, state) {
+        builder: (context, state) {
           return CustomScrollView(
             slivers: [
-              SliverList.builder(     
-                itemCount: state.length,       
-                itemBuilder:(context, index) => TagListTile(tag: state[index])
-              )
+              SliverList.builder(
+                itemCount: state.length,
+                itemBuilder: (context, index) => TagListTile(tag: state[index]),
+              ),
             ],
           );
-        }
+        },
       ),
     );
   }
-
 }

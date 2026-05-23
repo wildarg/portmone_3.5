@@ -4,11 +4,14 @@ import 'package:portmone_bloc/utils/context_extensions.dart';
 import 'package:portmone_bloc/utils/money_text_controller.dart';
 
 class TransactionAmountField extends StatelessWidget {
-
   final String title;
   final MoneyFormatTextEditingController? controller;
 
-  const TransactionAmountField({super.key, required this.title, this.controller});
+  const TransactionAmountField({
+    super.key,
+    required this.title,
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +25,9 @@ class TransactionAmountField extends StatelessWidget {
         fontFamily: 'Montserrat',
         fontSize: 58,
         color: context.colorScheme.primary,
-        height: 66 / 58
+        height: 66 / 58,
       ),
       textAlign: TextAlign.end,
     );
   }
-
-
 }

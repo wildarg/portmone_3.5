@@ -1,9 +1,7 @@
 class Money {
   final int amountInCents;
 
-  const Money({
-    required this.amountInCents,
-  });
+  const Money({required this.amountInCents});
 
   @override
   bool operator ==(Object other) =>

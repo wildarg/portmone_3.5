@@ -40,7 +40,7 @@ class BaseTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return TextFormField(            
+    return TextFormField(
       readOnly: readOnly,
       onTap: onTap,
       controller: _controller,
@@ -51,18 +51,20 @@ class BaseTextField extends StatelessWidget {
       style: style,
       textAlign: textAlign ?? TextAlign.start,
       keyboardType: keyboardType,
-      decoration: InputDecoration(         
-        constraints: constraints,           
+      decoration: InputDecoration(
+        constraints: constraints,
         prefix: SizedBox(width: 16),
         suffixIcon: trailingIcon?.let((it) => UnconstrainedBox(child: it)),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        label: label?.let((it) => Padding(
-          padding: const EdgeInsets.only(bottom: 32, left: 0),
-          child: Text(it),
-        )),
+        label: label?.let(
+          (it) => Padding(
+            padding: const EdgeInsets.only(bottom: 32, left: 0),
+            child: Text(it),
+          ),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none                
+          borderSide: BorderSide.none,
         ),
         focusColor: theme.colorScheme.onSurface,
         fillColor: theme.colorScheme.surfaceContainerHigh,

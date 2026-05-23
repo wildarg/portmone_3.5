@@ -7,23 +7,24 @@ import 'package:portmone_bloc/ui/dashboard/expense_tracker/currency_selector.dar
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class ExpenseTrackerContent extends StatefulWidget {
-
   final List<AmountTrackerData> data;
 
   const ExpenseTrackerContent({super.key, this.data = const []});
 
   @override
   State<StatefulWidget> createState() => _ExpenseSwimlaneContentState();
-
 }
 
 class _ExpenseSwimlaneContentState extends State<ExpenseTrackerContent> {
-
   int _selected = 0;
-  final AnimatedSpendLabelController _firstController = 
-    AnimatedSpendLabelController(TodayAmountTracker(const Money(amountInCents: 0)));
-  final AnimatedSpendLabelController _secondController = 
-    AnimatedSpendLabelController(MonthAmountTracker(const Money(amountInCents: 0), 'This month'));
+  final AnimatedSpendLabelController _firstController =
+      AnimatedSpendLabelController(
+        TodayAmountTracker(const Money(amountInCents: 0)),
+      );
+  final AnimatedSpendLabelController _secondController =
+      AnimatedSpendLabelController(
+        MonthAmountTracker(const Money(amountInCents: 0), 'This month'),
+      );
 
   @override
   void initState() {
@@ -47,7 +48,9 @@ class _ExpenseSwimlaneContentState extends State<ExpenseTrackerContent> {
   }
 
   void _onCurrencySelect(Currency? currency) {
-    final ind = widget.data.indexWhere((e) => e.currency.name == currency?.name);
+    final ind = widget.data.indexWhere(
+      (e) => e.currency.name == currency?.name,
+    );
     setState(() {
       _selected = ind;
       _firstController.setValue(widget.data[ind].first);
@@ -85,9 +88,11 @@ class _ExpenseSwimlaneContentState extends State<ExpenseTrackerContent> {
                 height: 50,
                 color: context.colorScheme.secondaryContainer,
               ),
-              Expanded(child: AnimatedSpendLabel(controller: _secondController)),
+              Expanded(
+                child: AnimatedSpendLabel(controller: _secondController),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

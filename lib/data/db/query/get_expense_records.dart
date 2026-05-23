@@ -1,4 +1,3 @@
-
 import 'package:portmone_bloc/data/db/portmone_db.dart';
 import 'package:portmone_bloc/data/db/query/sql_query_extensions.dart';
 import 'package:portmone_bloc/data/db/scheme.dart';
@@ -8,7 +7,6 @@ import 'package:portmone_bloc/model/operation_type.dart';
 import 'package:portmone_bloc/utils/map_extensions.dart';
 
 class GetExpenseRecordsQuery {
-
   final PortmoneDB db;
 
   GetExpenseRecordsQuery(this.db);
@@ -27,16 +25,16 @@ class GetExpenseRecordsQuery {
     return ExpenseRecordInfo(
       date: map.getDateTime('date')!,
       type: TransactionType(
-        uid: map.getString('type_uid')!, 
-        name: map.getString('type_name')!
+        uid: map.getString('type_uid')!,
+        name: map.getString('type_name')!,
       ),
       currency: Currency(
-        uid: map.getString('currency_uid')!, 
-        name: map.getString('currency_name')!
+        uid: map.getString('currency_uid')!,
+        name: map.getString('currency_name')!,
       ),
-      amount: map.getMoney('amount')
+      amount: map.getMoney('amount'),
     );
-  }  
+  }
 
   String _getSql(
     DateTime? startDate,
@@ -66,5 +64,4 @@ class GetExpenseRecordsQuery {
     sql.write(' group by 1, 2, 3, 4, 5');
     return sql.toString();
   }
-
 }

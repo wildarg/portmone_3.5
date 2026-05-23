@@ -4,7 +4,6 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:uuid/uuid.dart';
 
 class PortmoneDB extends DBHelper {
-
   @override
   List<String> get scheme => [
     AccountsTable.createTableSql,
@@ -33,38 +32,40 @@ class PortmoneDB extends DBHelper {
   PortmoneDB() : super(name: 'portmone', version: 27);
 
   Future<void> _upgradeTo20(Database db) async {
-      List<Map<String, dynamic>> values = await db.query('mainFilter', where: 'id = ?', whereArgs: [0]);
-      await db.exec([
-        'drop table if exists mainFilter',
-        MainFilterTable.createTableSql
-      ]);
-      if (values.isNotEmpty) {
-        await db.insert(MainFilterTable.tableName, values.first);
-      }
+    List<Map<String, dynamic>> values = await db.query(
+      'mainFilter',
+      where: 'id = ?',
+      whereArgs: [0],
+    );
+    await db.exec([
+      'drop table if exists mainFilter',
+      MainFilterTable.createTableSql,
+    ]);
+    if (values.isNotEmpty) {
+      await db.insert(MainFilterTable.tableName, values.first);
+    }
   }
 
   Future<void> _upgradeTo21(Database db) {
     return db.exec([
-        'alter table expenses add timestamp integer',
-        'alter table incomes add timestamp integer',
-        'alter table transfers add timestamp integer',
-        'update expenses set timestamp = date',
-        'update incomes set timestamp = date',
-        'update transfers set timestamp = date',
+      'alter table expenses add timestamp integer',
+      'alter table incomes add timestamp integer',
+      'alter table transfers add timestamp integer',
+      'update expenses set timestamp = date',
+      'update incomes set timestamp = date',
+      'update transfers set timestamp = date',
     ]);
   }
 
   Future<void> _upgradeTo22(Database db) {
     return db.exec([
       BudgetTable.createTableSql,
-      BudgetLinkTable.createTableSql
+      BudgetLinkTable.createTableSql,
     ]);
   }
 
   Future<void> _upgradeTo25(Database db) {
-    return db.exec([
-      'alter table accounts add archived integer',
-    ]);
+    return db.exec(['alter table accounts add archived integer']);
   }
 
   Future<void> _upgradeTo26(Database db) {
@@ -80,7 +81,7 @@ class PortmoneDB extends DBHelper {
       SET position = (
         SELECT new_pos FROM ordered WHERE ordered.uid = accounts.uid
       )
-      '''
+      ''',
     ]);
   }
 
@@ -94,6 +95,4 @@ class PortmoneDB extends DBHelper {
   String getNewUid() {
     return const Uuid().v1();
   }
-
-
 }

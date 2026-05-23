@@ -9,12 +9,12 @@ class UiSwitcher extends StatelessWidget {
   final Color? activeColor;
 
   const UiSwitcher({
-    super.key, 
+    super.key,
     this.label = '',
-    this.leading, 
-    this.value = false, 
-    this.onChanged, 
-    this.activeColor
+    this.leading,
+    this.value = false,
+    this.onChanged,
+    this.activeColor,
   });
 
   @override
@@ -24,13 +24,22 @@ class UiSwitcher extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       title: Row(
         children: [
-          Expanded(child: Text(label, style: TextStyle(color: value? activeColor : context.colorScheme.onSurface))),
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: value ? activeColor : context.colorScheme.onSurface,
+              ),
+            ),
+          ),
           Switch(
             activeThumbColor: activeColor,
             inactiveThumbColor: context.colorScheme.surfaceContainerHighest,
-            inactiveTrackColor: Theme.of(context).colorScheme.surfaceContainerHigh,
-            value: value, 
-            onChanged: onChanged
+            inactiveTrackColor: Theme.of(
+              context,
+            ).colorScheme.surfaceContainerHigh,
+            value: value,
+            onChanged: onChanged,
           ),
         ],
       ),

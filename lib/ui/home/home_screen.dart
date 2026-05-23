@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/main_filter.dart';
@@ -16,6 +18,7 @@ import 'package:portmone_bloc/ui/reports/reports_screen.dart';
 import 'package:portmone_bloc/ui/settings/settings_screen.dart';
 import 'package:portmone_bloc/utils/common_extensions.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
+import 'package:rxdart/rxdart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,10 +27,11 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   int _pageInd = 0;
   final PageController _pageController = PageController();
+  StreamSubscription? _filterSubscription;
 
   BannerData? _banner;
   MainFilter? _currentFilter;
@@ -38,10 +42,31 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   late final FocusNode _searchFocusNode;
 
   final _appDestinations = [
-    (page: (BuildContext ctx, [dynamic obj]) => DashboardScreen(), icon: UiIcons.dashboard, selectedIcon: UiIcons.dashboardFill, label: 'Dashboard'),
-    (page: (BuildContext ctx, [dynamic obj]) => JournalScreen(searchFocusNode: obj), icon: UiIcons.wallet, selectedIcon: UiIcons.walletFill, label: 'Journal'),
-    (page: (BuildContext ctx, [dynamic obj]) => ReportsScreen(), icon: UiIcons.report, selectedIcon: UiIcons.reportFill, label: 'Reports'),
-    (page: (BuildContext ctx, [dynamic obj]) => SettingsScreen(), icon: UiIcons.settings, selectedIcon: UiIcons.settingsFill, label: 'Settings'),
+    (
+      page: (BuildContext ctx, [dynamic obj]) => DashboardScreen(),
+      icon: UiIcons.dashboard,
+      selectedIcon: UiIcons.dashboardFill,
+      label: 'Dashboard',
+    ),
+    (
+      page: (BuildContext ctx, [dynamic obj]) =>
+          JournalScreen(searchFocusNode: obj),
+      icon: UiIcons.wallet,
+      selectedIcon: UiIcons.walletFill,
+      label: 'Journal',
+    ),
+    (
+      page: (BuildContext ctx, [dynamic obj]) => ReportsScreen(),
+      icon: UiIcons.report,
+      selectedIcon: UiIcons.reportFill,
+      label: 'Reports',
+    ),
+    (
+      page: (BuildContext ctx, [dynamic obj]) => SettingsScreen(),
+      icon: UiIcons.settings,
+      selectedIcon: UiIcons.settingsFill,
+      label: 'Settings',
+    ),
   ];
 
   @override
@@ -59,14 +84,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutQuad));
 
-    _fadeAnimation =
-        CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+    _fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
 
     _fabController = FabController();
+
+    _filterSubscription = context.store.filterState.distinct(
+      (old, current) => old.account.value?.uid == current.account.value?.uid
+    ).listen(_updateBanner);
   }
 
   @override
   void dispose() {
+    _filterSubscription?.cancel();
     _pageController.dispose();
     _controller.dispose();
     _fabController.dispose();
@@ -101,11 +133,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       });
       _controller.forward();
     } else {
-      _controller.reverse().whenComplete(() => 
-        setState(() {
-          _banner = null;
-        })
-      );      
+      _controller.reverse().whenComplete(
+        () {
+          if (mounted) {
+            setState(() {
+              _banner = null;
+            });
+          }
+        }
+      );
     }
   }
 
@@ -113,26 +149,20 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     setState(() {
       _pageInd = index;
     });
-    index == 1
-      ? _fabController.show() 
-      : _fabController.hide();    
+    index == 1 ? _fabController.show() : _fabController.hide();
     _pageController.jumpToPage(index);
     _searchFocusNode.unfocus();
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.colorScheme.surfaceContainer,
-        title: StoreListener(
-          stream: (store) => store.filterState,
-          onState: _updateBanner,
-          child: AppBarContent()
-        ),
+        title: AppBarContent(),
         bottom: _banner?.let((data) {
           return PreferredSize(
-            preferredSize: Size.fromHeight(90), 
+            preferredSize: Size.fromHeight(90),
             child: FadeTransition(
               opacity: _fadeAnimation,
               child: SlideTransition(
@@ -153,18 +183,20 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ),
             ),
           );
-        })
+        }),
       ),
       body: PageView.builder(
         controller: _pageController,
         physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) => _appDestinations[index].page(context, _searchFocusNode),
+        itemBuilder: (context, index) =>
+            _appDestinations[index].page(context, _searchFocusNode),
       ),
       floatingActionButton: SlidableFab(
-        controller: _fabController, 
+        controller: _fabController,
         onClick: () {
           _searchFocusNode.unfocus();
-        }),
+        },
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -173,18 +205,22 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               spreadRadius: 5, // How widely the shadow is spread
               blurRadius: 7, // How blurred the shadow is
               offset: Offset(0, 3), // Horizontal and vertical offset (x, y)
-            ),            
-          ]
+            ),
+          ],
         ),
         child: NavigationBar(
           selectedIndex: _pageInd,
           onDestinationSelected: _onDestinationSelected,
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          destinations: _appDestinations.map((d) => NavigationDestination(
-            icon: UiIcon(d.icon),
-            selectedIcon: UiIcon(d.selectedIcon),
-            label: d.label,
-          )).toList(),
+          destinations: _appDestinations
+              .map(
+                (d) => NavigationDestination(
+                  icon: UiIcon(d.icon),
+                  selectedIcon: UiIcon(d.selectedIcon),
+                  label: d.label,
+                ),
+              )
+              .toList(),
         ),
       ),
     );

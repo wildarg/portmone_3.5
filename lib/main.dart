@@ -34,62 +34,90 @@ void main() {
 }
 
 class PortmoneApp extends StatelessWidget {
-
   const PortmoneApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<PortmoneDB>(create:(context) => PortmoneDB()),
-        Provider<AccountsRepo>(create: (context) => AccountsRepo(db: context.read<PortmoneDB>())),
-        Provider<CurrenciesRepo>(create: (context) => CurrenciesRepo(db: context.read<PortmoneDB>())),
-        Provider<IncomeTypesRepo>(create: (context) => IncomeTypesRepo(db: context.read<PortmoneDB>())),
-        Provider<ExpenseTypesRepo>(create: (context) => ExpenseTypesRepo(db: context.read<PortmoneDB>())),
-        Provider<MainFilterRepo>(create: (context) => MainFilterRepo(db: context.read<PortmoneDB>())),
-        Provider<ReportsRepo>(create: (context) => ReportsRepo(db: context.read<PortmoneDB>())),
-        Provider<JournalRepo>(create: (context) => JournalRepo(db: context.read<PortmoneDB>())),
-        Provider<TagsRepo>(create: (context) => TagsRepo(db: context.read<PortmoneDB>())),
-        Provider<ExpensesRepo>(create: (context) => ExpensesRepo(db: context.read<PortmoneDB>())),
-        Provider<IncomesRepo>(create: (context) => IncomesRepo(db: context.read<PortmoneDB>())),
-        Provider<TransfersRepo>(create: (context) => TransfersRepo(db: context.read<PortmoneDB>())),
-        Provider<BudgetRepo>(create: (context) => BudgetRepo(db: context.read<PortmoneDB>())),
-        Provider<PortmoneStore>(create:(context) => PortmoneStore([
-          dbMiddleware(context.read<PortmoneDB>()),
-          mainFilterMiddleware(context.read<MainFilterRepo>()),
-          accountsMiddlware(context.read<AccountsRepo>()),
-          currenciesMiddlware(context.read<CurrenciesRepo>()),
-          incomeTypesMiddlware(context.read<IncomeTypesRepo>()),
-          expenseTypesMiddlware(context.read<ExpenseTypesRepo>()),
-          reportsMiddleware(context.read<ReportsRepo>()),
-          journalMiddleware(context.read<JournalRepo>()),
-          tagsMiddlware(context.read<TagsRepo>()),
-          expensesMiddleware(
-            context.read<ExpensesRepo>(),
-            context.read<ExpenseTypesRepo>(), 
-            context.read<AccountsRepo>(), 
-            context.read<CurrenciesRepo>(), 
-            context.read<TagsRepo>()
-          ),
-          incomesMiddleware(
-            context.read<IncomesRepo>(),
-            context.read<IncomeTypesRepo>(), 
-            context.read<AccountsRepo>(), 
-            context.read<CurrenciesRepo>(), 
-            context.read<TagsRepo>()
-          ),
-          transfersMiddleware(
-            context.read<TransfersRepo>(),
-            context.read<AccountsRepo>(),
-            context.read<CurrenciesRepo>(),
-            context.read<TagsRepo>()
-          ),
-          budgetMiddlware(context.read<BudgetRepo>(), context.read<CurrenciesRepo>())
-        ]))
+        Provider<PortmoneDB>(create: (context) => PortmoneDB()),
+        Provider<AccountsRepo>(
+          create: (context) => AccountsRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<CurrenciesRepo>(
+          create: (context) => CurrenciesRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<IncomeTypesRepo>(
+          create: (context) => IncomeTypesRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<ExpenseTypesRepo>(
+          create: (context) => ExpenseTypesRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<MainFilterRepo>(
+          create: (context) => MainFilterRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<ReportsRepo>(
+          create: (context) => ReportsRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<JournalRepo>(
+          create: (context) => JournalRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<TagsRepo>(
+          create: (context) => TagsRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<ExpensesRepo>(
+          create: (context) => ExpensesRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<IncomesRepo>(
+          create: (context) => IncomesRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<TransfersRepo>(
+          create: (context) => TransfersRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<BudgetRepo>(
+          create: (context) => BudgetRepo(db: context.read<PortmoneDB>()),
+        ),
+        Provider<PortmoneStore>(
+          create: (context) => PortmoneStore([
+            dbMiddleware(context.read<PortmoneDB>()),
+            mainFilterMiddleware(context.read<MainFilterRepo>()),
+            accountsMiddlware(context.read<AccountsRepo>()),
+            currenciesMiddlware(context.read<CurrenciesRepo>()),
+            incomeTypesMiddlware(context.read<IncomeTypesRepo>()),
+            expenseTypesMiddlware(context.read<ExpenseTypesRepo>()),
+            reportsMiddleware(context.read<ReportsRepo>()),
+            journalMiddleware(context.read<JournalRepo>()),
+            tagsMiddlware(context.read<TagsRepo>()),
+            expensesMiddleware(
+              context.read<ExpensesRepo>(),
+              context.read<ExpenseTypesRepo>(),
+              context.read<AccountsRepo>(),
+              context.read<CurrenciesRepo>(),
+              context.read<TagsRepo>(),
+            ),
+            incomesMiddleware(
+              context.read<IncomesRepo>(),
+              context.read<IncomeTypesRepo>(),
+              context.read<AccountsRepo>(),
+              context.read<CurrenciesRepo>(),
+              context.read<TagsRepo>(),
+            ),
+            transfersMiddleware(
+              context.read<TransfersRepo>(),
+              context.read<AccountsRepo>(),
+              context.read<CurrenciesRepo>(),
+              context.read<TagsRepo>(),
+            ),
+            budgetMiddlware(
+              context.read<BudgetRepo>(),
+              context.read<CurrenciesRepo>(),
+            ),
+          ]),
+        ),
       ],
-      builder:(context, child) => MaterialApp.router(
+      builder: (context, child) => MaterialApp.router(
         title: 'Portmone App ',
-        theme: appTheme,        
+        theme: appTheme,
         routerConfig: appRouter,
       ),
     );

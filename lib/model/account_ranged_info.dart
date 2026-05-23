@@ -2,12 +2,15 @@ import 'package:portmone_bloc/model/account.dart';
 import 'package:portmone_bloc/model/money_date_info.dart';
 
 class AccountRangedInfo {
-  
   final Account account;
   final MoneyDateInfo enter;
   final MoneyDateInfo exit;
 
-  AccountRangedInfo({required this.account, required this.enter, required this.exit});
+  AccountRangedInfo({
+    required this.account,
+    required this.enter,
+    required this.exit,
+  });
 
   double get changePercent {
     final start = enter.amount.amountInCents;
@@ -27,5 +30,4 @@ class AccountRangedInfo {
   String toString() {
     return '{account: $account, enter: $enter, exit: $exit}';
   }
-
 }

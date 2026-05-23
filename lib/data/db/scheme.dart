@@ -6,7 +6,8 @@ class AccountsTable {
   static const String archived = 'archived';
   static const String position = 'position';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $name TEXT NOT NULL,
@@ -23,7 +24,8 @@ class CurrenciesTable {
   static const String uid = 'uid';
   static const String name = 'name';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $name TEXT NOT NULL,
@@ -38,7 +40,8 @@ class ExpenseTypesTable {
   static const String name = 'name';
   static const String archived = 'archived';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $name TEXT NOT NULL,
@@ -59,7 +62,8 @@ class ExpensesTable {
   static const String accountUid = 'accountUid';
   static const String description = 'description';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $date INTEGER NOT NULL,
@@ -80,7 +84,8 @@ class IncomeTypesTable {
   static const String name = 'name';
   static const String archived = 'archived';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $name TEXT NOT NULL,
@@ -101,7 +106,8 @@ class IncomesTable {
   static const String accountUid = 'accountUid';
   static const String description = 'description';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $date INTEGER NOT NULL,
@@ -128,7 +134,8 @@ class MainFilterTable {
   static const String expenseTypeUid = 'expenseTypeUid';
   static const String tag = 'tag';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $id INTEGER NOT NULL,
       $startDate INTEGER,
@@ -148,7 +155,8 @@ class TagsTable {
   static const String tableName = 'tags';
   static const String name = 'name';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $name TEXT NOT NULL PRIMARY KEY
     )
@@ -167,7 +175,8 @@ class TransfersTable {
   static const String toAccountUid = 'toAccountUid';
   static const String description = 'description';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $date INTEGER NOT NULL,
@@ -190,7 +199,8 @@ class BudgetTable {
   static const String amount = 'amount';
   static const String currencyUid = 'currencyUid';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $uid TEXT NOT NULL,
       $name TEXT NOT NULL,
@@ -206,7 +216,8 @@ class BudgetLinkTable {
   static const String budgetUid = 'budgetUid';
   static const String expenseTypeUid = 'expenseTypeUid';
 
-  static const String createTableSql = '''
+  static const String createTableSql =
+      '''
     CREATE TABLE $tableName (
       $budgetUid TEXT NOT NULL,
       $expenseTypeUid TEXT NOT NULL

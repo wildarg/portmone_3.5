@@ -8,5 +8,10 @@ class ExpenseRecordInfo {
   final Currency currency;
   final Money amount;
 
-  ExpenseRecordInfo({required this.date, required this.type, required this.currency, required this.amount});
+  ExpenseRecordInfo({
+    required this.date,
+    required this.type,
+    required this.currency,
+    required this.amount,
+  });
 }

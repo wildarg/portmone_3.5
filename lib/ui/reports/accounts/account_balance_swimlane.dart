@@ -7,7 +7,6 @@ import 'package:portmone_bloc/store/store_builder.dart';
 import 'package:portmone_bloc/ui/reports/accounts/account_balance_item.dart';
 
 class AccountBalanceSwimlane extends StatelessWidget {
-
   const AccountBalanceSwimlane({super.key});
 
   @override
@@ -15,33 +14,27 @@ class AccountBalanceSwimlane extends StatelessWidget {
     return SizedBox(
       height: 120,
       child: StoreBuilder(
-        stream:(store) => store.accountBalanceState, 
-        builder:(context, state) => _DraggableAccountCards(
-          data: state, 
-          onTap: (account) => context.dispatch(SetAccountFilterAction(account))
+        stream: (store) => store.accountBalanceState,
+        builder: (context, state) => _DraggableAccountCards(
+          data: state,
+          onTap: (account) => context.dispatch(SetAccountFilterAction(account)),
         ),
-      )
+      ),
     );
   }
-  
 }
 
 class _DraggableAccountCards extends StatefulWidget {
-
   final List<AccountRangedInfo> data;
   final void Function(Account account) onTap;
 
-  const _DraggableAccountCards({
-    required this.data, 
-    required this.onTap,
-  });
+  const _DraggableAccountCards({required this.data, required this.onTap});
 
   @override
   _DraggableCardsState createState() => _DraggableCardsState();
 }
 
 class _DraggableCardsState extends State<_DraggableAccountCards> {
-
   late List<AccountRangedInfo> items;
 
   @override
@@ -88,13 +81,13 @@ class _DraggableCardsState extends State<_DraggableAccountCards> {
             ),
           ),
         );
-      },        
+      },
       itemBuilder: (context, index) {
         final item = items[index];
         return RangedAccountListTile(
           key: ValueKey(item),
           info: item,
-          onTap:() => widget.onTap(item.account),
+          onTap: () => widget.onTap(item.account),
         );
       },
     );

@@ -7,7 +7,6 @@ import 'package:portmone_bloc/ui/dashboard/expense_tracker/currency_selector.dar
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class TotalAmountWidget extends StatefulWidget {
-
   final List<AmountTrackerData> data;
   final VoidCallback? onClose;
 
@@ -15,16 +14,18 @@ class TotalAmountWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _TotalAmountWidgetState();
-
 }
 
 class _TotalAmountWidgetState extends State<TotalAmountWidget> {
-
   int _selected = 0;
-  final AnimatedSpendLabelController _firstController = 
-    AnimatedSpendLabelController(LabeledAmountTracker(const Money(amountInCents: 0), label: 'Income'));
-  final AnimatedSpendLabelController _secondController = 
-    AnimatedSpendLabelController(LabeledAmountTracker(const Money(amountInCents: 0), label: 'Expense'));
+  final AnimatedSpendLabelController _firstController =
+      AnimatedSpendLabelController(
+        LabeledAmountTracker(const Money(amountInCents: 0), label: 'Income'),
+      );
+  final AnimatedSpendLabelController _secondController =
+      AnimatedSpendLabelController(
+        LabeledAmountTracker(const Money(amountInCents: 0), label: 'Expense'),
+      );
 
   @override
   void initState() {
@@ -48,7 +49,9 @@ class _TotalAmountWidgetState extends State<TotalAmountWidget> {
   }
 
   void _onCurrencySelect(Currency? currency) {
-    final ind = widget.data.indexWhere((e) => e.currency.name == currency?.name);
+    final ind = widget.data.indexWhere(
+      (e) => e.currency.name == currency?.name,
+    );
     setState(() {
       _selected = ind;
       _firstController.setValue(widget.data[ind].first);
@@ -86,9 +89,11 @@ class _TotalAmountWidgetState extends State<TotalAmountWidget> {
                 height: 50,
                 color: context.colorScheme.secondaryContainer,
               ),
-              Expanded(child: AnimatedSpendLabel(controller: _secondController)),
+              Expanded(
+                child: AnimatedSpendLabel(controller: _secondController),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

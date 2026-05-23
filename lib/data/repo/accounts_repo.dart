@@ -6,11 +6,10 @@ import 'package:portmone_bloc/model/currency.dart';
 import 'package:portmone_bloc/utils/map_extensions.dart';
 
 class AccountsRepo {
-
   final PortmoneDB db;
 
   AccountsRepo({required this.db});
-  
+
   Future<Iterable<Account>> getAll() {
     return GetAllAccountsQuery(db).execute(includeArchived: true);
   }
@@ -28,12 +27,13 @@ class AccountsRepo {
       SET position = (
         SELECT new_pos FROM ordered WHERE ordered.uid = accounts.uid
       )
-      '''
+      ''',
     ]);
   }
 
   Future<Account> getOrSave(String name, Currency currency) async {
-    final sql = """
+    final sql =
+        """
       select
         a.*,
         c.${CurrenciesTable.name} as currencyName
@@ -48,9 +48,9 @@ class AccountsRepo {
     if (rows.isNotEmpty) return fromMap(rows[0]);
 
     final account = Account(
-      uid: db.getNewUid(), 
-      name: name, 
-      currency: currency
+      uid: db.getNewUid(),
+      name: name,
+      currency: currency,
     );
 
     await db.insert(AccountsTable.tableName, toMap(account));
@@ -63,34 +63,31 @@ class AccountsRepo {
 
   Account fromMap(Map<String, Object?> data) {
     final currency = Currency(
-      uid: data.getString(AccountsTable.currencyUid) ?? '', 
-      name: data.getString('currencyName') ?? ''
+      uid: data.getString(AccountsTable.currencyUid) ?? '',
+      name: data.getString('currencyName') ?? '',
     );
     return Account(
-      uid: data.getString(AccountsTable.uid) ?? '', 
-      name: data.getString(AccountsTable.name) ?? '', 
-      currency: currency
+      uid: data.getString(AccountsTable.uid) ?? '',
+      name: data.getString(AccountsTable.name) ?? '',
+      currency: currency,
     );
   }
 
   Map<String, Object?> toMap(Account account) {
     return {
-      AccountsTable.uid : account.uid,
-      AccountsTable.name : account.name,
-      AccountsTable.currencyUid : account.currency.uid,
-      AccountsTable.archived : account.isArchived? 1 : 0
+      AccountsTable.uid: account.uid,
+      AccountsTable.name: account.name,
+      AccountsTable.currencyUid: account.currency.uid,
+      AccountsTable.archived: account.isArchived ? 1 : 0,
     };
   }
-  
 }
 
 extension _AccountExtensions on Account {
-
   Map<String, dynamic> toMap() => {
-    AccountsTable.uid : uid,
-    AccountsTable.name : name,
-    AccountsTable.currencyUid : currency.uid,
-    AccountsTable.archived : isArchived? 1 : 0,
+    AccountsTable.uid: uid,
+    AccountsTable.name: name,
+    AccountsTable.currencyUid: currency.uid,
+    AccountsTable.archived: isArchived ? 1 : 0,
   };
-
 }

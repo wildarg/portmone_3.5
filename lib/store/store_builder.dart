@@ -6,7 +6,6 @@ import 'package:portmone_bloc/store/portmone_store.dart';
 import 'package:rxdart/rxdart.dart';
 
 class StoreBuilder<T> extends StatelessWidget {
-
   final BehaviorSubject<T> Function(PortmoneStore store) stream;
   final Widget Function(BuildContext context, T state) builder;
 
@@ -15,27 +14,25 @@ class StoreBuilder<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final source = stream(context.read<PortmoneStore>());
-    return _StoreBuilderBase(
-      stream: source,
-      builder: builder,
-    );
+    return _StoreBuilderBase(stream: source, builder: builder);
   }
-
 }
 
 class _StoreBuilderBase<T> extends StatefulWidget {
-
   final BehaviorSubject<T> stream;
   final Widget Function(BuildContext context, T state) builder;
 
-  const _StoreBuilderBase({super.key, required this.stream, required this.builder});
+  const _StoreBuilderBase({
+    super.key,
+    required this.stream,
+    required this.builder,
+  });
 
   @override
   State<_StoreBuilderBase<T>> createState() => _StoreBuilderBaseState<T>();
 }
 
 class _StoreBuilderBaseState<T> extends State<_StoreBuilderBase<T>> {
-
   late T _currentState;
   StreamSubscription<T>? _subscription;
 
@@ -56,10 +53,10 @@ class _StoreBuilderBaseState<T> extends State<_StoreBuilderBase<T>> {
   }
 
   void _subscribe() {
-    _subscription = widget.stream.listen((state) => 
-      setState(() {
+    _subscription = widget.stream.listen(
+      (state) => setState(() {
         _currentState = state;
-      })
+      }),
     );
   }
 

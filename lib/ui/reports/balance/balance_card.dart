@@ -14,19 +14,20 @@ class BalanceCard extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: StoreBuilder(
         stream: (store) => store.totalBalanceState,
-        builder: (context, state) {          
+        builder: (context, state) {
           return Column(
-            children: state.map((e) => 
-              TotalBalanceListTile(
-                name: e.currency.name, 
-                enter: e.enter, 
-                exit: e.exit
-              )
-            ).toList()
+            children: state
+                .map(
+                  (e) => TotalBalanceListTile(
+                    name: e.currency.name,
+                    enter: e.enter,
+                    exit: e.exit,
+                  ),
+                )
+                .toList(),
           );
-        }
-      )
+        },
+      ),
     );
   }
-  
 }

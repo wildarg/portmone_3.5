@@ -16,13 +16,15 @@ Middleware expensesMiddleware(
   CurrenciesRepo currenciesRepo,
   TagsRepo tagsRepo,
 ) => (PortmoneStore store, PortmoneAction action, NextDispatcher next) async {
-
   if (action is SaveExpenseAction) {
     Future(() async {
       final draft = action.draft;
       final type = await expenseTypesRepo.getOrSave(draft.typeName!);
       final currency = await currenciesRepo.getOrSave(draft.currencyName!);
-      final account = await accountsRepo.getOrSave(draft.accountName!, currency);
+      final account = await accountsRepo.getOrSave(
+        draft.accountName!,
+        currency,
+      );
       final expense = Expense(
         uid: draft.uid ?? '',
         date: draft.date!,
@@ -31,7 +33,7 @@ Middleware expensesMiddleware(
         notes: draft.notes ?? '',
         type: type,
         account: account,
-        amount: Money(amountInCents: draft.amountInCents!)
+        amount: Money(amountInCents: draft.amountInCents!),
       );
       await expenseRepo.save(expense);
       store.dispatch(RefreshJournalAction());

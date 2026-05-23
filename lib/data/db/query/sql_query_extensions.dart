@@ -3,7 +3,6 @@ import 'package:portmone_bloc/utils/datetime_extensions.dart';
 import 'package:portmone_bloc/utils/string_extensions.dart';
 
 extension StringBufferSQLExtensions on StringBuffer {
-
   void addStartDate(String field, final DateTime? startDate) {
     if (startDate != null) {
       write(' and $field >= ${startDate.millisecondsSinceEpoch}');
@@ -14,7 +13,9 @@ extension StringBufferSQLExtensions on StringBuffer {
 
   void addEndDate(String field, final DateTime? endDate) {
     if (endDate != null) {
-      write(' and $field <= ${endDate.withoutTime.millisecondsSinceEpoch + _dayInMs - 1}');
+      write(
+        ' and $field <= ${endDate.withoutTime.millisecondsSinceEpoch + _dayInMs - 1}',
+      );
     }
   }
 
@@ -60,5 +61,4 @@ extension StringBufferSQLExtensions on StringBuffer {
       write(' and 0 = 1');
     }
   }
-
 }

@@ -1,4 +1,3 @@
-
 import 'package:portmone_bloc/data/db/portmone_db.dart';
 import 'package:portmone_bloc/data/db/query/sql_query_extensions.dart';
 import 'package:portmone_bloc/model/currency_info.dart';
@@ -6,7 +5,6 @@ import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/utils/map_extensions.dart';
 
 class GetCurrencyExpenseReportQuery {
-  
   final PortmoneDB _db;
 
   GetCurrencyExpenseReportQuery(this._db);
@@ -15,7 +13,7 @@ class GetCurrencyExpenseReportQuery {
     final sql = _getSql(filter);
     final list = await _db.query(sql);
     final result = list.map(_toExpenseCurrencyInfo);
-    return result;    
+    return result;
   }
 
   String _getSql(MainFilter filter) {
@@ -45,13 +43,10 @@ class GetCurrencyExpenseReportQuery {
     """;
   }
 
-
   CurrencyInfo _toExpenseCurrencyInfo(Map<String, Object?> map) {
     return CurrencyInfo(
-      currency: map.getCurrency(), 
-      amount: map.getMoney('total_spent')
+      currency: map.getCurrency(),
+      amount: map.getMoney('total_spent'),
     );
   }
-
-
 }

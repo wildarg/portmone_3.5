@@ -1,4 +1,3 @@
-
 import 'package:portmone_bloc/data/db/portmone_db.dart';
 import 'package:portmone_bloc/data/db/scheme.dart';
 import 'package:portmone_bloc/model/account.dart';
@@ -7,7 +6,7 @@ import 'package:portmone_bloc/model/operation_type.dart';
 
 class GetAllCurrenciesQuery {
   final PortmoneDB portmoneDB;
-  
+
   GetAllCurrenciesQuery(this.portmoneDB);
 
   Future<Iterable<Currency>> execute() async {
@@ -26,10 +25,11 @@ class GetAllCurrenciesQuery {
 
 class GetAllAccountsQuery {
   final PortmoneDB portmoneDB;
-  
+
   GetAllAccountsQuery(this.portmoneDB);
 
-  String _getSql(bool includeArchived) => '''
+  String _getSql(bool includeArchived) =>
+      '''
       select 
         a.*, 
         c.name as currencyName
@@ -37,7 +37,7 @@ class GetAllAccountsQuery {
         ${AccountsTable.tableName} a 
         left join ${CurrenciesTable.tableName} c on c.${CurrenciesTable.uid} = a.${AccountsTable.currencyUid}
       where
-        coalesce(a.${AccountsTable.archived}, 0) <= ${includeArchived? 1 : 0}
+        coalesce(a.${AccountsTable.archived}, 0) <= ${includeArchived ? 1 : 0}
       order by a.${AccountsTable.name}, c.${CurrenciesTable.name}
   ''';
 
@@ -50,29 +50,29 @@ class GetAllAccountsQuery {
   Account _toAccount(Map<String, Object?> map) {
     final currencyUid = map[AccountsTable.currencyUid] as String?;
     final currency = currencyUid != null
-      ? Currency(
-          name: (map['currencyName'] as String?) ?? 'NO NAME', 
-          uid: map[AccountsTable.currencyUid] as String
-        )
-      : null;
+        ? Currency(
+            name: (map['currencyName'] as String?) ?? 'NO NAME',
+            uid: map[AccountsTable.currencyUid] as String,
+          )
+        : null;
 
     return Account(
       uid: map[AccountsTable.uid] as String,
       name: map[AccountsTable.name] as String,
       currency: currency ?? Currency(uid: '', name: ''),
-      isArchived: (map[AccountsTable.archived] as num?)?.toInt() == 1
+      isArchived: (map[AccountsTable.archived] as num?)?.toInt() == 1,
     );
   }
 }
 
-
 class GetAllExpenseTypesQuery {
   final PortmoneDB portmoneDB;
-  
+
   GetAllExpenseTypesQuery(this.portmoneDB);
 
   Future<Iterable<TransactionType>> execute() async {
-    const sql = 'SELECT * FROM ${ExpenseTypesTable.tableName} order by ${ExpenseTypesTable.name}';
+    const sql =
+        'SELECT * FROM ${ExpenseTypesTable.tableName} order by ${ExpenseTypesTable.name}';
     final records = await portmoneDB.query(sql);
     return records.map(_toOperationType);
   }
@@ -86,14 +86,14 @@ class GetAllExpenseTypesQuery {
   }
 }
 
-
 class GetAllIncomeTypesQuery {
   final PortmoneDB portmoneDB;
-  
+
   GetAllIncomeTypesQuery(this.portmoneDB);
 
   Future<Iterable<TransactionType>> execute() async {
-    const sql = 'SELECT * FROM ${IncomeTypesTable.tableName} order by ${IncomeTypesTable.name}';
+    const sql =
+        'SELECT * FROM ${IncomeTypesTable.tableName} order by ${IncomeTypesTable.name}';
     final records = await portmoneDB.query(sql);
     return records.map(_toOperationType);
   }
@@ -109,7 +109,7 @@ class GetAllIncomeTypesQuery {
 
 class GetAllTagsQuery {
   final PortmoneDB portmoneDB;
-  
+
   GetAllTagsQuery(this.portmoneDB);
 
   Future<Iterable<String>> execute() async {
@@ -118,6 +118,3 @@ class GetAllTagsQuery {
     return records.map((map) => map[TagsTable.name] as String);
   }
 }
-
-
-

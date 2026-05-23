@@ -10,17 +10,16 @@ class ReportsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-        slivers: [
-          SliverList.list(
-            children: [
-              BalanceCard(),
-              AccountBalanceSwimlane(),
-              ExpensesCard(),
-              IncomesCard()
-            ]
-          )
-        ],
+      slivers: [
+        SliverList.list(
+          children: [
+            BalanceCard(),
+            AccountBalanceSwimlane(),
+            ExpensesCard(),
+            IncomesCard(),
+          ],
+        ),
+      ],
     );
   }
-  
 }

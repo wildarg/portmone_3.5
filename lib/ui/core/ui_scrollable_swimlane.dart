@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class UiScrollableSwimlane extends StatelessWidget {
-
   final String? title;
   final List<Widget> items;
   final double? height;
@@ -11,7 +10,7 @@ class UiScrollableSwimlane extends StatelessWidget {
     this.items = const [],
     this.title,
     this.height,
-    super.key
+    super.key,
   });
 
   @override
@@ -39,5 +38,4 @@ class UiScrollableSwimlane extends StatelessWidget {
       ),
     );
   }
-  
 }

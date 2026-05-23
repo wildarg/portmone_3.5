@@ -6,7 +6,6 @@ import 'package:portmone_bloc/ui/dashboard/today_transactions/today_transactions
 import 'package:portmone_bloc/utils/context_extensions.dart';
 
 class DashboardScreen extends StatelessWidget {
-  
   const DashboardScreen({super.key});
 
   @override
@@ -14,18 +13,17 @@ class DashboardScreen extends StatelessWidget {
     return Material(
       color: context.colorScheme.surfaceContainer,
       child: CustomScrollView(
-          slivers: [
-            SliverList.list(
-              children: [
-                ExpenseTracker(),
-                QuickActionLane(),
-                BudgetLane(),
-                TodayTransactionsLane(),
-              ]
-            )
-          ],
+        slivers: [
+          SliverList.list(
+            children: [
+              ExpenseTracker(),
+              QuickActionLane(),
+              BudgetLane(),
+              TodayTransactionsLane(),
+            ],
+          ),
+        ],
       ),
     );
   }
-  
 }

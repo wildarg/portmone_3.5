@@ -9,16 +9,11 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-        slivers: [
-          SliverList.list(
-            children: [
-              MainFilterCard(),
-              DataManagementCard(),
-              DbCard()
-            ]
-          )
-        ],
+      slivers: [
+        SliverList.list(
+          children: [MainFilterCard(), DataManagementCard(), DbCard()],
+        ),
+      ],
     );
   }
-  
 }

@@ -68,10 +68,7 @@ class _ExpandableFabState extends State<ExpandableFab>
     return Stack(
       alignment: AlignmentGeometry.bottomEnd,
       children: [
-        if (_open) ModalBarrier(
-          dismissible: true,
-          onDismiss: _toggle,
-        ),
+        if (_open) ModalBarrier(dismissible: true, onDismiss: _toggle),
         SizedBox.expand(
           child: Stack(
             alignment: Alignment.bottomRight,
@@ -100,10 +97,7 @@ class _ExpandableFabState extends State<ExpandableFab>
             onTap: _toggle,
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Icon(
-                Icons.close,
-                color: Theme.of(context).primaryColor,
-              ),
+              child: Icon(Icons.close, color: Theme.of(context).primaryColor),
             ),
           ),
         ),
@@ -115,9 +109,11 @@ class _ExpandableFabState extends State<ExpandableFab>
     final children = <Widget>[];
     final count = widget.buttons.length;
     final step = 90.0 / (count - 1);
-    for (var i = 0, angleInDegrees = 0.0;
-        i < count;
-        i++, angleInDegrees += step) {
+    for (
+      var i = 0, angleInDegrees = 0.0;
+      i < count;
+      i++, angleInDegrees += step
+    ) {
       children.add(
         _ExpandingActionButton(
           directionInDegrees: angleInDegrees,
@@ -195,21 +191,14 @@ class _ExpandingActionButton extends StatelessWidget {
           ),
         );
       },
-      child: FadeTransition(
-        opacity: progress,
-        child: child,
-      ),
+      child: FadeTransition(opacity: progress, child: child),
     );
   }
 }
 
 @immutable
 class ActionButton extends StatelessWidget {
-  const ActionButton({
-    super.key, 
-    this.onPressed, 
-    required this.icon,
-  });
+  const ActionButton({super.key, this.onPressed, required this.icon});
 
   final VoidCallback? onPressed;
   final UiIconData icon;
@@ -220,10 +209,7 @@ class ActionButton extends StatelessWidget {
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
       elevation: 4,
-      child: UiButton.primary(
-        icon: icon,
-        onTap: onPressed,
-      ),
+      child: UiButton.primary(icon: icon, onTap: onPressed),
     );
   }
 }

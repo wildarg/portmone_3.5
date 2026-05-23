@@ -4,9 +4,10 @@ class FocusNodeGroup {
   final int count;
   final List<FocusNode> _nodes;
 
-  FocusNodeGroup(this.count) : _nodes = List.generate(count, (ind) => FocusNode());
-  
-  FocusNode operator [](int i) => _nodes[i]; 
+  FocusNodeGroup(this.count)
+    : _nodes = List.generate(count, (ind) => FocusNode());
+
+  FocusNode operator [](int i) => _nodes[i];
 
   void dispose() {
     for (var e in _nodes) {

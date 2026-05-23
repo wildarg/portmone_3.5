@@ -1,5 +1,4 @@
 extension ListExtensions<T> on Iterable<T> {
-
   List<T> sortWith(int Function(T one, T other) comparator) {
     final list = toList();
     list.sort(comparator);
@@ -12,5 +11,4 @@ extension ListExtensions<T> on Iterable<T> {
       yield convert(index++, element);
     }
   }
-
 }

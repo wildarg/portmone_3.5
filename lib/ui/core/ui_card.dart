@@ -52,7 +52,7 @@ class UiCard extends StatelessWidget {
           highlightColor: highlightColor,
           splashColor: splashColor,
           onTap: onTap,
-          child: Container(   
+          child: Container(
             width: width,
             height: height,
             decoration: BoxDecoration(
@@ -65,26 +65,28 @@ class UiCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
-              crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  crossAxisAlignment ?? CrossAxisAlignment.start,
               mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
               mainAxisSize: mainAxisSize ?? MainAxisSize.min,
               children: [
                 if (title != null)
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 16.0, top: 16.0, right: 16.0, bottom: 8.0),
+                      left: 16.0,
+                      top: 16.0,
+                      right: 16.0,
+                      bottom: 8.0,
+                    ),
                     child: Text(
                       title!,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                   ),
                 if (padding != null)
-                  Padding(
-                    padding: padding!,
-                    child: child,
-                  )
+                  Padding(padding: padding!, child: child)
                 else
                   child,
               ],
