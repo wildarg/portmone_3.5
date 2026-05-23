@@ -107,8 +107,6 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _updateBanner(MainFilter filter) async {
-    final newAccount = filter.account.value;
-
     _searchFocusNode.unfocus();
     _currentFilter = filter;
     final hasAccount = filter.account.hasData;
@@ -136,9 +134,13 @@ class _HomeScreenState extends State<HomeScreen>
       _controller.forward();
     } else {
       _controller.reverse().whenComplete(
-        () => setState(() {
-          _banner = null;
-        }),
+        () {
+          if (mounted) {
+            setState(() {
+              _banner = null;
+            });
+          }
+        }
       );
     }
   }

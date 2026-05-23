@@ -47,7 +47,7 @@ class _JournalSearchFieldState extends State<JournalSearchField>
     );
     _textController.text = context.store.filterState.value.text;
     Future.delayed(Durations.medium1, () {
-      if (_textController.text.isNotEmpty) {
+      if (mounted && _textController.text.isNotEmpty) {
         _clearButtonAnimation.forward();
       }
     });

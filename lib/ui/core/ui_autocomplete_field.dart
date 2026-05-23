@@ -13,7 +13,7 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
   final String? label;
   final void Function(T? value)? onSelected;
   final Widget? trailingIcon;
-  final TextEditingController _controller;
+  final TextEditingController controller;
   final FocusNode _focusNode;
   final ValueChanged<String>? onFieldSubmitted;
   final String Function(T value) displayStringForText;
@@ -28,18 +28,13 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
     this.label,
     this.onSelected,
     this.trailingIcon,
-    TextEditingController? controller,
+    required this.controller,
     FocusNode? focusNode,
     this.onFieldSubmitted,
     required this.displayStringForText,
     this.toLabel,
     this.multiSelect = false,
-  }) : _focusNode = focusNode ?? FocusNode(debugLabel: 'autocomplete-$label'),
-       _controller =
-           controller ??
-           TextEditingController(
-             text: value == null ? '' : displayStringForText(value),
-           );
+  }) : _focusNode = focusNode ?? FocusNode(debugLabel: 'autocomplete-$label');
 
   @override
   Widget build(BuildContext context) {
@@ -73,14 +68,14 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
                             option,
                           );
                           if (multiSelect) {
-                            var (String newText, int position) = _controller
+                            var (String newText, int position) = controller
                                 .text
                                 .replaceActiveWord(
-                                  _controller.selection.start,
+                                  controller.selection.start,
                                   optionText,
                                 );
                             onOptionSelect(option);
-                            _controller.value = TextEditingValue(
+                            controller.value = TextEditingValue(
                               text: newText,
                               selection: TextSelection.fromPosition(
                                 TextPosition(offset: position),
@@ -115,7 +110,7 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
               },
               displayStringForOption: displayStringForText,
               focusNode: _focusNode,
-              textEditingController: _controller,
+              textEditingController: controller,
               fieldViewBuilder:
                   (
                     context,
@@ -131,7 +126,7 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
                     onFieldSubmitted: (v) {
                       final bool shouldSelect = multiSelect
                           ? v
-                                .getActiveWord(_controller.selection.start)
+                                .getActiveWord(controller.selection.start)
                                 .isNotEmpty
                           : v.trim().isNotEmpty;
 
@@ -152,7 +147,7 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
 
   FutureOr<Iterable<T>> _getTags(TextEditingValue value, Iterable<T> options) {
     final String s = value.text.trim().toLowerCase();
-    final String tag = s.getActiveWord(_controller.selection.start);
+    final String tag = s.getActiveWord(controller.selection.start);
     return options.where(
       (e) => tag.isEmpty || displayStringForText(e).toLowerCase().contains(tag),
     );
