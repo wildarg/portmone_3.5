@@ -51,6 +51,7 @@ class BaseTextField extends StatelessWidget {
       style: style,
       textAlign: textAlign ?? TextAlign.start,
       keyboardType: keyboardType,
+      scrollPadding: EdgeInsets.all(200),
       decoration: InputDecoration(
         constraints: constraints,
         prefix: SizedBox(width: 16),
