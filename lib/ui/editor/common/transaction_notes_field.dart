@@ -8,7 +8,7 @@ class TransactionNotesField extends StatelessWidget {
   final String title;
   final Widget? leading;
   final BehaviorSubject<List<String>> Function(PortmoneStore store) tags;
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final FocusNode? focusNode;
 
   const TransactionNotesField({
@@ -16,7 +16,7 @@ class TransactionNotesField extends StatelessWidget {
     this.leading,
     required this.title,
     required this.tags,
-    this.controller,
+    required this.controller,
     this.focusNode,
   });
 

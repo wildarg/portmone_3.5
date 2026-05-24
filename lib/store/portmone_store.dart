@@ -31,43 +31,22 @@ class PortmoneStore {
   final List<Middleware> _middlewares;
   late NextDispatcher _dispatcher;
 
-  BehaviorSubject<List<Account>> accountsState = BehaviorSubject.seeded(
-    const [],
-  );
-  BehaviorSubject<List<Currency>> currenciesState = BehaviorSubject.seeded(
-    const [],
-  );
-  BehaviorSubject<List<TransactionType>> expenseTypesState =
-      BehaviorSubject.seeded(const []);
-  BehaviorSubject<List<TransactionType>> incomeTypesState =
-      BehaviorSubject.seeded(const []);
-  BehaviorSubject<MainFilter> filterState = BehaviorSubject.seeded(
-    MainFilter.empty,
-  );
-  BehaviorSubject<List<CurrencyRangeInfo>> totalBalanceState =
-      BehaviorSubject.seeded(const []);
-  BehaviorSubject<List<AccountRangedInfo>> accountBalanceState =
-      BehaviorSubject.seeded(const []);
-  BehaviorSubject<List<CurrencyInfo>> totalExpenseState =
-      BehaviorSubject.seeded(const []);
-  BehaviorSubject<List<AmountTypeInfo>> typedExpenseState =
-      BehaviorSubject.seeded(const []);
-  BehaviorSubject<List<CurrencyInfo>> totalIncomeState = BehaviorSubject.seeded(
-    const [],
-  );
-  BehaviorSubject<List<AmountTypeInfo>> typedIncomeState =
-      BehaviorSubject.seeded(const []);
-  BehaviorSubject<List<DateTransactions>> journalState = BehaviorSubject.seeded(
-    const [],
-  );
+  BehaviorSubject<List<Account>> accountsState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<Currency>> currenciesState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<TransactionType>> expenseTypesState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<TransactionType>> incomeTypesState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<MainFilter> filterState = BehaviorSubject.seeded(MainFilter.empty);
+  BehaviorSubject<List<CurrencyRangeInfo>> totalBalanceState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<AccountRangedInfo>> accountBalanceState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<CurrencyInfo>> totalExpenseState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<AmountTypeInfo>> typedExpenseState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<CurrencyInfo>> totalIncomeState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<AmountTypeInfo>> typedIncomeState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<DateTransactions>> journalState = BehaviorSubject.seeded(const []);
   BehaviorSubject<List<String>> tagsState = BehaviorSubject.seeded(const []);
-  BehaviorSubject<List<AmountTrackerData>> expenseTrackerState =
-      BehaviorSubject.seeded(const []);
-  BehaviorSubject<List<BudgetInfo>> budgetState = BehaviorSubject.seeded(
-    const [],
-  );
-  BehaviorSubject<List<ExpenseRecordInfo>> expenseRecordsState =
-      BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<AmountTrackerData>> expenseTrackerState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<BudgetInfo>> budgetState = BehaviorSubject.seeded(const []);
+  BehaviorSubject<List<ExpenseRecordInfo>> expenseRecordsState = BehaviorSubject.seeded(const []);
 
   PortmoneStore(this._middlewares) {
     _dispatcher = _createDispatcher();

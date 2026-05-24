@@ -57,7 +57,7 @@ abstract class DBHelper {
 
   Future<String> getFileNameToShareBackup() async {
     Database db = await getDb();
-    db.close();
+    await db.close();
     _instance = null;
     String path = await _getDBPath();
     File backup = await File(path).copy(path.replaceAll('databases', 'files'));
@@ -66,9 +66,9 @@ abstract class DBHelper {
 
   Future<void> restoreFrom(File file) async {
     Database db = await getDb();
-    db.close();
+    await db.close();
     _instance = null;
-    await file.copy(await _getDBPath());
+    final dbFile = await file.copy(await _getDBPath());
   }
 
   Future<List<Map<String, Object?>>> query(String sql) async {

@@ -10,7 +10,7 @@ class TransactionTypeField extends StatelessWidget {
   final Widget? leading;
   final BehaviorSubject<List<TransactionType>> Function(PortmoneStore store)
   types;
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final FocusNode? focusNode;
 
   const TransactionTypeField({
@@ -18,7 +18,7 @@ class TransactionTypeField extends StatelessWidget {
     this.leading,
     required this.title,
     required this.types,
-    this.controller,
+    required this.controller,
     this.focusNode,
   });
 

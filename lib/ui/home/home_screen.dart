@@ -6,7 +6,6 @@ import 'package:portmone_bloc/model/main_filter.dart';
 import 'package:portmone_bloc/model/operation_type.dart';
 import 'package:portmone_bloc/store/portmone_actions.dart';
 import 'package:portmone_bloc/store/portmone_store.dart';
-import 'package:portmone_bloc/store/store_listener.dart';
 import 'package:portmone_bloc/ui/core/slidable_fab.dart';
 import 'package:portmone_bloc/utils/nullable.dart';
 import 'package:portmone_bloc/ui/core/ui_icon.dart';
@@ -18,7 +17,6 @@ import 'package:portmone_bloc/ui/reports/reports_screen.dart';
 import 'package:portmone_bloc/ui/settings/settings_screen.dart';
 import 'package:portmone_bloc/utils/common_extensions.dart';
 import 'package:portmone_bloc/utils/context_extensions.dart';
-import 'package:rxdart/rxdart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -91,9 +89,14 @@ class _HomeScreenState extends State<HomeScreen>
 
     _fabController = FabController();
 
-    _filterSubscription = context.store.filterState.distinct(
-      (old, current) => old.account.value?.uid == current.account.value?.uid
-    ).listen(_updateBanner);
+    _filterSubscription = context.store.filterState
+      .distinct(_isFilterTheSame).listen(_updateBanner);
+  }
+
+  bool _isFilterTheSame(MainFilter old, MainFilter current) {
+    final sameAccount = old.account.value?.uid == current.account.value?.uid;
+    final sameType = old.transactionType.value?.uid == current.transactionType.value?.uid;
+    return sameAccount && sameType;
   }
 
   @override
@@ -111,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen>
     _currentFilter = filter;
     final hasAccount = filter.account.hasData;
     final hasType = filter.transactionType.hasData;
-
+    
     if (hasAccount || hasType) {
       setState(() {
         String title;

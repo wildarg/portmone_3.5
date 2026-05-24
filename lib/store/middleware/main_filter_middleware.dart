@@ -36,27 +36,30 @@ Middleware mainFilterMiddleware(MainFilterRepo repo) =>
           store.filterState.sink.add(newFilter);
         });
       }
+      
+      if (action is SetTransactionTypeFilterAction) {
+        Future(() {
+          final filter = store.filterState.value;
+          final newFilter = filter.copyWith(
+            transactionType: Nullable<TransactionType>(action.transactionType)
+          );
+          store.dispatch(UpdateMainFilterAction(filter: newFilter));
+        });
+      }
 
-  if (action is SetTransactionTypeFilterAction) {
-    Future(() {
-      final filter = store.filterState.value;
-      final newFilter = filter.copyWith(
-        transactionType: Nullable<TransactionType>(action.transactionType)
-      );
-      store.dispatch(UpdateMainFilterAction(filter: newFilter));
-    });
-  }
+      if (action is SetTextFilterAction) {
+        Future(() {
+          final filter = store.filterState.value;
+          final newFilter = filter.copyWith(
+            text: action.text
+          );
+          repo.save(newFilter);
+          // store.dispatch(UpdateMainFilterAction(filter: newFilter));
+        });
+      }
 
-  if (action is SetTextFilterAction) {
-    Future(() {
-      final filter = store.filterState.value;
-      final newFilter = filter.copyWith(
-        text: action.text
-      );
-      repo.save(newFilter);
-      // store.dispatch(UpdateMainFilterAction(filter: newFilter));
-    });
-  }
+      return next(action);
+    };  
 
 Future<void> _refreshMainFilter(
   PortmoneStore store,

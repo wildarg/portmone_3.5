@@ -18,14 +18,14 @@ class MainFilterRepo {
       a.name as accountName,
       a.currencyUid,
       c.name as currencyName,
-      it.name as incomeTypeName,
-      et.name as expenseTypeName
+      mf.incomeTypeUid as transactionTypeUid,
+      coalesce(it.name, et.name) as transactionTypeName
     from
       mainFilter mf
       left join accounts a on a.uid = accountUid
       left join currencies c on c.uid = a.currencyUid 
       left join incomeTypes it on it.uid = mf.incomeTypeUid
-      left join expenseTypes et on et.uid = mf.expenseTypeUid
+      left join expenseTypes et on et.uid = mf.incomeTypeUid
     ''';
     final map = (await db.query(sql)).firstOrNull ?? {};
     return _fromMap(map);
@@ -45,7 +45,7 @@ class MainFilterRepo {
       plannedInclude: map.getBool('plannedInclude'),
       text: map.getString('text') ?? '',
       account: Nullable<Account>(map.optAccount()),
-      transactionType: Nullable<TransactionType>(map.optTransactionType('incomeType')),
+      transactionType: Nullable<TransactionType>(map.optTransactionType('transactionType')),
       // incomeType: map.optOperationType('incomeType'),
       // expenseType: map.optOperationType('expenseType'),
       // tag: map.getString('tag')

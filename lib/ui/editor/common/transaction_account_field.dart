@@ -6,16 +6,16 @@ import 'package:portmone_bloc/ui/core/ui_autocomplete_field.dart';
 
 class TransactionAccountField extends StatelessWidget {
   final String title;
-  final TextEditingController? accountController;
-  final TextEditingController? currencyController;
+  final TextEditingController accountController;
+  final TextEditingController currencyController;
   final FocusNode? accountFocusNode;
   final FocusNode? currencyFocusNode;
 
   const TransactionAccountField({
     super.key,
     required this.title,
-    this.accountController,
-    this.currencyController,
+    required this.accountController,
+    required this.currencyController,
     this.accountFocusNode,
     this.currencyFocusNode,
   });
@@ -37,8 +37,7 @@ class TransactionAccountField extends StatelessWidget {
               suggestions: state,
               controller: accountController,
               onSelected: (account) {
-                if (currencyController != null)
-                  currencyController!.text = account?.currency.name ?? '';
+                  currencyController.text = account?.currency.name ?? '';
               },
               focusNode: accountFocusNode,
             ),
