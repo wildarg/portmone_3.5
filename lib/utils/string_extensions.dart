@@ -140,7 +140,7 @@ extension NullableStringExtensions on String? {
     if (this == null || this!.isEmpty) return (replacement, replacement.length);
     final text = this!;
 
-    final RegExp wordRegex = RegExp(r'[\p{L}\p{N}#]+', unicode: true);
+    final RegExp wordRegex = RegExp(r'#*[\p{L}\p{N}]*', unicode: true);
 
     final Iterable<RegExpMatch> matches = wordRegex.allMatches(text);
 

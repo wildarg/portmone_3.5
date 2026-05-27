@@ -34,7 +34,7 @@ class TransactionAccountField extends StatelessWidget {
               label: title,
               displayStringForText: (account) => account.name,
               toLabel: (account) => account.fullName,
-              suggestions: state,
+              suggestions: state.where((e) => !e.isArchived).toList(),
               controller: accountController,
               onSelected: (account) {
                   currencyController.text = account?.currency.name ?? '';

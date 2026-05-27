@@ -55,7 +55,9 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
                         ),
                       );
               },
-              onSelected: onSelected,
+              onSelected:(option) { 
+                onSelected?.call(option);
+              },
               optionsViewBuilder: (context, onOptionSelect, options) {
                 return Stack(
                   children: [
@@ -124,18 +126,19 @@ class UiAutocompleteField<T extends Object> extends StatelessWidget {
                     focusNode: focusNode,
                     controller: controller,
                     onFieldSubmitted: (v) {
-                      final bool shouldSelect = multiSelect
-                          ? v
-                                .getActiveWord(controller.selection.start)
-                                .isNotEmpty
-                          : v.trim().isNotEmpty;
+                      focusNode.unfocus();
+                      // final bool shouldSelect = multiSelect
+                      //     ? v
+                      //           .getActiveWord(controller.selection.start)
+                      //           .isNotEmpty
+                      //     : v.trim().isNotEmpty;
 
-                      if (shouldSelect) {
-                        onAutocompleteFieldSubmitted();
-                      } else {
-                        focusNode.unfocus();
-                      }
-                      onFieldSubmitted?.call(v);
+                      // if (shouldSelect) {
+                      //   onAutocompleteFieldSubmitted();
+                      // } else {
+                      //   focusNode.unfocus();
+                      // }
+                      // onFieldSubmitted?.call(v);
                     },
                   ),
             ),
